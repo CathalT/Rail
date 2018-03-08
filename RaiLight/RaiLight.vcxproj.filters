@@ -1,0 +1,360 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>moc;h;cpp</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\Debug">
+      <UniqueIdentifier>{e89a77b6-e531-4f04-a644-7defa4cf058d}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\Release">
+      <UniqueIdentifier>{4e37d1c4-5ac0-41c9-9c4e-82a1310fc8af}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Source Files\blake2b">
+      <UniqueIdentifier>{cf100d1b-c185-4214-8b8e-037e7254efa8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Ed25519">
+      <UniqueIdentifier>{0ec8d94b-874e-4256-844a-ddbfd3cff647}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\blake2b">
+      <UniqueIdentifier>{b6f0901c-1bf0-41cd-94d6-1b013a2f6a2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Ed25519">
+      <UniqueIdentifier>{11b3f431-c901-4347-8a81-e4cbb4310fbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\rail">
+      <UniqueIdentifier>{4d066d67-6a35-435c-b7c5-c296a1f1f915}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\rail">
+      <UniqueIdentifier>{3c83ae33-3065-421a-a3cc-b6205eabe301}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\rail\Application">
+      <UniqueIdentifier>{329bfc0a-1bdd-4730-b02e-707760c73601}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\rail\Controllers">
+      <UniqueIdentifier>{d0c7f6c6-68fd-42cd-afba-9e8a0dbe2a60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\rail\Crypto">
+      <UniqueIdentifier>{3c4adb56-be83-4948-b99e-14a3df54e92d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\rail\Endpoints">
+      <UniqueIdentifier>{9773a094-c86f-4e97-8dcc-572e749eb835}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\rail\Model">
+      <UniqueIdentifier>{d3d49af6-a2c6-41b1-8173-2e7f3d06b474}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\rail\Platform">
+      <UniqueIdentifier>{84319ae5-18f4-464d-bc28-f2fc39c6cfe1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\rail\Ui">
+      <UniqueIdentifier>{94561a63-489c-47b6-8ff3-bfd0ce6bb63a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\rail\Utilities">
+      <UniqueIdentifier>{2120cf40-fbe9-448a-b8f3-96c4a67b1242}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\rail\Utilities\Impl">
+      <UniqueIdentifier>{132d29ea-ba40-4c8f-826a-dbc916839c1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\rail\Application">
+      <UniqueIdentifier>{35337b9b-675f-44f7-95eb-c1f09fd40f5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\rail\Controllers">
+      <UniqueIdentifier>{3e118e72-4d9b-4967-8f21-f3277718a37a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\rail\Crypto">
+      <UniqueIdentifier>{4756089f-7e2d-461f-8d5b-2e75fe4165be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\rail\Endpoints">
+      <UniqueIdentifier>{92fd9f08-e894-4110-8f16-b76eba893f60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\rail\Model">
+      <UniqueIdentifier>{07018939-f0a3-4a22-8a36-be2d2160787e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\rail\Platform">
+      <UniqueIdentifier>{ceb434cb-69a9-4d55-8ebe-9baee9f3d988}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\rail\Ui">
+      <UniqueIdentifier>{a5f623fe-303c-4998-90c9-563a57dcd375}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\rail\Utilities">
+      <UniqueIdentifier>{bfea7a05-8f9a-4390-b10e-9affecb0531c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\rail\Crypto\Impl">
+      <UniqueIdentifier>{e34f0d0e-8ca3-475e-aa25-5ab2f00eb1e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\rail\Crypto\Impl">
+      <UniqueIdentifier>{418fd7d8-a467-4597-8662-428435a21265}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\rail\Ui\ViewModels">
+      <UniqueIdentifier>{7567a1da-33e2-48f5-9fae-9567a24c3430}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\rail\Ui\ViewModels">
+      <UniqueIdentifier>{832c24f5-c9bb-4afd-9126-87206b0a7c7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\rail\Database">
+      <UniqueIdentifier>{d7ee1ccc-a458-4384-ac2d-2611a5502817}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\rail\Database">
+      <UniqueIdentifier>{e3a4b1ac-8184-4f5a-b32f-06d2971eed88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\rail\Database\Impl">
+      <UniqueIdentifier>{3e93a74e-5e13-4151-891a-6adf9e51f2f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\rail\GeneratedSeed">
+      <UniqueIdentifier>{23a637b0-9103-448b-a7c5-f069ed82005d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ed25519-donna\ed25519.c">
+      <Filter>Source Files\Ed25519</Filter>
+    </ClCompile>
+    <ClCompile Include="blake2\blake2b.c">
+      <Filter>Source Files\blake2b</Filter>
+    </ClCompile>
+    <ClCompile Include="Endpoints\HttpClient.cpp">
+      <Filter>Source Files\rail\Endpoints</Filter>
+    </ClCompile>
+    <ClCompile Include="Ui\RaiLight.cpp">
+      <Filter>Source Files\rail\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\CommandLineOptions.cpp">
+      <Filter>Source Files\rail\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\Conversions.cpp">
+      <Filter>Source Files\rail\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Crypto\CryptoUtils.cpp">
+      <Filter>Source Files\rail\Crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="Crypto\CustomHash.cpp">
+      <Filter>Source Files\rail\Crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="Crypto\ProofOfWork.cpp">
+      <Filter>Source Files\rail\Crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="Crypto\RandomData.cpp">
+      <Filter>Source Files\rail\Crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform\WinUtils.cpp">
+      <Filter>Source Files\rail\Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="Model\BlockStore.cpp">
+      <Filter>Source Files\rail\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Controllers\Bank.cpp">
+      <Filter>Source Files\rail\Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="Controllers\Core.cpp">
+      <Filter>Source Files\rail\Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="Crypto\AccountEncoding.cpp">
+      <Filter>Source Files\rail\Crypto\Impl</Filter>
+    </ClCompile>
+    <ClCompile Include="Model\OpenBlock.cpp">
+      <Filter>Source Files\rail\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Model\ReceiveBlock.cpp">
+      <Filter>Source Files\rail\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Model\SendBlock.cpp">
+      <Filter>Source Files\rail\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Model\ChangeBlock.cpp">
+      <Filter>Source Files\rail\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Model\BaseBlock.cpp">
+      <Filter>Source Files\rail\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\WorkLoop.cpp">
+      <Filter>Source Files\rail\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Model\Marshaller.cpp">
+      <Filter>Source Files\rail\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Endpoints\Webserver.cpp">
+      <Filter>Source Files\rail\Endpoints</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_RaiLight.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_RaiLight.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_Marshaller.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_Marshaller.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Model\Account.cpp">
+      <Filter>Source Files\rail\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Ui\TransactionsViewModel.cpp">
+      <Filter>Source Files\rail\Ui\ViewModels</Filter>
+    </ClCompile>
+    <ClCompile Include="Database\RailDb.cpp">
+      <Filter>Source Files\rail\Database</Filter>
+    </ClCompile>
+    <ClCompile Include="x213.cpp">
+      <Filter>Source Files\rail\GeneratedSeed</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="Resources\RaiLight.qrc">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Ui\Forms\RaiLight.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Ui\RaiLight.h">
+      <Filter>Header Files\rail\Ui</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Model\Marshaller.h">
+      <Filter>Header Files\rail\Model</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Ui\TransactionsViewModel.h">
+      <Filter>Header Files\rail\Ui\ViewModels</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ed25519-donna\ed25519-donna-portable.h">
+      <Filter>Header Files\Ed25519</Filter>
+    </ClInclude>
+    <ClInclude Include="ed25519-donna\ed25519-hash-custom.h">
+      <Filter>Header Files\Ed25519</Filter>
+    </ClInclude>
+    <ClInclude Include="ed25519-donna\ed25519-randombytes-custom.h">
+      <Filter>Header Files\Ed25519</Filter>
+    </ClInclude>
+    <ClInclude Include="ed25519-donna\ed25519.h">
+      <Filter>Header Files\Ed25519</Filter>
+    </ClInclude>
+    <ClInclude Include="blake2\blake2-config.h">
+      <Filter>Header Files\blake2b</Filter>
+    </ClInclude>
+    <ClInclude Include="blake2\blake2.h">
+      <Filter>Header Files\blake2b</Filter>
+    </ClInclude>
+    <ClInclude Include="blake2\blake2-impl.h">
+      <Filter>Header Files\blake2b</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\WinUtils.h">
+      <Filter>Header Files\rail\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\CommandLineOptions.h">
+      <Filter>Header Files\rail\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="Endpoints\HttpClient.h">
+      <Filter>Header Files\rail\Endpoints</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\Conversions.h">
+      <Filter>Header Files\rail\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Crypto\CryptoUtils.h">
+      <Filter>Header Files\rail\Crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="Crypto\RandomData.h">
+      <Filter>Header Files\rail\Crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="Crypto\ProofOfWork.h">
+      <Filter>Header Files\rail\Crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\ConversionsImpl.h">
+      <Filter>Header Files\rail\Utilities\Impl</Filter>
+    </ClInclude>
+    <ClInclude Include="Endpoints\IEndpoint.h">
+      <Filter>Header Files\rail\Endpoints</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\EndpointTypes.h">
+      <Filter>Header Files\rail\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\BlockStore.h">
+      <Filter>Header Files\rail\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\BasicTypes.h">
+      <Filter>Header Files\rail\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Controllers\Core.h">
+      <Filter>Header Files\rail\Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="Controllers\Bank.h">
+      <Filter>Header Files\rail\Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="Controllers\ICore.h">
+      <Filter>Header Files\rail\Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="Controllers\IBank.h">
+      <Filter>Header Files\rail\Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="Crypto\AccountEncoding.h">
+      <Filter>Header Files\rail\Crypto\Impl</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\OpenBlock.h">
+      <Filter>Header Files\rail\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\ReceiveBlock.h">
+      <Filter>Header Files\rail\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\SendBlock.h">
+      <Filter>Header Files\rail\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\ChangeBlock.h">
+      <Filter>Header Files\rail\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\BaseBlock.h">
+      <Filter>Header Files\rail\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\IBlockStore.h">
+      <Filter>Header Files\rail\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\WorkLoop.h">
+      <Filter>Header Files\rail\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Endpoints\Webserver.h">
+      <Filter>Header Files\rail\Endpoints</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\Account.h">
+      <Filter>Header Files\rail\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Database\RailDb.h">
+      <Filter>Header Files\rail\Database</Filter>
+    </ClInclude>
+    <ClInclude Include="Database\DatabaseKeys.h">
+      <Filter>Header Files\rail\Database</Filter>
+    </ClInclude>
+    <ClInclude Include="Database\DatabaseImpl.h">
+      <Filter>Header Files\rail\Database\Impl</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

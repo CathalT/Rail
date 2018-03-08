@@ -1,0 +1,69 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2036
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RaiLight", "RaiLight\RaiLight.vcxproj", "{B12702AD-ABFB-343A-A199-8E24837244A3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1D0CB46F-1132-48D4-8838-A4F600A3CA8E} = {1D0CB46F-1132-48D4-8838-A4F600A3CA8E}
+		{19D911A1-533C-4475-B313-F372481A35D4} = {19D911A1-533C-4475-B313-F372481A35D4}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Argon2RefDll", "RaiLight\phc-winner-argon2-master\vs2015\Argon2RefDll\Argon2RefDll.vcxproj", "{19D911A1-533C-4475-B313-F372481A35D4}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GenerateSeed", "GenerateSeed\GenerateSeed.vcxproj", "{1D0CB46F-1132-48D4-8838-A4F600A3CA8E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+		ReleaseStatic|x64 = ReleaseStatic|x64
+		ReleaseStatic|x86 = ReleaseStatic|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B12702AD-ABFB-343A-A199-8E24837244A3}.Debug|x64.ActiveCfg = Debug|Win32
+		{B12702AD-ABFB-343A-A199-8E24837244A3}.Debug|x64.Build.0 = Debug|Win32
+		{B12702AD-ABFB-343A-A199-8E24837244A3}.Debug|x86.ActiveCfg = Debug|Win32
+		{B12702AD-ABFB-343A-A199-8E24837244A3}.Debug|x86.Build.0 = Debug|Win32
+		{B12702AD-ABFB-343A-A199-8E24837244A3}.Release|x64.ActiveCfg = Release|Win32
+		{B12702AD-ABFB-343A-A199-8E24837244A3}.Release|x64.Build.0 = Release|Win32
+		{B12702AD-ABFB-343A-A199-8E24837244A3}.Release|x86.ActiveCfg = Release|Win32
+		{B12702AD-ABFB-343A-A199-8E24837244A3}.Release|x86.Build.0 = Release|Win32
+		{B12702AD-ABFB-343A-A199-8E24837244A3}.ReleaseStatic|x64.ActiveCfg = Release|Win32
+		{B12702AD-ABFB-343A-A199-8E24837244A3}.ReleaseStatic|x64.Build.0 = Release|Win32
+		{B12702AD-ABFB-343A-A199-8E24837244A3}.ReleaseStatic|x86.ActiveCfg = Release|Win32
+		{B12702AD-ABFB-343A-A199-8E24837244A3}.ReleaseStatic|x86.Build.0 = Release|Win32
+		{19D911A1-533C-4475-B313-F372481A35D4}.Debug|x64.ActiveCfg = Debug|x64
+		{19D911A1-533C-4475-B313-F372481A35D4}.Debug|x64.Build.0 = Debug|x64
+		{19D911A1-533C-4475-B313-F372481A35D4}.Debug|x86.ActiveCfg = Debug|Win32
+		{19D911A1-533C-4475-B313-F372481A35D4}.Debug|x86.Build.0 = Debug|Win32
+		{19D911A1-533C-4475-B313-F372481A35D4}.Release|x64.ActiveCfg = Release|x64
+		{19D911A1-533C-4475-B313-F372481A35D4}.Release|x64.Build.0 = Release|x64
+		{19D911A1-533C-4475-B313-F372481A35D4}.Release|x86.ActiveCfg = Release|Win32
+		{19D911A1-533C-4475-B313-F372481A35D4}.Release|x86.Build.0 = Release|Win32
+		{19D911A1-533C-4475-B313-F372481A35D4}.ReleaseStatic|x64.ActiveCfg = ReleaseStatic|x64
+		{19D911A1-533C-4475-B313-F372481A35D4}.ReleaseStatic|x64.Build.0 = ReleaseStatic|x64
+		{19D911A1-533C-4475-B313-F372481A35D4}.ReleaseStatic|x86.ActiveCfg = ReleaseStatic|Win32
+		{19D911A1-533C-4475-B313-F372481A35D4}.ReleaseStatic|x86.Build.0 = ReleaseStatic|Win32
+		{1D0CB46F-1132-48D4-8838-A4F600A3CA8E}.Debug|x64.ActiveCfg = Debug|x64
+		{1D0CB46F-1132-48D4-8838-A4F600A3CA8E}.Debug|x64.Build.0 = Debug|x64
+		{1D0CB46F-1132-48D4-8838-A4F600A3CA8E}.Debug|x86.ActiveCfg = Debug|Win32
+		{1D0CB46F-1132-48D4-8838-A4F600A3CA8E}.Debug|x86.Build.0 = Debug|Win32
+		{1D0CB46F-1132-48D4-8838-A4F600A3CA8E}.Release|x64.ActiveCfg = Release|x64
+		{1D0CB46F-1132-48D4-8838-A4F600A3CA8E}.Release|x64.Build.0 = Release|x64
+		{1D0CB46F-1132-48D4-8838-A4F600A3CA8E}.Release|x86.ActiveCfg = Release|Win32
+		{1D0CB46F-1132-48D4-8838-A4F600A3CA8E}.Release|x86.Build.0 = Release|Win32
+		{1D0CB46F-1132-48D4-8838-A4F600A3CA8E}.ReleaseStatic|x64.ActiveCfg = Release|x64
+		{1D0CB46F-1132-48D4-8838-A4F600A3CA8E}.ReleaseStatic|x64.Build.0 = Release|x64
+		{1D0CB46F-1132-48D4-8838-A4F600A3CA8E}.ReleaseStatic|x86.ActiveCfg = Release|Win32
+		{1D0CB46F-1132-48D4-8838-A4F600A3CA8E}.ReleaseStatic|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FEF97011-4272-4C43-92C5-AE1FC8952FF7}
+	EndGlobalSection
+EndGlobal
