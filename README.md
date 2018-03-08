@@ -2,7 +2,12 @@
 
 A hybrid wallet implementation for  Nano https://nano.org/en
 The wallet wraps the Nano node and interacts with it over RCP. 
-This means you can run a node locally or point it at a remote endpoint.
+This means you can run a node locally or point it at a remote endpoint (e.g. https://www.nanode.co/ ).
+For now only a local node is supported.
+
+##NB
+This is still very much a personal project, it has a grand total of 0 tests.
+Once I've the client sufficiently tested it should be easier to contribute. (Couple of things on my to do list first.)
 
 ## Getting Started
 
@@ -21,10 +26,6 @@ cpprest
 
 ### Installing
 
-A step by step series of examples that tell you have to get a development env running
-
-Say what the step will be
-
 ```
 Download Visual Studio 2017
 Download Qt 5.10 and install to your directory of preference.
@@ -36,6 +37,9 @@ For the next steps I used [vcpkg](https://github.com/Microsoft/vcpkg) to install
 boost
 cryptoPP
 cpprest
+
+Finally download or build the nano node from source and run it in RPC mode locally.
+More details can be found at https://github.com/nanocurrency/raiblocks/wiki
 ```
 
 ## License
