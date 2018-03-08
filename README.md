@@ -13,7 +13,8 @@ Once I've the client sufficiently tested it should be easier to contribute. (Cou
 ## Getting Started
 
 Currently only building on Windows, have not built or tested Mac OSX or Linux.
-All the of the components are cross platform so it should not take to much work to get things building.
+All the of the components are cross platform so the code itself should not need much modification.
+Setting up a cross platform build system like CMake would be ideal, but I don't have the experience to do so in any short amount of time.
 
 ### Pre-requisites
 
