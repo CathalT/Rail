@@ -5,8 +5,9 @@ The wallet wraps the Nano node and interacts with it over RCP.
 This means you can run a node locally or point it at a remote endpoint (e.g. https://www.nanode.co/ ).
 For now only a local node is supported.
 
-##NB
+## NB
 This is still very much a personal project, it has a grand total of 0 tests.
+Do not run it against a nano node on the live network. Test network only.
 Once I've the client sufficiently tested it should be easier to contribute. (Couple of things on my to do list first.)
 
 ## Getting Started
