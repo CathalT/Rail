@@ -34,7 +34,7 @@ Install Qt Visual Studio Plugin
 Set Qt Version to Qt Install directory.
 Enable OpenMP in Properties -> C++ -> Language
 
-For the next steps I used [vcpkg](https://github.com/Microsoft/vcpkg) to install:
+For the next steps I used vcpkg (https://github.com/Microsoft/vcpkg) to install:
 boost
 cryptoPP
 cpprest
