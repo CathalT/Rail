@@ -17,13 +17,13 @@ All the of the components are cross platform so it should not take to much work 
 
 ### Pre-requisites
 
-Visual studio 2017 (C++ 17)
-Qt 5.10
-Qt Visual Studio Plugin
-Boost headers - (hoping to remove in the future)
-CryptoPP
-openMP (possibly will remove, was just experimenting)
-cpprest
+- Visual studio 2017 (C++ 17)
+- Qt 5.10
+- Qt Visual Studio Plugin
+- Boost headers - (hoping to remove in the future)
+- CryptoPP
+- openMP (possibly will remove, was just experimenting)
+- cpprest
 
 ### Installing
 
