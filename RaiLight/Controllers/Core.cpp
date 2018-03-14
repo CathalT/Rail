@@ -26,7 +26,7 @@ namespace rail
     {
         Core::~Core() = default;
 
-        Core::Core(const std::string& _seed, const std::string& _nodeIp) :
+        Core::Core(const std::string& _nodeIp) :
             workLoop(std::make_unique<WorkLoop>()),   
             bank(std::make_unique<Bank>(this)),
             marshaller(std::make_unique<Marshaller>(this)),
@@ -35,7 +35,6 @@ namespace rail
             
         {
             extern std::string secret_key;
-            bank->initWithSeed(_seed);
         }
 
         IBank * Core::getBank()

@@ -142,9 +142,7 @@ namespace rail
         {
             bool succeeded{ false };
 
-            //TODO: Store latest hash, grab from memory.
-
-            
+            //TODO: Store latest hash, grab from memory.    
             const auto lasthash = coreController->getEndpoint()->getFrontiers(currentAccount);
             if (auto previousBlock = Conversions::decodeHexFromString(lasthash))
             {
@@ -204,7 +202,6 @@ namespace rail
             return pendingBalance;
         }
 
-        //TODO: remove from command line startup, add to UI.
         void Bank::initWithSeed(const std::string & _seed)
         {
             if (_seed.empty())

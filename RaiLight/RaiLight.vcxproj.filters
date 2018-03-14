@@ -229,6 +229,42 @@
     <ClCompile Include="x213.cpp">
       <Filter>Source Files\rail\GeneratedSeed</Filter>
     </ClCompile>
+    <ClCompile Include="Ui\FreshStartup.cpp">
+      <Filter>Source Files\rail\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="Ui\PasswordScreen.cpp">
+      <Filter>Source Files\rail\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_FreshStartup.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_FreshStartup.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_MainWindow.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_MainWindow.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Ui\MainWindow.cpp">
+      <Filter>Source Files\rail\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_PasswordScreen.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_PasswordScreen.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Crypto\PasswordVerifier.cpp">
+      <Filter>Source Files\rail\Crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="Ui\NewPasswordScreen.cpp">
+      <Filter>Source Files\rail\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_NewPasswordScreen.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="Resources\RaiLight.qrc">
@@ -245,6 +281,30 @@
     </CustomBuild>
     <CustomBuild Include="Ui\TransactionsViewModel.h">
       <Filter>Header Files\rail\Ui\ViewModels</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Ui\Forms\PasswordScreen.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Ui\Forms\FreshStartup.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Ui\FreshStartup.h">
+      <Filter>Header Files\rail\Ui</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Ui\Forms\MainWindow.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Ui\MainWindow.h">
+      <Filter>Header Files\rail\Ui</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Ui\PasswordScreen.h">
+      <Filter>Header Files\rail\Ui</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Ui\Forms\NewPasswordScreen.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Ui\NewPasswordScreen.h">
+      <Filter>Header Files\rail\Ui</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
@@ -355,6 +415,21 @@
     </ClInclude>
     <ClInclude Include="Database\DatabaseImpl.h">
       <Filter>Header Files\rail\Database\Impl</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_PasswordScreen.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_FreshStartup.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_MainWindow.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Crypto\PasswordVerifier.h">
+      <Filter>Header Files\rail\Crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_NewPasswordScreen.h">
+      <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

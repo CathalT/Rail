@@ -1,14 +1,10 @@
 #pragma once
 
-#include <QtWidgets\QMainWindow>
 #include "ui_RaiLight.h"
 
-#include <memory>
+#include <QtWidgets\QMainWindow>
 
-namespace rail::endpoint
-{
-    class IEndpoint;
-}
+#include <memory>
 
 namespace rail::control
 {
@@ -22,21 +18,19 @@ class RaiLight : public QMainWindow
     Q_OBJECT
 
 public:
-    RaiLight(rail::control::ICore *_coreController);
+    RaiLight(rail::control::ICore *_coreController, const QString& _seed);
     ~RaiLight();
 
 public slots:
-    void onSendButtonPressed();
-    void onAccountIndexChanged(const QString & text);
-    void onBalanceUpdated(const QString& balance, const QString& accountId);
-    void onPendingBalanceUpdated(const QString& pendingBalance, const QString& accountId);
-    void onAccountsFinishedSyncing();
-    void onTransactionsUpdated(const QString& accountId);
+    void goToMainWindow(const QString& seed);
+    void goToFreshStartup();
+    void goToPasswordScreen();
+
+    void deleteChildren();
 
 
 private:
     Ui::RaiLightClass ui;
-    QStringListModel* model{ nullptr };
 
     rail::control::ICore *coreController;
 };

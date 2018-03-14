@@ -37,7 +37,7 @@ namespace rail
         RaiRCPClient::~RaiRCPClient() = default;
 
         RaiRCPClient::RaiRCPClient(const std::string & _endpoint, rail::control::ICore* _coreController) :
-            httpClient(std::make_unique<http_client>(Conversions::toUtilString(_endpoint))),
+            httpClient(std::make_unique<http_client>(_endpoint.empty() ? U("http://127.0.0.1") : Conversions::toUtilString(_endpoint))),
             webserver(std::make_unique<Webserver>(_coreController)),
             coreController(_coreController)
         {
