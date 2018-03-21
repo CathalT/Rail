@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ui_PasswordScreen.h"
+#include "ui_LockScreen.h"
 
 #include <QWidget>
 
@@ -9,11 +9,11 @@ namespace rail::control
     class ICore;
 }
 
-class PasswordScreen : public QWidget
+class LockScreen : public QWidget
 {
     Q_OBJECT
 public:
-    PasswordScreen(rail::control::ICore *_coreController);
+    LockScreen(rail::control::ICore *_coreController);
 
 public slots:
     void onPasswordEntered();
@@ -27,7 +27,7 @@ private slots:
     void wrongPasswordEntered();
 
 private:
-    Ui::PasswordScreen ui;
+    Ui::LockScreen ui;
 
     rail::control::ICore *coreController;
 };

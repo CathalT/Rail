@@ -4,12 +4,29 @@
 
 #include <QWidget>
 
+namespace rail::control
+{
+    class ICore;
+}
+
 class NewPasswordScreen : public QWidget
 {
     Q_OBJECT
 public:
-    NewPasswordScreen();
+    NewPasswordScreen(rail::control::ICore* _coreController, const QString& _seed);
+
+signals:
+    void onPasswordMatch(const QString& seed);
+
+
+private slots:
+    void onConfirmClicked();
+    void onLineEditChanged(int, int);
 
 private:
     Ui::NewPassswordScreen ui;
+
+    const QString& seed;
+
+    rail::control::ICore* coreController;
 };

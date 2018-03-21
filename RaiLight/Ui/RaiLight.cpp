@@ -1,7 +1,8 @@
 #include "Ui\RaiLight.h"
 
 #include "Ui\MainWindow.h"
-#include "Ui\PasswordScreen.h"
+#include "Ui\LockScreen.h"
+#include "Ui\NewPasswordScreen.h"
 #include "Ui\FreshStartup.h"
 
 
@@ -27,7 +28,7 @@ RaiLight::RaiLight(ICore* _coreController, const QString& _seed) :
         const auto seedBytes = _coreController->getDatabase()->getValue<ByteArray32>(key::bytes::SEED);
         if (seedBytes)
         {
-            goToPasswordScreen();
+            goToLockScreen();
         }
         else
         {
@@ -57,31 +58,39 @@ void RaiLight::goToFreshStartup()
 
     const auto freshStartup = new FreshStartup(coreController);
 
-    connect(freshStartup, &FreshStartup::createNewSeedClicked, [this](){ goToMainWindow(""); });
-    connect(freshStartup, SIGNAL(restoreSeedClicked(const QString&)), this, SLOT(goToMainWindow(const QString&)));
+    connect(freshStartup, &FreshStartup::createNewSeedClicked, [this](){ goToNewPasswordScreen(""); });
+    connect(freshStartup, SIGNAL(restoreSeedClicked(const QString&)), this, SLOT(goToNewPasswordScreen(const QString&)));
 
     ui.centralWidget->layout()->addWidget(freshStartup);
 }
 
-void RaiLight::goToPasswordScreen()
+void RaiLight::goToLockScreen()
 {
     deleteChildren();
 
-    const auto passwordScreen = new PasswordScreen(coreController);
+    const auto passwordScreen = new LockScreen(coreController);
 
     connect(passwordScreen, SIGNAL(backButtonClicked()), this, SLOT(goToFreshStartup()));
 
     ui.centralWidget->layout()->addWidget(passwordScreen);
 }
 
+void RaiLight::goToNewPasswordScreen(const QString& seed)
+{
+    deleteChildren();
+
+    const auto newPasswordScreen = new NewPasswordScreen(coreController, seed);
+
+    //pass seed
+    connect(newPasswordScreen, SIGNAL(onPasswordMatch()), this, SLOT(goToMainWindow()));
+
+    ui.centralWidget->layout()->addWidget(newPasswordScreen);
+}
+
 void RaiLight::deleteChildren()
 {
-    if (auto freshStartupWidget = ui.centralWidget->findChild<QWidget*>("FreshStartup"))
+    for (auto child : ui.centralWidget->findChildren<QWidget *>(QString(), Qt::FindChildOption::FindDirectChildrenOnly))
     {
-        delete freshStartupWidget;
-    }
-    if (auto passwordScreenWidget = ui.centralWidget->findChild<QWidget*>("PasswordScreen"))
-    {
-        delete passwordScreenWidget;
+        delete child;
     }
 }

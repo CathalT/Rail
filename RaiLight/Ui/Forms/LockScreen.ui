@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>PasswordScreen</class>
- <widget class="QWidget" name="PasswordScreen">
+ <class>LockScreen</class>
+ <widget class="QWidget" name="LockScreen">
   <property name="geometry">
    <rect>
     <x>0</x>

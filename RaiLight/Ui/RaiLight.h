@@ -24,7 +24,8 @@ public:
 public slots:
     void goToMainWindow(const QString& seed);
     void goToFreshStartup();
-    void goToPasswordScreen();
+    void goToLockScreen();
+    void goToNewPasswordScreen(const QString& seed);
 
     void deleteChildren();
 

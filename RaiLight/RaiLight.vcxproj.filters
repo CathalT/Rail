@@ -232,9 +232,6 @@
     <ClCompile Include="Ui\FreshStartup.cpp">
       <Filter>Source Files\rail\Ui</Filter>
     </ClCompile>
-    <ClCompile Include="Ui\PasswordScreen.cpp">
-      <Filter>Source Files\rail\Ui</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_FreshStartup.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
@@ -250,12 +247,6 @@
     <ClCompile Include="Ui\MainWindow.cpp">
       <Filter>Source Files\rail\Ui</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_PasswordScreen.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_PasswordScreen.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
     <ClCompile Include="Crypto\PasswordVerifier.cpp">
       <Filter>Source Files\rail\Crypto</Filter>
     </ClCompile>
@@ -264,6 +255,15 @@
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_NewPasswordScreen.cpp">
       <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Ui\LockScreen.cpp">
+      <Filter>Source Files\rail\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_LockScreen.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Crypto\PasswordHasher.cpp">
+      <Filter>Source Files\rail\Crypto</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -282,9 +282,6 @@
     <CustomBuild Include="Ui\TransactionsViewModel.h">
       <Filter>Header Files\rail\Ui\ViewModels</Filter>
     </CustomBuild>
-    <CustomBuild Include="Ui\Forms\PasswordScreen.ui">
-      <Filter>Form Files</Filter>
-    </CustomBuild>
     <CustomBuild Include="Ui\Forms\FreshStartup.ui">
       <Filter>Form Files</Filter>
     </CustomBuild>
@@ -297,13 +294,16 @@
     <CustomBuild Include="Ui\MainWindow.h">
       <Filter>Header Files\rail\Ui</Filter>
     </CustomBuild>
-    <CustomBuild Include="Ui\PasswordScreen.h">
-      <Filter>Header Files\rail\Ui</Filter>
-    </CustomBuild>
     <CustomBuild Include="Ui\Forms\NewPasswordScreen.ui">
       <Filter>Form Files</Filter>
     </CustomBuild>
     <CustomBuild Include="Ui\NewPasswordScreen.h">
+      <Filter>Header Files\rail\Ui</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Ui\Forms\LockScreen.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Ui\LockScreen.h">
       <Filter>Header Files\rail\Ui</Filter>
     </CustomBuild>
   </ItemGroup>
@@ -416,9 +416,6 @@
     <ClInclude Include="Database\DatabaseImpl.h">
       <Filter>Header Files\rail\Database\Impl</Filter>
     </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_PasswordScreen.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_FreshStartup.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
@@ -430,6 +427,12 @@
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_NewPasswordScreen.h">
       <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_LockScreen.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Crypto\PasswordHasher.h">
+      <Filter>Header Files\rail\Crypto</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

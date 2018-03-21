@@ -1,4 +1,4 @@
-#include "Ui\PasswordScreen.h"
+#include "Ui\LockScreen.h"
 
 #include "Controllers\ICore.h"
 #include "Crypto\PasswordVerifier.h"
@@ -7,7 +7,7 @@
 
 using namespace rail::control;
 
-PasswordScreen::PasswordScreen(ICore* _coreController) :
+LockScreen::LockScreen(ICore* _coreController) :
     coreController(_coreController)
 {
     ui.setupUi(this);
@@ -17,7 +17,7 @@ PasswordScreen::PasswordScreen(ICore* _coreController) :
     connect(this, SIGNAL(passwordWrong()), this, SLOT(wrongPasswordEntered()));
 }
 
-void PasswordScreen::onPasswordEntered()
+void LockScreen::onPasswordEntered()
 {
     const auto password = ui.passwordBox->text().toStdString();
     if (rail::PasswordVerifier(coreController, password).isValid())
@@ -30,7 +30,7 @@ void PasswordScreen::onPasswordEntered()
     }
 }
 
-void PasswordScreen::wrongPasswordEntered()
+void LockScreen::wrongPasswordEntered()
 {
     auto errorMsg = new QMessageBox(QMessageBox::Icon::Warning, "Sorry", "Wrong Password!");
     errorMsg->show();
