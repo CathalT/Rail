@@ -1,4 +1,4 @@
-*.cpp linguist-language=C++
+*.h linguist-language=C++
 RaiLight/blake2/* linguist-vendored
 RaiLight/ed25519-donna/* linguist-vendored
-RailLight/phc-winner-argon2-master/* linguist-vendored
+RaiLight/phc-winner-argon2-master/* linguist-vendored
