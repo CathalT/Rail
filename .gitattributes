@@ -1,4 +1,4 @@
 *.cpp linguist-language=C++
-Rail/blake2/* linguist-vendored
-Rail/ed25519-donna/* linguist-vendored
-Rail/phc-winner-argon2-master/* linguist-vendored
+RaiLight/blake2/* linguist-vendored
+RaiLight/ed25519-donna/* linguist-vendored
+RailLight/phc-winner-argon2-master/* linguist-vendored
