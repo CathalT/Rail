@@ -1,12 +1,12 @@
 # Rail wallet
 
-A hybrid wallet implementation for  Nano https://nano.org/en
-The wallet wraps the Nano node and interacts with it over RCP. 
+A hybrid wallet implementation for Nano https://nano.org/en
+The wallet wraps a Nano node and interacts with it over RCP. 
 This means you can run a node locally or point it at a remote endpoint (e.g. https://www.nanode.co/ ).
 For now only a local node is supported.
 
 ## NB
-This is still very much a personal project, it has a grand total of 0 tests.
+This is still very much a personal project, it has a grand total of 0 tests. (They will be added in time, project is currently a prototype.)
 Do not run it against a nano node on the live network. Test network only.
 Once I've the client sufficiently tested it should be easier to contribute. (Couple of things on my to do list first.)
 
