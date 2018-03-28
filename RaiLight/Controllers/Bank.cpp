@@ -110,7 +110,7 @@ namespace rail
                     }
                     else
                     {
-                        lastHash = coreController->getEndpoint()->getFrontiers(fromAddress);
+                        lastHash = coreController->getEndpoint()->getFrontiersSync(fromAddress);
                         if (auto prvBlock = Conversions::decodeHexFromString(lastHash))
                         {
                             ByteArray32 publicKey;
@@ -143,7 +143,7 @@ namespace rail
             bool succeeded{ false };
 
             //TODO: Store latest hash, grab from memory.    
-            const auto lasthash = coreController->getEndpoint()->getFrontiers(currentAccount);
+            const auto lasthash = coreController->getEndpoint()->getFrontiersSync(currentAccount);
             if (auto previousBlock = Conversions::decodeHexFromString(lasthash))
             {
                 ByteArray32 publicKey;
@@ -439,13 +439,13 @@ namespace rail
                 while (retrievingAccounts)
                 {
                     auto nextAccount = generateNewAccountFromSeed(seed);
-                    const auto areBlocksPending = coreController->getEndpoint()->arePendingBlocks(nextAccount->accountId);
-                    const auto status = coreController->getEndpoint()->getAccountStatus(nextAccount->accountId);
+                    const auto areBlocksPending = coreController->getEndpoint()->arePendingBlocksSync(nextAccount->accountId);
+                    const auto status = coreController->getEndpoint()->getAccountStatusSync(nextAccount->accountId);
                     if (status.isValid || areBlocksPending)
                     {
                         if (status.isValid)
                         {
-                            const auto lastBlock = coreController->getEndpoint()->getFrontiers(nextAccount->accountId);
+                            const auto lastBlock = coreController->getEndpoint()->getFrontiersSync(nextAccount->accountId);
                             if (const auto block = Conversions::decodeHexFromString(lastBlock))
                             {
                                 nextAccount->latestBlocks.push(block.value());
@@ -515,7 +515,7 @@ namespace rail
                         }
                         else
                         {
-                            const auto lastHash = coreController->getEndpoint()->getFrontiers(address);
+                            const auto lastHash = coreController->getEndpoint()->getFrontiersSync(address);
 
                             if (!lastHash.empty())
                             {

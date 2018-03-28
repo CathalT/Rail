@@ -20,7 +20,7 @@ LockScreen::LockScreen(ICore* _coreController) :
 void LockScreen::onPasswordEntered()
 {
     const auto password = ui.passwordBox->text().toStdString();
-    if (rail::PasswordVerifier(coreController, password).isValid())
+    if (!password.empty() && rail::PasswordVerifier(coreController, password).isValid())
     {
         emit passwordCorrect();
     }

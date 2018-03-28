@@ -9,7 +9,7 @@
 
 namespace rail::CryptoUtils
 {
-    void hashAndStorePassord(rail::RailDb * database, const std::string & password)
+    void hashAndStorePassword(rail::RailDb * database, const std::string & password)
     {
         ByteArray32 salt;
         CryptoUtils::getRandomData(salt.data(), salt.size());

@@ -11,6 +11,6 @@ namespace rail
 
 namespace rail::CryptoUtils
 {
-    void hashAndStorePassord(rail::RailDb * database, const std::string & password);
+    void hashAndStorePassword(rail::RailDb * database, const std::string & password);
     ByteArray32 hashPassword(const std::string & password, const ByteArray32& salt);
 }

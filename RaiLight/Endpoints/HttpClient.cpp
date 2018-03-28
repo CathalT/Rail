@@ -59,7 +59,7 @@ namespace rail
             ss << U("\"work\" : \"") << work << U("\",");
             ss << U("\"signature\" : \"") << signature << U("\"}");
 
-            return Conversions::toStdString(processBlock(ss.str()));
+            return Conversions::toStdString(processBlockSync(ss.str()));
         }
 
         std::string RaiRCPClient::receive(const blocks::Receive& receiveBlock)
@@ -76,7 +76,7 @@ namespace rail
             ss << U("\"work\" : \"") << work << U("\",");
             ss << U("\"signature\" : \"") << signature << U("\"}");
 
-            return Conversions::toStdString(processBlock(ss.str()));
+            return Conversions::toStdString(processBlockSync(ss.str()));
         }
 
         std::string RaiRCPClient::open(const blocks::Open& openBlock)
@@ -95,7 +95,7 @@ namespace rail
             ss << U("\"work\" : \"") << work << U("\",");
             ss << U("\"signature\" : \"") << signature << U("\"}");
 
-            return Conversions::toStdString(processBlock(ss.str()));
+            return Conversions::toStdString(processBlockSync(ss.str()));
         }
            
         std::string RaiRCPClient::change(const blocks::Change& changeBlock)
@@ -112,10 +112,10 @@ namespace rail
             ss << U("\"work\" : \"") << work << U("\",");
             ss << U("\"signature\" : \"") << signature << U("\"}");
 
-            return Conversions::toStdString(processBlock(ss.str()));
+            return Conversions::toStdString(processBlockSync(ss.str()));
         }
 
-        AccountStatus RaiRCPClient::getAccountStatus(const std::string & account)
+        AccountStatus RaiRCPClient::getAccountStatusSync(const std::string & account)
         {
             AccountStatus accountStatus;
 
@@ -163,7 +163,15 @@ namespace rail
                     {
                         QMessageLogger().warning() << "Caught unhandled std::exception: " << e.what();
                     }
+                    catch (...)
+                    {
+                        QMessageLogger().warning() << "Caught unkown exception.";
+                    }
                 }).get();
+            }
+            catch (const http_exception& e)
+            {
+                QMessageLogger().warning() << "Caught http exception, error_code: " << e.error_code().value() << " , what: " << e.what();
             }
             catch (const std::exception& ec)
             {
@@ -174,7 +182,7 @@ namespace rail
             return accountStatus;
         }
 
-        BlockCounts RaiRCPClient::getLedgerBlockCount()
+        BlockCounts RaiRCPClient::getLedgerBlockCountSync()
         {
             utility::string_t blockCount;
             utility::string_t uncheckedCount;
@@ -208,11 +216,23 @@ namespace rail
                     {
                         QMessageLogger().warning() << "Caught unhandled std::exception: " << e.what();
                     }
+                    catch (...)
+                    {
+                        QMessageLogger().warning() << "Caught unkown exception.";
+                    }
                 }).get();
+            }
+            catch (const http_exception& e)
+            {
+                QMessageLogger().warning() << "Caught http exception, error_code: " << e.error_code().value() << " , what: " << e.what();
             }
             catch (const std::exception& ec)
             {
                 QMessageLogger().warning() << ec.what();
+            }
+            catch (...)
+            {
+                QMessageLogger().warning() << "Caught unkown exception.";
             }
 
             return{ Conversions::toStdString(blockCount), Conversions::toStdString(uncheckedCount) };
@@ -229,11 +249,12 @@ namespace rail
 
             try
             {
-                httpClient->request(req).then([this, address](const http_response& response)
+                httpClient->request(req).then([this, address](Concurrency::task<http_response> responseTask)
                 {
 
                         try
                         {
+                            auto response = responseTask.get();
                             auto statusCode = response.status_code();
                             if (statusCode == status_codes::OK)
                             {
@@ -250,11 +271,23 @@ namespace rail
                         {
                             QMessageLogger().warning() << "Caught unhandled std::exception: " << e.what();
                         }
+                        catch (...)
+                        {
+                            QMessageLogger().warning() << "Caught unknown exception.";
+                        }
                 });
+            }
+            catch (const http_exception& e)
+            {
+                QMessageLogger().warning() << "Caught http exception, error_code: " << e.error_code().value() << " , what: " << e.what();
             }
             catch (const std::exception& ec)
             {
                 QMessageLogger().warning() << ec.what();
+            }
+            catch (...)
+            {
+                QMessageLogger().warning() << "Caught unknown exception.";
             }
         }
 
@@ -275,10 +308,11 @@ namespace rail
 
             try
             {
-                httpClient->request(req).then([this, address](const http_response& response)
+                httpClient->request(req).then([this, address](Concurrency::task<http_response> taskResponse)
                 {
                     try
                     {
+                        const auto response = taskResponse.get();
                         auto statusCode = response.status_code();
                         if (statusCode == status_codes::OK)
                         {
@@ -306,15 +340,27 @@ namespace rail
                     {
                         QMessageLogger().warning() << "Caught unhandled std::exception: " << e.what();
                     }
+                    catch (...)
+                    {
+                        QMessageLogger().warning() << "Caught unknown exception.";
+                    }
                 });
+            }
+            catch (const http_exception& e)
+            {
+                QMessageLogger().warning() << "Caught http exception, error_code: " << e.error_code().value() << " , what: " << e.what();
             }
             catch (const std::exception& ec)
             {
                 QMessageLogger().warning() << ec.what();
             }
+            catch (...)
+            {
+                QMessageLogger().warning() << "Caught unknown exception.";
+            }
         }
 
-        bool RaiRCPClient::arePendingBlocks(const std::string & address)
+        bool RaiRCPClient::arePendingBlocksSync(const std::string & address)
         {
             bool blocksPending{ false };
             json::value postParameters = json::value::object();
@@ -357,17 +403,29 @@ namespace rail
                     {
                         QMessageLogger().warning() << "Caught unhandled std::exception: " << e.what();
                     }
+                    catch (...)
+                    {
+                        QMessageLogger().warning() << "Caught unknown exception.";
+                    }
                 }).get();
+            }
+            catch (const http_exception& e)
+            {
+                QMessageLogger().warning() << "Caught http exception, error_code: " << e.error_code().value() << " , what: " << e.what();
             }
             catch (const std::exception& ec)
             {
                 QMessageLogger().warning() << ec.what();
             }
+            catch (...)
+            {
+                QMessageLogger().warning() << "Caught unknown exception.";
+            }
 
             return blocksPending;
         }
 
-        utility::string_t RaiRCPClient::processBlock(const utility::string_t& block)
+        utility::string_t RaiRCPClient::processBlockSync(const utility::string_t& block)
         {
             utility::string_t hash;
 
@@ -401,11 +459,23 @@ namespace rail
                     {
                         QMessageLogger().warning() << "Caught unhandled std::exception: " << e.what();
                     }
+                    catch (...)
+                    {
+                        QMessageLogger().warning() << "Caught unknown exception.";
+                    }
                 }).get();
+            }
+            catch (const http_exception& e)
+            {
+                QMessageLogger().warning() << "Caught http exception, error_code: " << e.error_code().value() << " , what: " << e.what();
             }
             catch (const std::exception& ec)
             {
                 QMessageLogger().warning() << ec.what();
+            }
+            catch (...)
+            {
+                QMessageLogger().warning() << "Caught unknown exception.";
             }
 
             return hash;
@@ -423,10 +493,11 @@ namespace rail
 
             try
             {
-                httpClient->request(req).then([this, address](const http_response& response)
+                httpClient->request(req).then([this, address](Concurrency::task<http_response> taskResponse)
                 {
                     try
                     {
+                        const auto response = taskResponse.get();
                         auto statusCode = response.status_code();
                         if (statusCode == status_codes::OK)
                         {
@@ -448,15 +519,27 @@ namespace rail
                     {
                         QMessageLogger().warning() << "Caught unhandled std::exception: " << e.what();
                     }
+                    catch (...)
+                    {
+                        QMessageLogger().warning() << "Caught unknown exception.";
+                    }
                 });
+            }
+            catch (const http_exception& e)
+            {
+                QMessageLogger().warning() << "Caught http exception, error_code: " << e.error_code().value() << " , what: " << e.what();
             }
             catch (const std::exception& ec)
             {
                 QMessageLogger().warning() << ec.what();
             }
+            catch (...)
+            {
+                QMessageLogger().warning() << "Caught unknown exception.";
+            }
         }
 
-        std::string RaiRCPClient::getFrontiers(const std::string & address)
+        std::string RaiRCPClient::getFrontiersSync(const std::string & address)
         {
             utility::string_t hash;
 
@@ -493,11 +576,23 @@ namespace rail
                     {
                         QMessageLogger().warning() << "Caught unhandled std::exception: " << e.what();
                     }
+                    catch (...)
+                    {
+                        QMessageLogger().warning() << "Caught unknown exception.";
+                    }
                 }).get();
+            }
+            catch (const http_exception& e)
+            {
+                QMessageLogger().warning() << "Caught http exception, error_code: " << e.error_code().value() << " , what: " << e.what();
             }
             catch (const std::exception& ec)
             {
                 QMessageLogger().warning() << ec.what();
+            }
+            catch (...)
+            {
+                QMessageLogger().warning() << "Caught unknown exception.";
             }
 
             return Conversions::toStdString(hash);

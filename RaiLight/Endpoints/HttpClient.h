@@ -38,11 +38,11 @@ namespace rail
             explicit RaiRCPClient(const std::string & _endpoint, rail::control::ICore* _coreController);
             virtual ~RaiRCPClient();
 
-            virtual BlockCounts getLedgerBlockCount() override;
+            virtual BlockCounts getLedgerBlockCountSync() override;
             
-            virtual AccountStatus getAccountStatus(const std::string & address) override;
-            virtual std::string getFrontiers(const std::string& address) override;
-            virtual bool arePendingBlocks(const std::string& address) override;
+            virtual AccountStatus getAccountStatusSync(const std::string & address) override;
+            virtual std::string getFrontiersSync(const std::string& address) override;
+            virtual bool arePendingBlocksSync(const std::string& address) override;
             virtual void getPendingBlocks(const std::string& address, const uint32_t count) override;
             virtual void getAccountHistory(const std::string& address, const uint32_t count) override;
             virtual void getAccountBalance(const std::string & address) override;
@@ -54,7 +54,7 @@ namespace rail
             virtual std::string change(const rail::blocks::Change& changeBlock) override;
 
         private:
-            utility::string_t processBlock(const utility::string_t& block);
+            utility::string_t processBlockSync(const utility::string_t& block);
 
         private:
             std::unique_ptr<web::http::client::http_client> httpClient;

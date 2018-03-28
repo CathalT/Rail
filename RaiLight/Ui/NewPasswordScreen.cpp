@@ -18,7 +18,7 @@ void NewPasswordScreen::onConfirmClicked()
 {
     if (ui.firstPasswordTextBox->text() == ui.secondPasswordTextbox->text())
     {
-        rail::CryptoUtils::hashAndStorePassord(coreController->getDatabase(), ui.firstPasswordTextBox->text().toStdString());
+        rail::CryptoUtils::hashAndStorePassword(coreController->getDatabase(), ui.firstPasswordTextBox->text().toStdString());
         emit onPasswordMatch(seed);
     }
 }

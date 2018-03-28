@@ -49,7 +49,7 @@ void RaiLight::goToMainWindow(const QString& seed)
 
     ui.centralWidget->layout()->addWidget(mainWindow);
 
-    coreController->getBank()->initWithSeed(seed.toStdString());
+    coreController->getBank()->initWithSeed(!seed.isEmpty() ? seed.toStdString() : "");
 }
 
 void RaiLight::goToFreshStartup()
@@ -68,11 +68,15 @@ void RaiLight::goToLockScreen()
 {
     deleteChildren();
 
-    const auto passwordScreen = new LockScreen(coreController);
+    const auto lockScreen = new LockScreen(coreController);
 
-    connect(passwordScreen, SIGNAL(backButtonClicked()), this, SLOT(goToFreshStartup()));
+    connect(lockScreen, SIGNAL(backButtonClicked()), this, SLOT(goToFreshStartup()));
+    connect(lockScreen, &LockScreen::passwordCorrect, [this]()
+    {
+        goToMainWindow("");
+    });
 
-    ui.centralWidget->layout()->addWidget(passwordScreen);
+    ui.centralWidget->layout()->addWidget(lockScreen);
 }
 
 void RaiLight::goToNewPasswordScreen(const QString& seed)
@@ -81,8 +85,7 @@ void RaiLight::goToNewPasswordScreen(const QString& seed)
 
     const auto newPasswordScreen = new NewPasswordScreen(coreController, seed);
 
-    //pass seed
-    connect(newPasswordScreen, SIGNAL(onPasswordMatch()), this, SLOT(goToMainWindow()));
+    connect(newPasswordScreen, SIGNAL(onPasswordMatch(const QString&)), this, SLOT(goToMainWindow(const QString&)));
 
     ui.centralWidget->layout()->addWidget(newPasswordScreen);
 }
