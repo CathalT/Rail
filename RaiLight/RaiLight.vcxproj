@@ -65,6 +65,12 @@
       <Message>Generating seed for data protection.</Message>
       <Outputs>x213.cpp</Outputs>
     </CustomBuildStep>
+    <PostBuildEvent>
+      <Command>del $(SolutionDir)RaiLight\x213.cpp</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>Wipe key</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -102,6 +108,7 @@
     <ClCompile Include="Crypto\PasswordVerifier.cpp" />
     <ClCompile Include="Crypto\ProofOfWork.cpp" />
     <ClCompile Include="Crypto\RandomData.cpp" />
+    <ClCompile Include="Crypto\SecureString.cpp" />
     <ClCompile Include="Database\RailDb.cpp" />
     <ClCompile Include="ed25519-donna\ed25519.c" />
     <ClCompile Include="Endpoints\HttpClient.cpp" />
@@ -145,6 +152,7 @@
     <ClCompile Include="Model\OpenBlock.cpp" />
     <ClCompile Include="Model\ReceiveBlock.cpp" />
     <ClCompile Include="Model\SendBlock.cpp" />
+    <ClCompile Include="Model\StateBlock.cpp" />
     <ClCompile Include="Platform\WinUtils.cpp" />
     <ClCompile Include="Ui\NewPasswordScreen.cpp" />
     <ClCompile Include="Ui\MainWindow.cpp" />
@@ -153,6 +161,7 @@
     <ClCompile Include="Ui\FreshStartup.cpp" />
     <ClCompile Include="Ui\TransactionsViewModel.cpp" />
     <ClCompile Include="Utilities\Conversions.cpp" />
+    <ClCompile Include="Utilities\MemoryFan.cpp" />
     <ClCompile Include="Utilities\WorkLoop.cpp" />
     <ClCompile Include="x213.cpp" />
   </ItemGroup>
@@ -171,6 +180,9 @@
     <ClInclude Include="Crypto\PasswordVerifier.h" />
     <ClInclude Include="Crypto\ProofOfWork.h" />
     <ClInclude Include="Crypto\RandomData.h" />
+    <ClInclude Include="Crypto\SecureData.h" />
+    <ClInclude Include="Crypto\SecureDataImpl.h" />
+    <ClInclude Include="Crypto\SecureString.h" />
     <ClInclude Include="Database\DatabaseImpl.h" />
     <ClInclude Include="Database\DatabaseKeys.h" />
     <ClInclude Include="Database\RailDb.h" />
@@ -205,6 +217,7 @@
     <ClInclude Include="Model\ReceiveBlock.h" />
     <ClInclude Include="Model\SendBlock.h" />
     <ClInclude Include="Model\Account.h" />
+    <ClInclude Include="Model\StateBlock.h" />
     <ClInclude Include="Platform\WinUtils.h" />
     <CustomBuild Include="Ui\TransactionsViewModel.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -260,6 +273,7 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -D_UNICODE -DWIN32 -DWIN64 -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -D__SSE2__ -D_TURN_OFF_PLATFORM_STRING -DED25519_CUSTOMHASH -DED25519_CUSTOMRNG -D_SILENCE_CXX17_UNCAUGHT_EXCEPTION_DEPRECATION_WARNING "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets"</Command>
     </CustomBuild>
+    <ClInclude Include="Utilities\MemoryFan.h" />
     <ClInclude Include="Utilities\WorkLoop.h" />
     <CustomBuild Include="Ui\RaiLight.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing RaiLight.h...</Message>

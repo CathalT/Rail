@@ -504,7 +504,7 @@ namespace rail
                             const auto jsonTask = response.extract_json();
                             const auto jsonVal = jsonTask.get();
 
-                            if (jsonVal.has_field(U("history")))
+                            if (jsonVal.has_array_field(U("history")))
                             {
                                 const auto history = jsonVal.at(U("history")).as_array();
                                 coreController->getMarshaller()->parseAccountHistory(address, history);

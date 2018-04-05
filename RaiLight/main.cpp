@@ -6,6 +6,9 @@
 
 #include <QtWidgets\QApplication>
 
+#include "Crypto/SecureData.h"
+#include <array>
+
 #include <memory>
 
 using namespace rail;

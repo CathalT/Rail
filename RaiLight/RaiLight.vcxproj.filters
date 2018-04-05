@@ -265,6 +265,15 @@
     <ClCompile Include="Crypto\PasswordHasher.cpp">
       <Filter>Source Files\rail\Crypto</Filter>
     </ClCompile>
+    <ClCompile Include="Utilities\MemoryFan.cpp">
+      <Filter>Source Files\rail\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Model\StateBlock.cpp">
+      <Filter>Source Files\rail\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Crypto\SecureString.cpp">
+      <Filter>Source Files\rail\Crypto</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="Resources\RaiLight.qrc">
@@ -432,6 +441,21 @@
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="Crypto\PasswordHasher.h">
+      <Filter>Header Files\rail\Crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\MemoryFan.h">
+      <Filter>Header Files\rail\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\StateBlock.h">
+      <Filter>Header Files\rail\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Crypto\SecureData.h">
+      <Filter>Header Files\rail\Crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="Crypto\SecureDataImpl.h">
+      <Filter>Header Files\rail\Crypto\Impl</Filter>
+    </ClInclude>
+    <ClInclude Include="Crypto\SecureString.h">
       <Filter>Header Files\rail\Crypto</Filter>
     </ClInclude>
   </ItemGroup>

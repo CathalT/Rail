@@ -456,10 +456,11 @@ namespace rail
                         nextAccount->accountOpen = status.isValid;
                         coreController->getDatabase()->storeValue(key::bools::ACCOUNT_OPEN, nextAccount->index, status.isValid, true);
 
+                        auto accountId = nextAccount->accountId;
                         addAccount(std::move(nextAccount));
-                        coreController->getEndpoint()->getAccountBalance(nextAccount->accountId);
-                        coreController->getEndpoint()->getAccountHistory(nextAccount->accountId, 100);
-                        coreController->getEndpoint()->getPendingBlocks(nextAccount->accountId, 100);
+                        coreController->getEndpoint()->getAccountBalance(accountId);
+                        coreController->getEndpoint()->getAccountHistory(accountId, 100);
+                        coreController->getEndpoint()->getPendingBlocks(accountId, 100);
                     }
                     else
                     {

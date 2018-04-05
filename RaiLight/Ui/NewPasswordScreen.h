@@ -16,7 +16,7 @@ public:
     NewPasswordScreen(rail::control::ICore* _coreController, const QString& _seed);
 
 signals:
-    void onPasswordMatch(const QString& seed);
+    void onPasswordMatch(const QString);
 
 
 private slots:
@@ -26,7 +26,7 @@ private slots:
 private:
     Ui::NewPassswordScreen ui;
 
-    const QString& seed;
+    const QString seed;
 
     rail::control::ICore* coreController;
 };
