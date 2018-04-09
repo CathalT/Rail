@@ -6,7 +6,7 @@
 
 #include <QtWidgets\QApplication>
 
-#include "Crypto/SecureData.h"
+#include "Crypto/SecureString.h"
 #include <array>
 
 #include <memory>
@@ -22,6 +22,9 @@ int main(int argc, char *argv[])
 
     QCoreApplication::setApplicationName("Rail");
     QCoreApplication::setApplicationVersion("0.0.0.0");
+
+    std::string lol("lol");
+    SecureString test(lol);
 
     RaiLight w(coreController.get(), options.getSeed());
     w.show();

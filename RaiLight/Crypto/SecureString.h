@@ -1,12 +1,14 @@
 #pragma once
 
 #include "Crypto\SecureData.h"
-namespace rail
+
+
+class SecureString : public SecureData<std::string>
 {
-    class SecureString : public SecureData<std::string>
-    {
-    public:
-        SecureString(std::string& inputStr);
-        std::string getString();
-    };
-}
+public:
+    SecureString(std::string& inputStr);
+    ~SecureString();
+    std::string& getString();
+private:
+    std::string visibleString;
+};
