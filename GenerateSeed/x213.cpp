@@ -1,2 +1,0 @@
-#include <string>
-extern std::string secret_key = "49693ED1F263D980CB2160FEB7E57A29C7A9878FE1076C2F28BF9413D5484EB8";
