@@ -230,7 +230,6 @@ namespace rail
                     const auto generatedSeed = CryptoUtils::getRandom32ByteBlock();
                     coreController->getDatabase()->storeValue(key::bytes::SEED, generatedSeed, true);
 
-                    //const auto debugSeed = Conversions::encodeToHexStr(generatedSeed); debugSeed;
                     addAccount(generateNewAccountFromSeed(generatedSeed));
 
                     finishRetrievingAccounts();
@@ -238,7 +237,6 @@ namespace rail
             }
             else
             {
-                //continue passing secure containers.
                 syncAccountsFromSeed();
             }
         }
