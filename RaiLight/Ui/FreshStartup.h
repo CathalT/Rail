@@ -14,7 +14,7 @@ public:
     FreshStartup(rail::control::ICore *_coreController);
 signals:
     void createNewSeedClicked();
-    void restoreSeedClicked(const QString& seed);
+    void restoreSeedClicked();
 
 private:
     Ui::FreshStartup ui;

@@ -21,6 +21,7 @@
 #include "Utilities\WorkLoop.h"
 
 #include "Crypto\CryptoUtils.h"
+#include "Crypto\SecretsStore.h"
 
 #include <QMessageLogger>
 #include <QDebug>
@@ -202,12 +203,14 @@ namespace rail
             return pendingBalance;
         }
 
-        void Bank::initWithSeed(const std::string & _seed)
+        void Bank::init()
         {
-            if (_seed.empty())
+            auto isSeedSet = coreController->getSecretsStore()->isSeedSet();
+            if (!isSeedSet)
             {
-                if (const auto dbSeed = coreController->getDatabase()->getValue<ByteArray32>(key::bytes::SEED))
+                if (auto dbSeed = coreController->getDatabase()->getValue<ByteArray32>(key::bytes::SEED))
                 {
+                    coreController->getSecretsStore()->setSeed(*dbSeed);
                     if (const auto accIdx = coreController->getDatabase()->getValue<uint32_t>(key::uint::ACCOUNT_INDEX))
                     {
                         for (uint32_t i = 0; i < accIdx; ++i)
@@ -235,14 +238,8 @@ namespace rail
             }
             else
             {
-                if (const auto decodedSeed = Conversions::decodeHexFromString(_seed))
-                {
-                    syncAccountsFromSeed(decodedSeed.value());
-                }
-                else
-                {
-                    QMessageLogger().critical() << "Failed to decode seed.";
-                }
+                //continue passing secure containers.
+                syncAccountsFromSeed();
             }
         }
 
@@ -432,13 +429,17 @@ namespace rail
         }
 
         //TODO: Move out/refactor
-        void Bank::syncAccountsFromSeed(const ByteArray32 & seed)
+        void Bank::syncAccountsFromSeed()
         {
-            coreController->getWorkLoop()->queue([this, seed]()
+            coreController->getWorkLoop()->queue([this]()
             {
+                auto seed = coreController->getSecretsStore()->getSeed();
+
+                if (!seed) return;
+
                 while (retrievingAccounts)
                 {
-                    auto nextAccount = generateNewAccountFromSeed(seed);
+                    auto nextAccount = generateNewAccountFromSeed(*seed);
                     const auto areBlocksPending = coreController->getEndpoint()->arePendingBlocksSync(nextAccount->accountId);
                     const auto status = coreController->getEndpoint()->getAccountStatusSync(nextAccount->accountId);
                     if (status.isValid || areBlocksPending)
@@ -470,6 +471,8 @@ namespace rail
                         finishRetrievingAccounts();
                     }
                 }
+
+                CryptoPP::SecureWipeArray(seed->data(), seed->size());
             });
         }
 

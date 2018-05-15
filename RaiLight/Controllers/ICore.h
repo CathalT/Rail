@@ -5,6 +5,7 @@ namespace rail
     class Marshaller;
     class WorkLoop;
     class RailDb;
+    class SecretsStore;
 
     namespace endpoint
     {
@@ -28,6 +29,7 @@ namespace rail
             virtual Marshaller* getMarshaller() = 0;
             virtual WorkLoop* getWorkLoop() = 0;
             virtual RailDb * getDatabase() = 0;
+            virtual SecretsStore * getSecretsStore() = 0;
 
             virtual ~ICore() = default;
         };

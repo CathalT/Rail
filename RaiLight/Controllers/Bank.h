@@ -34,7 +34,7 @@ namespace rail
             Bank(ICore* _coreController);
             ~Bank();
 
-            virtual void initWithSeed(const std::string& _seed) override;
+            virtual void init() override;
             virtual std::vector<std::string> getAllAddresses() override;
             virtual ByteArray32 getPublicKeyForAddress(const std::string& address) override;
             virtual ByteArray32 getPrivateKeyForAddress(const std::string& address) override;
@@ -58,7 +58,7 @@ namespace rail
             void processPendingBlocks(const std::string& address);
             void storeLatestBlock(const std::string & address, const std::string & latestBlockHash);
 
-            void syncAccountsFromSeed(const ByteArray32& seed);
+            void syncAccountsFromSeed();
             void syncCurrentAccounts();
 
             std::string processReceiveOrOpen(const std::string & address);

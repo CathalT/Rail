@@ -6,7 +6,11 @@
 #include "Model\Account.h"
 #include "Utilities\Conversions.h"
 
+#pragma warning( push )
+#pragma warning( disable : 4266)
 #include <cpprest\json.h>
+#pragma warning( pop ) 
+
 
 #define U(x) _XPLATSTR(x)
 

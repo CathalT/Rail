@@ -13,10 +13,10 @@ class NewPasswordScreen : public QWidget
 {
     Q_OBJECT
 public:
-    NewPasswordScreen(rail::control::ICore* _coreController, const QString& _seed);
+    NewPasswordScreen(rail::control::ICore* _coreController);
 
 signals:
-    void onPasswordMatch(const QString);
+    void onPasswordMatch();
 
 
 private slots:
@@ -25,8 +25,6 @@ private slots:
 
 private:
     Ui::NewPassswordScreen ui;
-
-    const QString seed;
 
     rail::control::ICore* coreController;
 };

@@ -11,6 +11,7 @@ namespace rail
     class RailDb;
     class WorkLoop;
     class Marshaller;
+    class SecretsStore;
 
     namespace endpoint
     {
@@ -23,7 +24,7 @@ namespace rail
         class Core : public ICore
         {
         public:
-            Core(const std::string& _nodeIp);
+            Core(const std::string& _nodeIp, const std::string& seed);
             virtual ~Core();
 
             virtual IBank* getBank() override;
@@ -31,13 +32,16 @@ namespace rail
             virtual WorkLoop* getWorkLoop() override;
             virtual Marshaller* getMarshaller() override;
             virtual RailDb * getDatabase() override;
-           
+            virtual SecretsStore * getSecretsStore() override;
+
+
         private:
             std::unique_ptr<WorkLoop>             workLoop;
             std::unique_ptr<IBank>                bank;
             std::unique_ptr<Marshaller>           marshaller;
             std::unique_ptr<endpoint::IEndpoint>  endpoint;
             std::unique_ptr<RailDb>               database;
+            std::unique_ptr<SecretsStore>         secretsStore;
         };
     }
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Model\BasicTypes.h"
+#include "Crypto\SecureTypes.h"
 
 #include <vector>
 #include <string>
@@ -15,7 +16,7 @@ namespace rail
         {
         public:
             
-            virtual void initWithSeed(const std::string& _seed) = 0;
+            virtual void init() = 0;
             virtual std::vector<std::string> getAllAddresses() = 0;
             virtual ByteArray32 getPublicKeyForAddress(const std::string& address) = 0;
             virtual ByteArray32 getPrivateKeyForAddress(const std::string& address) = 0;

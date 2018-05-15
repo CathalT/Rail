@@ -1,6 +1,7 @@
 #include "Ui\FreshStartup.h"
 
 #include "Controllers\ICore.h"
+#include "Crypto\SecretsStore.h"
 
 using namespace rail::control;
 
@@ -12,6 +13,11 @@ FreshStartup::FreshStartup(ICore* _coreController) :
     connect(ui.generateButton, SIGNAL(clicked()), this, SIGNAL(createNewSeedClicked()));
     connect(ui.restoreButton, &QPushButton::clicked, [this]() 
     {
-        emit restoreSeedClicked(ui.seedInputBox->text());
+        auto qSeed = ui.seedInputBox->text();
+        if (!qSeed.isEmpty())
+        {
+            coreController->getSecretsStore()->setSeed(qSeed.toStdString());
+        }
+        emit restoreSeedClicked();
     });
 }

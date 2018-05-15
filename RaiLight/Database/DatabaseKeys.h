@@ -7,6 +7,7 @@ namespace rail::key
         constexpr char* const SEED = "seed";
         constexpr char* const PASS_HASH = "pass_hash";
         constexpr char* const PASS_SALT = "pass_salt";
+        constexpr char* const KEY_SALT = "key_salt";
         constexpr char* const LATEST_BLOCK = "latest_block_";
     }
 

@@ -5,9 +5,7 @@
 #include "Controllers\Core.h"
 
 #include <QtWidgets\QApplication>
-
-#include "Crypto/SecureString.h"
-#include <array>
+#include <cryptopp\misc.h>
 
 #include <memory>
 
@@ -18,15 +16,18 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     CommandLineOptions options(a);
-    const auto coreController = std::make_unique<Core>(options.getNodeAddress().toStdString());
+
+    for (auto i = 1; i < argc; ++i)
+    {
+        CryptoPP::SecureWipeArray(argv[i], strlen(argv[i]));
+    }
+
+    const auto coreController = std::make_unique<Core>(options.getNodeAddress().toStdString(), options.getSeed().toStdString());
 
     QCoreApplication::setApplicationName("Rail");
     QCoreApplication::setApplicationVersion("0.0.0.0");
 
-    std::string lol("lol");
-    SecureString test(lol);
-
-    RaiLight w(coreController.get(), options.getSeed());
+    RaiLight w(coreController.get());
     w.show();
     return a.exec();
 }

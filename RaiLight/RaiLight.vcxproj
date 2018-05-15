@@ -108,6 +108,7 @@
     <ClCompile Include="Crypto\PasswordVerifier.cpp" />
     <ClCompile Include="Crypto\ProofOfWork.cpp" />
     <ClCompile Include="Crypto\RandomData.cpp" />
+    <ClCompile Include="Crypto\SecretsStore.cpp" />
     <ClCompile Include="Crypto\SecureString.cpp" />
     <ClCompile Include="Database\RailDb.cpp" />
     <ClCompile Include="ed25519-donna\ed25519.c" />
@@ -180,9 +181,13 @@
     <ClInclude Include="Crypto\PasswordVerifier.h" />
     <ClInclude Include="Crypto\ProofOfWork.h" />
     <ClInclude Include="Crypto\RandomData.h" />
+    <ClInclude Include="Crypto\SecretsStore.h" />
+    <ClInclude Include="Crypto\SecureContainer.h" />
+    <ClInclude Include="Crypto\SecureContainerImpl.h" />
     <ClInclude Include="Crypto\SecureData.h" />
     <ClInclude Include="Crypto\SecureDataImpl.h" />
     <ClInclude Include="Crypto\SecureString.h" />
+    <ClInclude Include="Crypto\SecureTypes.h" />
     <ClInclude Include="Database\DatabaseImpl.h" />
     <ClInclude Include="Database\DatabaseKeys.h" />
     <ClInclude Include="Database\RailDb.h" />

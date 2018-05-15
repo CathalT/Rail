@@ -38,18 +38,6 @@
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
-    <Filter Include="Source Files\blake2b">
-      <UniqueIdentifier>{cf100d1b-c185-4214-8b8e-037e7254efa8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Ed25519">
-      <UniqueIdentifier>{0ec8d94b-874e-4256-844a-ddbfd3cff647}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\blake2b">
-      <UniqueIdentifier>{b6f0901c-1bf0-41cd-94d6-1b013a2f6a2d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Ed25519">
-      <UniqueIdentifier>{11b3f431-c901-4347-8a81-e4cbb4310fbb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\rail">
       <UniqueIdentifier>{4d066d67-6a35-435c-b7c5-c296a1f1f915}</UniqueIdentifier>
     </Filter>
@@ -131,16 +119,34 @@
     <Filter Include="Source Files\rail\GeneratedSeed">
       <UniqueIdentifier>{23a637b0-9103-448b-a7c5-f069ed82005d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\thirdparty">
+      <UniqueIdentifier>{b7835611-661c-4880-afca-81a5da3bc789}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\thirdparty\blake2b">
+      <UniqueIdentifier>{cf100d1b-c185-4214-8b8e-037e7254efa8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\thirdparty\Ed25519">
+      <UniqueIdentifier>{0ec8d94b-874e-4256-844a-ddbfd3cff647}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\thirdparty">
+      <UniqueIdentifier>{9a6d62e1-6b76-436d-99a0-34912639c137}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\thirdparty\Ed25519">
+      <UniqueIdentifier>{11b3f431-c901-4347-8a81-e4cbb4310fbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\thirdparty\blake2b">
+      <UniqueIdentifier>{b6f0901c-1bf0-41cd-94d6-1b013a2f6a2d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ed25519-donna\ed25519.c">
-      <Filter>Source Files\Ed25519</Filter>
+      <Filter>Source Files\thirdparty\Ed25519</Filter>
     </ClCompile>
     <ClCompile Include="blake2\blake2b.c">
-      <Filter>Source Files\blake2b</Filter>
+      <Filter>Source Files\thirdparty\blake2b</Filter>
     </ClCompile>
     <ClCompile Include="Endpoints\HttpClient.cpp">
       <Filter>Source Files\rail\Endpoints</Filter>
@@ -274,6 +280,9 @@
     <ClCompile Include="Crypto\SecureString.cpp">
       <Filter>Source Files\rail\Crypto</Filter>
     </ClCompile>
+    <ClCompile Include="Crypto\SecretsStore.cpp">
+      <Filter>Source Files\rail\Crypto</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="Resources\RaiLight.qrc">
@@ -318,25 +327,25 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ed25519-donna\ed25519-donna-portable.h">
-      <Filter>Header Files\Ed25519</Filter>
+      <Filter>Header Files\thirdparty\Ed25519</Filter>
     </ClInclude>
     <ClInclude Include="ed25519-donna\ed25519-hash-custom.h">
-      <Filter>Header Files\Ed25519</Filter>
+      <Filter>Header Files\thirdparty\Ed25519</Filter>
     </ClInclude>
     <ClInclude Include="ed25519-donna\ed25519-randombytes-custom.h">
-      <Filter>Header Files\Ed25519</Filter>
+      <Filter>Header Files\thirdparty\Ed25519</Filter>
     </ClInclude>
     <ClInclude Include="ed25519-donna\ed25519.h">
-      <Filter>Header Files\Ed25519</Filter>
+      <Filter>Header Files\thirdparty\Ed25519</Filter>
     </ClInclude>
     <ClInclude Include="blake2\blake2-config.h">
-      <Filter>Header Files\blake2b</Filter>
+      <Filter>Header Files\thirdparty\blake2b</Filter>
     </ClInclude>
     <ClInclude Include="blake2\blake2.h">
-      <Filter>Header Files\blake2b</Filter>
+      <Filter>Header Files\thirdparty\blake2b</Filter>
     </ClInclude>
     <ClInclude Include="blake2\blake2-impl.h">
-      <Filter>Header Files\blake2b</Filter>
+      <Filter>Header Files\thirdparty\blake2b</Filter>
     </ClInclude>
     <ClInclude Include="Platform\WinUtils.h">
       <Filter>Header Files\rail\Platform</Filter>
@@ -449,13 +458,25 @@
     <ClInclude Include="Model\StateBlock.h">
       <Filter>Header Files\rail\Model</Filter>
     </ClInclude>
-    <ClInclude Include="Crypto\SecureData.h">
-      <Filter>Header Files\rail\Crypto</Filter>
-    </ClInclude>
     <ClInclude Include="Crypto\SecureDataImpl.h">
       <Filter>Header Files\rail\Crypto\Impl</Filter>
     </ClInclude>
     <ClInclude Include="Crypto\SecureString.h">
+      <Filter>Header Files\rail\Crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="Crypto\SecureData.h">
+      <Filter>Header Files\rail\Crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="Crypto\SecureContainer.h">
+      <Filter>Header Files\rail\Crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="Crypto\SecureContainerImpl.h">
+      <Filter>Header Files\rail\Crypto\Impl</Filter>
+    </ClInclude>
+    <ClInclude Include="Crypto\SecretsStore.h">
+      <Filter>Header Files\rail\Crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="Crypto\SecureTypes.h">
       <Filter>Header Files\rail\Crypto</Filter>
     </ClInclude>
   </ItemGroup>

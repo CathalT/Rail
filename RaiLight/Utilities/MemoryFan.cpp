@@ -2,12 +2,18 @@
 
 #include "Crypto/RandomData.h"
 
+#include <cryptopp/misc.h>
+
 
 namespace rail
 {
-    MemoryFan::MemoryFan(const ByteArray32 & key, const size_t count_a)
+    //MemoryFan::~MemoryFan() = default;
+
+    MemoryFan::MemoryFan(ByteArray32 & key, const size_t count_a)
     {
         std::unique_ptr<ByteArray32> first(new ByteArray32(key));
+
+        CryptoPP::SecureWipeArray(key.data(), key.size());
 
         for (size_t a(1); a < count_a; ++a)
         {

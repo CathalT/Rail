@@ -1,28 +1,38 @@
-#include <vector>
+#pragma once
 
 #include <cryptopp/config.h>
 #include <cryptopp/aes.h>
 #include <cryptopp/queue.h>
 
-template<typename DataType>
-class SecureData
+#include <vector>
+#include <memory>
+
+namespace rail
 {
-public:
-    SecureData(DataType& data);
-    ~SecureData();
+    class MemoryFan;
 
-protected:
-    std::vector<std::byte> getData();
+    template<typename DataType>
+    class SecureData
+    {
+    public:
+        SecureData(DataType& data);
 
-private:
+        std::vector<std::byte> getEncryptedData();
 
-    byte key[CryptoPP::AES::MAX_KEYLENGTH];
-    byte iv[CryptoPP::AES::BLOCKSIZE];
+    protected:
+        std::vector<std::byte> getData();
 
-    size_t dataSize{ 0 };
+    private:
 
-    std::vector<std::byte> outputBytes;
-    CryptoPP::ByteQueue secureData;
-};
+        std::unique_ptr<MemoryFan> keyFan;
+
+        byte key[CryptoPP::AES::MAX_KEYLENGTH];
+        byte iv[CryptoPP::AES::BLOCKSIZE];
+
+        size_t dataSize{ 0 };
+
+        CryptoPP::ByteQueue secureData;
+    };
+}
 
 #include "Crypto\SecureDataImpl.h"

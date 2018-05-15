@@ -1,4 +1,4 @@
-#include "CommandLineOptions.h"
+#include "Application\CommandLineOptions.h"
 
 #include <QtCore\QCoreApplication>
 #include <QtCore\QCommandLineParser>
@@ -9,12 +9,12 @@ namespace rail
     {
         QCommandLineParser parser;
 
-        parser.setApplicationDescription("Light wallet for Raiblocks");
+        parser.setApplicationDescription("A Light wallet for Nano currency");
         parser.addHelpOption();
         parser.addVersionOption();
 
         parser.addOptions({
-            { "seed", QCoreApplication::translate("main", "Hex encoded seed used to restore your Raiblocks account"), "seed", "" },
+            { "seed", QCoreApplication::translate("main", "Hex encoded seed used to restore your Nano account"), "seed", "" },
             { "node-address", QCoreApplication::translate("main", "Remote node address and port e.g. http://localhost:7076"), "node-address", "" }
         });
 
@@ -26,7 +26,7 @@ namespace rail
 
     QString CommandLineOptions::getSeed()
     {
-        return seed;
+        return std::move(seed);
     }
 
     QString CommandLineOptions::getNodeAddress()

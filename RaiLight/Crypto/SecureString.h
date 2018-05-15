@@ -2,13 +2,12 @@
 
 #include "Crypto\SecureData.h"
 
-
-class SecureString : public SecureData<std::string>
+namespace rail
 {
-public:
-    SecureString(std::string& inputStr);
-    ~SecureString();
-    std::string& getString();
-private:
-    std::string visibleString;
-};
+    class SecureString : public SecureData<std::string>
+    {
+    public:
+        SecureString(std::string& inputStr);
+        std::string getString();
+    };
+}

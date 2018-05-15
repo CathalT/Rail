@@ -1,10 +1,10 @@
 #include "Ui\NewPasswordScreen.h"
 
-#include "Crypto\PasswordHasher.h"
+#include "Crypto\SecretsStore.h"
 
 #include "Controllers\ICore.h"
 
-NewPasswordScreen::NewPasswordScreen(rail::control::ICore* _coreController, const QString& _seed) : coreController(_coreController), seed(_seed)
+NewPasswordScreen::NewPasswordScreen(rail::control::ICore* _coreController) : coreController(_coreController)
 {
     ui.setupUi(this);
 
@@ -18,8 +18,8 @@ void NewPasswordScreen::onConfirmClicked()
 {
     if (ui.firstPasswordTextBox->text() == ui.secondPasswordTextbox->text())
     {
-        rail::CryptoUtils::hashAndStorePassword(coreController->getDatabase(), ui.firstPasswordTextBox->text().toStdString());
-        emit onPasswordMatch(seed);
+        coreController->getSecretsStore()->setPassword(ui.firstPasswordTextBox->text().toStdString());
+        emit onPasswordMatch();
     }
 }
 

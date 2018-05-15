@@ -8,6 +8,9 @@
 
 #include "Controllers\ICore.h"
 #include "Controllers\IBank.h"
+
+#include "Crypto\SecretsStore.h"
+
 #include "Database\RailDb.h"
 #include "Database\DatabaseKeys.h"
 
@@ -18,12 +21,13 @@ using namespace rail;
 using namespace rail::control;
 
 RaiLight::~RaiLight() = default;
-RaiLight::RaiLight(ICore* _coreController, const QString& _seed) :
+RaiLight::RaiLight(ICore* _coreController) :
     coreController(_coreController)
 {
     ui.setupUi(this);
 
-    if (_seed.isEmpty())
+    auto seed = _coreController->getSecretsStore()->getSeed();
+    if (!seed)
     {
         const auto seedBytes = _coreController->getDatabase()->getValue<ByteArray32>(key::bytes::SEED);
         if (seedBytes)
@@ -37,11 +41,11 @@ RaiLight::RaiLight(ICore* _coreController, const QString& _seed) :
     }
     else
     {
-        goToMainWindow(_seed);
+        goToMainWindow();
     }
 }
 
-void RaiLight::goToMainWindow(const QString& seed)
+void RaiLight::goToMainWindow()
 {
     deleteChildren();
 
@@ -49,7 +53,7 @@ void RaiLight::goToMainWindow(const QString& seed)
 
     ui.centralWidget->layout()->addWidget(mainWindow);
 
-    coreController->getBank()->initWithSeed(!seed.isEmpty() ? seed.toStdString() : "");
+    coreController->getBank()->init();
 }
 
 void RaiLight::goToFreshStartup()
@@ -58,8 +62,8 @@ void RaiLight::goToFreshStartup()
 
     const auto freshStartup = new FreshStartup(coreController);
 
-    connect(freshStartup, &FreshStartup::createNewSeedClicked, [this](){ goToNewPasswordScreen(""); });
-    connect(freshStartup, SIGNAL(restoreSeedClicked(const QString&)), this, SLOT(goToNewPasswordScreen(const QString&)));
+    connect(freshStartup, SIGNAL(createNewSeedClicked()), this, SLOT (goToNewPasswordScreen()));
+    connect(freshStartup, SIGNAL(restoreSeedClicked()), this, SLOT(goToNewPasswordScreen()));
 
     ui.centralWidget->layout()->addWidget(freshStartup);
 }
@@ -73,19 +77,19 @@ void RaiLight::goToLockScreen()
     connect(lockScreen, SIGNAL(backButtonClicked()), this, SLOT(goToFreshStartup()));
     connect(lockScreen, &LockScreen::passwordCorrect, [this]()
     {
-        goToMainWindow("");
+        goToMainWindow();
     });
 
     ui.centralWidget->layout()->addWidget(lockScreen);
 }
 
-void RaiLight::goToNewPasswordScreen(const QString& seed)
+void RaiLight::goToNewPasswordScreen()
 {
     deleteChildren();
 
-    const auto newPasswordScreen = new NewPasswordScreen(coreController, seed);
+    const auto newPasswordScreen = new NewPasswordScreen(coreController);
 
-    connect(newPasswordScreen, SIGNAL(onPasswordMatch(const QString&)), this, SLOT(goToMainWindow(const QString&)));
+    connect(newPasswordScreen, SIGNAL(onPasswordMatch()), this, SLOT(goToMainWindow()));
 
     ui.centralWidget->layout()->addWidget(newPasswordScreen);
 }

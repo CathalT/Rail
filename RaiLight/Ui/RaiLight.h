@@ -18,14 +18,14 @@ class RaiLight : public QMainWindow
     Q_OBJECT
 
 public:
-    RaiLight(rail::control::ICore *_coreController, const QString& _seed);
+    RaiLight(rail::control::ICore *_coreController);
     ~RaiLight();
 
 public slots:
-    void goToMainWindow(const QString& seed);
+    void goToMainWindow();
     void goToFreshStartup();
     void goToLockScreen();
-    void goToNewPasswordScreen(const QString& seed);
+    void goToNewPasswordScreen();
 
     void deleteChildren();
 
