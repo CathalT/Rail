@@ -2,6 +2,7 @@
 
 #include "Model\BaseBlock.h"
 #include "Model\BasicTypes.h"
+#include "Crypto\SecureTypes.h"
 
 namespace rail
 {
@@ -10,7 +11,7 @@ namespace rail
         class Receive : public Block
         {
         public:
-            Receive(const ByteArray32& _previousBlock, const ByteArray32& _sourceBlock, const ByteArray32& _privateKey, const ByteArray32& _publicKey);
+            Receive(const ByteArray32& _previousBlock, const ByteArray32& _sourceBlock, const SecureContainer<ByteArray32>& _privateKey, const ByteArray32& _publicKey);
             
             std::string Receive::getSourceBlock() const;
 

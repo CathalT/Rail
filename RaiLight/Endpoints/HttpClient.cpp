@@ -19,7 +19,10 @@
 #include "Crypto\CryptoUtils.h"
 #include "Crypto\ProofOfWork.h"
 
+#pragma warning( push )
+#pragma warning( disable: 4266 )
 #include <cpprest\http_client.h>
+#pragma warning( pop )
 
 #include <QMessageLogger>
 #include <QDebug>
@@ -43,7 +46,7 @@ namespace rail
         {
         }
 
-        std::string RaiRCPClient::send(const blocks::Send& sendBlock)
+        std::string RaiRCPClient::send(blocks::Send& sendBlock)
         {
             const auto previous = Conversions::toUtilString(sendBlock.getPreviousBlock());
             const auto destination = Conversions::toUtilString(sendBlock.getDestinationAddress());
@@ -62,7 +65,7 @@ namespace rail
             return Conversions::toStdString(processBlockSync(ss.str()));
         }
 
-        std::string RaiRCPClient::receive(const blocks::Receive& receiveBlock)
+        std::string RaiRCPClient::receive(blocks::Receive& receiveBlock)
         {
             const auto previous = Conversions::toUtilString(receiveBlock.getPreviousBlock());
             const auto source = Conversions::toUtilString(receiveBlock.getSourceBlock());
@@ -79,7 +82,7 @@ namespace rail
             return Conversions::toStdString(processBlockSync(ss.str()));
         }
 
-        std::string RaiRCPClient::open(const blocks::Open& openBlock)
+        std::string RaiRCPClient::open(blocks::Open& openBlock)
         {
             const auto address = Conversions::toUtilString(openBlock.getAddress());
             const auto representative = Conversions::toUtilString(openBlock.getRepresentative());
@@ -98,7 +101,7 @@ namespace rail
             return Conversions::toStdString(processBlockSync(ss.str()));
         }
            
-        std::string RaiRCPClient::change(const blocks::Change& changeBlock)
+        std::string RaiRCPClient::change(blocks::Change& changeBlock)
         {
             const auto previousBlock = Conversions::toUtilString(changeBlock.getPreviousBlock());
             const auto representative = Conversions::toUtilString(changeBlock.getRepresentativeAddress());

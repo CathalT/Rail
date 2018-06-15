@@ -18,7 +18,7 @@ namespace rail
         for (size_t a(1); a < count_a; ++a)
         {
             std::unique_ptr<ByteArray32> entry(new ByteArray32);
-            CryptoUtils::getRandomData(reinterpret_cast<byte*>(entry->data()), entry->size());
+            CryptoUtils::getRandomData(reinterpret_cast<CryptoPP::byte*>(entry->data()), entry->size());
 
             std::transform(first->begin(), first->end(), entry->begin(), first->begin(), [](std::byte& left, std::byte& right)
             {

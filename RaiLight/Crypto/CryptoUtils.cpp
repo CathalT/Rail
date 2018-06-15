@@ -1,11 +1,18 @@
 #include "Crypto\CryptoUtils.h"
 
-#include "Utilities\Conversions.h"
 #include "Crypto\AccountEncoding.h"
 #include "Crypto\RandomData.h"
 
+#include "Utilities\Conversions.h"
+#include "Utilities\MemoryFan.h"
+
 #include <ed25519-donna\ed25519.h>
 #include <blake2\blake2.h>
+
+#include <cryptopp\cryptlib.h>
+#include <cryptopp\filters.h>
+#include <cryptopp\files.h>
+#include <cryptopp\modes.h>
 
 #include <QMessageLogger>
 #include <QDebug>
@@ -57,6 +64,30 @@ namespace rail
         std::string encodePublicKeyToAddress(const ByteArray32& publicKey)
         {
             return encodePublicKeyToAccountIdImpl(publicKey);
+        }
+
+        ByteArray32 AESDecryptByteArray32(const std::vector<std::byte> & encryptedData, MemoryFan* obfuscatedKey, const ByteArray16& iv)
+        {
+            CryptoPP::ByteQueue secureData;
+            CryptoPP::ByteQueue recover;
+            secureData.Put(reinterpret_cast<const CryptoPP::byte*>(encryptedData.data()), encryptedData.size());
+ 
+            auto key = obfuscatedKey->getValue();
+
+            CryptoPP::CBC_Mode<CryptoPP::AES>::Decryption dec;
+            dec.SetKeyWithIV(reinterpret_cast<CryptoPP::byte*>(key.data()), key.size(), reinterpret_cast<const CryptoPP::byte*>(iv.data()), iv.size());
+
+            CryptoPP::SecureWipeArray(key.data(), key.size());
+
+            CryptoPP::StreamTransformationFilter f2(dec, new CryptoPP::Redirector(recover));
+            secureData.CopyTo(f2);
+            f2.MessageEnd();
+
+            ByteArray32 outputBytes;
+            recover.Get(reinterpret_cast<CryptoPP::byte*>(&outputBytes[0]), outputBytes.size());
+            recover.Clear();
+
+            return outputBytes;
         }
 
         bool decodeAccountIdToPublicKey(const std::string & accountId, ByteArray32& publicKey)

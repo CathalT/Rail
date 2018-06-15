@@ -48,10 +48,10 @@ namespace rail
             virtual void getAccountBalance(const std::string & address) override;
             virtual void startWebServer() override;
 
-            virtual std::string send(const rail::blocks::Send& sendBlock) override;
-            virtual std::string receive(const rail::blocks::Receive& receiveBlock) override;
-            virtual std::string open(const rail::blocks::Open& openBlock) override;
-            virtual std::string change(const rail::blocks::Change& changeBlock) override;
+            virtual std::string send(rail::blocks::Send& sendBlock) override;
+            virtual std::string receive(rail::blocks::Receive& receiveBlock) override;
+            virtual std::string open(rail::blocks::Open& openBlock) override;
+            virtual std::string change(rail::blocks::Change& changeBlock) override;
 
         private:
             utility::string_t processBlockSync(const utility::string_t& block);

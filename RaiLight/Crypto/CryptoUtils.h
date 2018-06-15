@@ -7,6 +7,7 @@
 
 namespace rail
 {
+    class MemoryFan;
     namespace CryptoUtils
     {
         ByteArray64 signMessage(const ByteArray32& privateKey, const ByteArray32& publicKey, const ByteArray32& hashedMessage);
@@ -16,5 +17,6 @@ namespace rail
         ByteArray32 blockHash(const std::vector<ByteArray32>& vStr);
         bool decodeAccountIdToPublicKey(const std::string & accoundId, ByteArray32& publicKey);
         std::string encodePublicKeyToAddress(const ByteArray32& publicKey);
+        ByteArray32 AESDecryptByteArray32(const std::vector<std::byte> & encryptedData, MemoryFan* obfuscatedKey, const ByteArray16& iv);
     }
 }

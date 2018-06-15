@@ -1,8 +1,8 @@
 #pragma once
 
-#include <cryptopp/config.h>
-#include <cryptopp/aes.h>
-#include <cryptopp/queue.h>
+#include <cryptopp\config.h>
+#include <cryptopp\aes.h>
+#include <cryptopp\queue.h>
 
 #include <vector>
 #include <memory>
@@ -15,21 +15,24 @@ namespace rail
     class SecureData
     {
     public:
-        SecureData(DataType& data);
-
+        SecureData() = default;
+        SecureData(DataType& _data, MemoryFan* _obfuscatedKey);
+        ~SecureData();
         std::vector<std::byte> getEncryptedData();
+        std::array<std::byte, CryptoPP::AES::BLOCKSIZE> getIv() const;
+
+        SecureData(const SecureData& other);
+        SecureData(SecureData&& other);
+        SecureData& operator= (const SecureData& other);
+        SecureData& operator= (SecureData&& other);
 
     protected:
         std::vector<std::byte> getData();
 
     private:
+        MemoryFan * obfuscatedKey{ nullptr };
 
-        std::unique_ptr<MemoryFan> keyFan;
-
-        byte key[CryptoPP::AES::MAX_KEYLENGTH];
-        byte iv[CryptoPP::AES::BLOCKSIZE];
-
-        size_t dataSize{ 0 };
+        std::array<std::byte, CryptoPP::AES::BLOCKSIZE> iv;
 
         CryptoPP::ByteQueue secureData;
     };

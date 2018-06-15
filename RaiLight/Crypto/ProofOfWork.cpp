@@ -45,10 +45,10 @@ static uint64_t sizeOfWorkDone(const rail::ByteArray32 & hashedBlock, uint64_t w
     return result;
 }
 
-static bool isWorkValid(const rail::ByteArray32 & hashedBlock, uint64_t workDone)
+/*static bool isWorkValid(const rail::ByteArray32 & hashedBlock, uint64_t workDone)
 {
     return sizeOfWorkDone(hashedBlock, workDone) > PUBLISH_THRESHOLD;
-}
+}*/
 
 uint64_t rail::Pow::generateWork(const rail::ByteArray32& inputHash)
 {

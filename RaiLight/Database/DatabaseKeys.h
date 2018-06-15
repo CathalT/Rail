@@ -9,6 +9,7 @@ namespace rail::key
         constexpr char* const PASS_SALT = "pass_salt";
         constexpr char* const KEY_SALT = "key_salt";
         constexpr char* const LATEST_BLOCK = "latest_block_";
+        constexpr char* const SEED_IV = "seed_iv";
     }
 
     namespace uint

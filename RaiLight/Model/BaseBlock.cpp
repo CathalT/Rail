@@ -2,13 +2,15 @@
 
 #include "Crypto\CryptoUtils.h"
 #include "Utilities\Conversions.h"
+
+#include <cryptopp\misc.h>
 #include <blake2\blake2.h>
 
 namespace rail
 {
     namespace blocks
     {
-        Block::Block(const ByteArray32& _prevBlock, const ByteArray32& _privateKey, const ByteArray32& _publicKey, const VectorOfBytes& _toBeHashed) :
+        Block::Block(const ByteArray32& _prevBlock, const SecureContainer<ByteArray32>& _privateKey, const ByteArray32& _publicKey, const VectorOfBytes& _toBeHashed) :
             previousBlockHash(_prevBlock),
             privateKey(_privateKey),
             publicKey(_publicKey),
@@ -22,10 +24,10 @@ namespace rail
             return CryptoUtils::encodePublicKeyToAddress(publicKey);
         }
 
-        std::string Block::getPrivateKey() const
+        /*std::string Block::getPrivateKey() const
         {
             return Conversions::encodeToHexStr(privateKey);
-        }
+        }*/
 
         std::string Block::getPublicKey() const
         {
@@ -52,9 +54,11 @@ namespace rail
             return CryptoUtils::blockHash(toBeHashed);
         }
 
-        std::string Block::getSignature() const
+        std::string Block::getSignature()
         {
-            const auto sig = CryptoUtils::signMessage(privateKey, publicKey, getBlockHash());
+            auto decryptedPrvKey = privateKey.getContainer();
+            const auto sig = CryptoUtils::signMessage(decryptedPrvKey, publicKey, getBlockHash());
+            CryptoPP::SecureWipeArray(decryptedPrvKey.data(), decryptedPrvKey.size());
             const auto sigStr = Conversions::encodeToHexStr(sig);
             return sigStr;
         }

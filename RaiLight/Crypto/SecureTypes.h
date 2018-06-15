@@ -7,5 +7,6 @@
 
 namespace rail
 {
-    using SByteArray32UPtr = std::unique_ptr< SecureContainer< ByteArray32 > >;
+    using SByteArray32 = SecureContainer<ByteArray32> ;
+    using SByteArray32UPtr = std::unique_ptr<SByteArray32> ;
 }

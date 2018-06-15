@@ -10,7 +10,7 @@ namespace rail
     namespace blocks
     {
         Send::Send(const ByteArray32 & _previousBlock, const ByteArray32 & _destination,
-            const ByteArray16 & _amountToSend, const ByteArray32 & _privateKey,
+            const ByteArray16 & _amountToSend, const SecureContainer<ByteArray32> & _privateKey,
             const ByteArray32 & _publicKey) :
             Block(_previousBlock, _privateKey, _publicKey, {}),
             destinationAccount(_destination),

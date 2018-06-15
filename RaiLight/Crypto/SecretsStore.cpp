@@ -2,7 +2,9 @@
 
 #include "Controllers\ICore.h"
 #include "Crypto\PasswordHasher.h"
+
 #include "Database\RailDb.h"
+#include "Database\DatabaseKeys.h"
 
 #include "Utilities\MemoryFan.h"
 #include "Utilities\Conversions.h"
@@ -23,7 +25,9 @@ namespace rail
             if (decodedSeed)
             {
                 std::lock_guard<std::shared_mutex> lock(ssMutex);
-                secureSeed = std::make_unique<SecureContainer<ByteArray32>>(*decodedSeed);
+
+                //Temporarily encrypt seed with generated key until password has been input.
+                secureSeed = std::make_unique<SecureContainer<ByteArray32>>(*decodedSeed, generatedKey.get());
             }
         }
     }
@@ -34,8 +38,11 @@ namespace rail
 
     void SecretsStore::setSeed(ByteArray32& seed)
     {
-        std::lock_guard<std::shared_mutex> lock(ssMutex);
-        secureSeed = std::make_unique<SecureContainer<ByteArray32>>(seed);
+        {
+            std::lock_guard<std::shared_mutex> lock(ssMutex);
+            secureSeed = std::make_unique<SecureContainer<ByteArray32>>(seed, passwordKey ? passwordKey.get() : generatedKey.get());
+        }
+        
         CryptoPP::SecureWipeArray(seed.data(), seed.size());
     }
 
@@ -48,8 +55,10 @@ namespace rail
 
             if (decodedSeed)
             {
-                std::lock_guard<std::shared_mutex> lock(ssMutex);
-                secureSeed = std::make_unique<SecureContainer<ByteArray32>>(*decodedSeed);
+                {
+                    std::lock_guard<std::shared_mutex> lock(ssMutex);
+                    secureSeed = std::make_unique<SecureContainer<ByteArray32>>(*decodedSeed, passwordKey ? passwordKey.get() : generatedKey.get());
+                }
             }
         }
     }
@@ -65,6 +74,21 @@ namespace rail
         rail::CryptoUtils::hashPasswordAndStore(coreController->getDatabase(), password);
         auto keyBytes = rail::CryptoUtils::generateKeyFromPassword(coreController->getDatabase(), password);
         passwordKey = std::make_unique<MemoryFan>(keyBytes, 1024);
+        
+        {
+            std::lock_guard<std::shared_mutex> lock(ssMutex);
+            if (secureSeed)
+            {
+                auto tempSeed = secureSeed->getContainer();
+                secureSeed = std::make_unique<SecureContainer<ByteArray32>>(tempSeed, passwordKey.get());
+
+                auto encryptedSeed = secureSeed->getEncryptedData();
+
+                coreController->getDatabase()->storeDynamicValue(key::bytes::SEED, encryptedSeed.data(), encryptedSeed.size(), true);
+                coreController->getDatabase()->storeValue(key::bytes::SEED_IV, secureSeed->getIv(), true);
+            }
+        }
+
         CryptoPP::SecureWipeArray(password.c_str(), password.size());
     }
 
@@ -82,10 +106,12 @@ namespace rail
     {
         std::optional<ByteArray32> returnSeed;
 
-        if (secureSeed)
         {
             std::lock_guard<std::shared_mutex> lock(ssMutex);
-            returnSeed = secureSeed->getContainer();
+            if (secureSeed)
+            {
+                returnSeed = secureSeed->getContainer();
+            }
         }
 
         return returnSeed;

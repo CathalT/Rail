@@ -25,10 +25,17 @@ namespace rail
         bool storeValue(const char* key, const uint32_t index, const T& val, const bool safeWrite = false);
 
         template<typename T>
+        bool storeDynamicValue(const char* key, const T& val, const size_t size, const bool safeWrite = false);
+
+        template<typename T>
         std::optional<T> getValue(const char* key);
 
         template<typename T>
         std::optional<T> getValue(const char* key, const uint32_t index);
+
+        template<typename T>
+        std::optional<T> getDynamicValue(const char* key);
+        
     private:
         const char* keyWithIndex(const char* key, const uint32_t index);
     private:

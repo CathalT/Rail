@@ -24,13 +24,18 @@ namespace rail::CryptoUtils
     ByteArray32 generateKeyFromPassword(rail::RailDb * database, const std::string & password)
     {
         ByteArray32 salt;
-        CryptoUtils::getRandomData(salt.data(), salt.size());
+        if (auto prevSalt = database->getValue<ByteArray32>(key::bytes::KEY_SALT))
+        {
+            salt = *prevSalt;
+            CryptoPP::SecureWipeArray((*prevSalt).data(), (*prevSalt).size());
+        }
+        else
+        {
+            CryptoUtils::getRandomData(salt.data(), salt.size());
+            database->storeValue(key::bytes::KEY_SALT, salt, true);
+        }
 
-        ByteArray32 hash = hashPassword(password, salt);
-
-        database->storeValue(key::bytes::KEY_SALT, salt, true);
-
-        return hash;
+        return hashPassword(password, salt);
     }
 
     ByteArray32 hashPassword(const std::string & password, const ByteArray32& salt)

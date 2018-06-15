@@ -21,7 +21,7 @@ rail::PasswordVerifier::PasswordVerifier(rail::control::ICore * _coreController,
 
         if (newHash.size() == hash->size())
         {
-            valid = CryptoPP::VerifyBufsEqual(reinterpret_cast<const byte*>(newHash.data()), reinterpret_cast<const byte*>(hash->data()), newHash.size());
+            valid = CryptoPP::VerifyBufsEqual(reinterpret_cast<const CryptoPP::byte*>(newHash.data()), reinterpret_cast<const CryptoPP::byte*>(hash->data()), newHash.size());
         }
     }
 }

@@ -2,6 +2,7 @@
 
 #include "Controllers\IBank.h"
 
+#include "Crypto\SecureTypes.h"
 #include "Model\BasicTypes.h"
 
 #include <string>
@@ -37,7 +38,7 @@ namespace rail
             virtual void init() override;
             virtual std::vector<std::string> getAllAddresses() override;
             virtual ByteArray32 getPublicKeyForAddress(const std::string& address) override;
-            virtual ByteArray32 getPrivateKeyForAddress(const std::string& address) override;
+            virtual SecureContainer<ByteArray32> getPrivateKeyForAddress(const std::string& address) override;
             virtual bool sendToAccount(const std::string& fromAddress, const std::string& toAddress, const std::string& amount) override;
             virtual bool changeRepresentative(const std::string& currentAccount, const std::string& representativeId) override;
             virtual void updateAccountBalances(const std::string& address, const std::string& balance, const std::string& pending) override;

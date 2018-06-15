@@ -9,10 +9,10 @@
 
 int main(int argc, char *argv[])
 {
-    byte data[SIZE];
+    CryptoPP::byte data[SIZE];
     CryptoPP::AutoSeededRandomPool randPool;
 
-    randPool.GenerateBlock(reinterpret_cast<byte*>(&data), SIZE);
+    randPool.GenerateBlock(reinterpret_cast<CryptoPP::byte*>(&data), SIZE);
 
     bool shouldAppendComma = true;
     std::stringstream stream;

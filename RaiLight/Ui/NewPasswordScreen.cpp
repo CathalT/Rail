@@ -18,7 +18,9 @@ void NewPasswordScreen::onConfirmClicked()
 {
     if (ui.firstPasswordTextBox->text() == ui.secondPasswordTextbox->text())
     {
+        //Wipe old seed etc. when new seed created.
         coreController->getSecretsStore()->setPassword(ui.firstPasswordTextBox->text().toStdString());
+        //coreController->getDatabase()->deleteValue(key::bytes::SEED);
         emit onPasswordMatch();
     }
 }

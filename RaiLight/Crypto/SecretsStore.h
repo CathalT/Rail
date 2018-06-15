@@ -1,7 +1,8 @@
 #pragma once
 
-#include "Model\BasicTypes.h"
 #include "Crypto\SecureTypes.h"
+
+#include "Model\BasicTypes.h"
 
 #include <memory>
 #include <optional>
@@ -40,7 +41,8 @@ namespace rail
         std::unique_ptr<MemoryFan> generatedKey;
         std::unique_ptr<MemoryFan> passwordKey;
 
-        SByteArray32UPtr secureSeed;
+        SByteArray32UPtr sssecureSeed;
+        std::unique_ptr< SecureContainer< ByteArray32 > > secureSeed;
 
         std::shared_mutex ssMutex;
     };

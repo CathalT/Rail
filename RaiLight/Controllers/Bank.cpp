@@ -208,27 +208,38 @@ namespace rail
             auto isSeedSet = coreController->getSecretsStore()->isSeedSet();
             if (!isSeedSet)
             {
-                if (auto dbSeed = coreController->getDatabase()->getValue<ByteArray32>(key::bytes::SEED))
+                if (auto dbSeed = coreController->getDatabase()->getDynamicValue<std::vector<std::byte>>(key::bytes::SEED))
                 {
-                    coreController->getSecretsStore()->setSeed(*dbSeed);
+                    auto seedIv = coreController->getDatabase()->getValue<ByteArray16>(key::bytes::SEED_IV);
+                    auto decryptedSeed = CryptoUtils::AESDecryptByteArray32(*dbSeed, coreController->getSecretsStore()->getPasswordKey(), *seedIv);
+
                     if (const auto accIdx = coreController->getDatabase()->getValue<uint32_t>(key::uint::ACCOUNT_INDEX))
                     {
                         for (uint32_t i = 0; i < accIdx; ++i)
                         {
-                            addAccount(generateNewAccountFromSeed(dbSeed.value()));
+                            addAccount(generateNewAccountFromSeed(decryptedSeed));
                         }
                     }
                     else
                     {
-                        addAccount(generateNewAccountFromSeed(dbSeed.value()));
+                        addAccount(generateNewAccountFromSeed(decryptedSeed));
                     }
+
+                    coreController->getSecretsStore()->setSeed(decryptedSeed);
 
                     syncCurrentAccounts();
                 }
                 else
                 {
-                    const auto generatedSeed = CryptoUtils::getRandom32ByteBlock();
-                    coreController->getDatabase()->storeValue(key::bytes::SEED, generatedSeed, true);
+                    auto generatedSeed = CryptoUtils::getRandom32ByteBlock();
+
+                    auto seedCopy = generatedSeed;
+                    SecureContainer<ByteArray32> secureSeed(seedCopy, coreController->getSecretsStore()->getPasswordKey());
+
+                    coreController->getSecretsStore()->setSeed(generatedSeed);
+
+                    coreController->getDatabase()->storeValue(key::bytes::SEED, secureSeed.getEncryptedData(), true);
+                    coreController->getDatabase()->storeValue(key::bytes::SEED_IV, secureSeed.getIv(), true);
 
                     addAccount(generateNewAccountFromSeed(generatedSeed));
 
@@ -270,9 +281,9 @@ namespace rail
             return publicKey;
         }
 
-        ByteArray32 Bank::getPrivateKeyForAddress(const std::string & address)
+        SecureContainer<ByteArray32> Bank::getPrivateKeyForAddress(const std::string & address)
         {
-            ByteArray32 privateKey{};
+            SecureContainer<ByteArray32> privateKey;
 
             std::shared_lock<std::shared_mutex> lock(accountsMutex);
 
@@ -289,17 +300,20 @@ namespace rail
         std::unique_ptr<Account> Bank::generateNewAccountFromSeed(const ByteArray32& seed)
         {
             auto index(nextSeedIndex.load());
-            const auto newPrivateKey = CryptoUtils::generateKeyFromSeedAndIndex(seed, index);
+            auto newPrivateKey = CryptoUtils::generateKeyFromSeedAndIndex(seed, index);
+
             const auto publicKey = CryptoUtils::generatePublicKeyFromPrivateKey(newPrivateKey);
             const auto address = CryptoUtils::encodePublicKeyToAddress(publicKey);
-            
+
+            const auto securePrivateKey = SecureContainer<ByteArray32>(newPrivateKey, coreController->getSecretsStore()->getPasswordKey());
+
             if (index > 0)
             {
                 coreController->getDatabase()->storeValue(key::uint::ACCOUNT_INDEX, index);
             }
 
             ++nextSeedIndex;
-            return std::make_unique<Account>(newPrivateKey, publicKey, index, address);
+            return std::make_unique<Account>(securePrivateKey, publicKey, index, address);
         }
 
         void Bank::addAccount(std::unique_ptr<Account> account)

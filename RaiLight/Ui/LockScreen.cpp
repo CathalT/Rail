@@ -2,6 +2,7 @@
 
 #include "Controllers\ICore.h"
 #include "Crypto\PasswordVerifier.h"
+#include "Crypto\SecretsStore.h"
 
 #include <QMessageBox>
 
@@ -22,6 +23,7 @@ void LockScreen::onPasswordEntered()
     const auto password = ui.passwordBox->text().toStdString();
     if (!password.empty() && rail::PasswordVerifier(coreController, password).isValid())
     {
+        coreController->getSecretsStore()->setPassword(password);
         emit passwordCorrect();
     }
     else

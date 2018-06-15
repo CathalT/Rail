@@ -2,9 +2,9 @@
 
 namespace rail
 {
-    SecureString::SecureString(std::string & inputStr) : SecureData<std::string>(inputStr)
+    SecureString::SecureString(std::string & _inputStr, MemoryFan* _obfuscatedKey) : SecureData<std::string>(_inputStr, _obfuscatedKey)
     {
-        CryptoPP::SecureWipeArray(inputStr.c_str(), inputStr.size());
+        CryptoPP::SecureWipeArray(_inputStr.c_str(), _inputStr.size());
     }
 
     std::string SecureString::getString()

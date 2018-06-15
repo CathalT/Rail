@@ -26,8 +26,8 @@ RaiLight::RaiLight(ICore* _coreController) :
 {
     ui.setupUi(this);
 
-    auto seed = _coreController->getSecretsStore()->getSeed();
-    if (!seed)
+    auto isSeedSet = _coreController->getSecretsStore()->isSeedSet();
+    if (!isSeedSet)
     {
         const auto seedBytes = _coreController->getDatabase()->getValue<ByteArray32>(key::bytes::SEED);
         if (seedBytes)

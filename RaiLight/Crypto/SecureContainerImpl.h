@@ -1,15 +1,16 @@
 #pragma once
 
-#include <Crypto/SecureData.h>
+#include "Crypto/SecureData.h"
+#include "Utilities/MemoryFan.h"
 
 #include <cryptopp/misc.h>
 
 namespace rail
 {
     template<typename Container>
-    inline SecureContainer<Container>::SecureContainer(Container & inputContainer) : SecureData<Container>(inputContainer)
+    inline SecureContainer<Container>::SecureContainer(Container & _inputContainer, MemoryFan* _obfuscatedKey) : SecureData<Container>(_inputContainer, _obfuscatedKey)
     {
-        CryptoPP::SecureWipeArray(inputContainer.data(), inputContainer.size());
+        CryptoPP::SecureWipeArray(_inputContainer.data(), _inputContainer.size());
     }
 
     template<typename Container>
@@ -24,5 +25,4 @@ namespace rail
 
         return returnContainer;
     }
-
 }

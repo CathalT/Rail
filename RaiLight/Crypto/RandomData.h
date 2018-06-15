@@ -11,7 +11,7 @@ namespace rail
         {
             CryptoPP::AutoSeededRandomPool randPool;
 
-            randPool.GenerateBlock(reinterpret_cast<byte*>(outputData.data()), outputData.size());
+            randPool.GenerateBlock(reinterpret_cast<CryptoPP::byte*>(outputData.data()), outputData.size());
         }
     }
 }

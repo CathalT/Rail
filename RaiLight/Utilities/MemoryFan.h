@@ -8,7 +8,6 @@ namespace rail
     {
     public:
         MemoryFan(ByteArray32 & key, const size_t count_a);
-        //~MemoryFan();
         ByteArray32 getValue();
 
     private:

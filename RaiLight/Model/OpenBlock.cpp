@@ -7,7 +7,7 @@ namespace rail
 {
     namespace blocks
     {
-        Open::Open(const ByteArray32 & _privateKey, const ByteArray32 & _publicKey, const ByteArray32 & _sourceBlock, const ByteArray32 & _representative) :
+        Open::Open(const SecureContainer<ByteArray32> & _privateKey, const ByteArray32 & _publicKey, const ByteArray32 & _sourceBlock, const ByteArray32 & _representative) :
             Block(_sourceBlock, _privateKey, _publicKey, { _sourceBlock , _representative, _publicKey } ),
             sourceBlock(_sourceBlock),
             representative(_representative)

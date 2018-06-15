@@ -34,13 +34,10 @@ namespace rail
             virtual void            getAccountBalance(const std::string& account) = 0;
             virtual void            startWebServer() = 0;
 
-            virtual std::string send(const blocks::Send& sendBlock) = 0;
-            virtual std::string receive(const blocks::Receive& recieveBlock) = 0;
-            virtual std::string open(const blocks::Open& openBlock) = 0;
-            virtual std::string change(const blocks::Change& changeBlock) = 0;
-
-            //utility::string_t processBlock(const ByteArray32& privateKey, const ByteArray32& publicKey, const std::string& accoundId);
-            //utility::string_t getPendingBlock();
+            virtual std::string send(blocks::Send& sendBlock) = 0;
+            virtual std::string receive(blocks::Receive& recieveBlock) = 0;
+            virtual std::string open(blocks::Open& openBlock) = 0;
+            virtual std::string change(blocks::Change& changeBlock) = 0;
         };
     }
 }
