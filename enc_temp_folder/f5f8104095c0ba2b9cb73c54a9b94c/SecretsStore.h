@@ -41,6 +41,7 @@ namespace rail
         std::unique_ptr<MemoryFan> generatedKey;
         std::unique_ptr<MemoryFan> passwordKey;
 
+        SByteArray32UPtr sssecureSeed;
         std::unique_ptr< SecureContainer< ByteArray32 > > secureSeed;
 
         std::shared_mutex ssMutex;
