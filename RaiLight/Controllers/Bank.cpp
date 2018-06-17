@@ -501,6 +501,8 @@ namespace rail
                     a.second->accountOpen = isOpen.value();
                 }
             }
+
+            finishRetrievingAccounts();
         }
 
         //TODO: Refactor this mess as well.
