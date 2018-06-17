@@ -28,8 +28,8 @@ namespace rail
 
         static bool validatePublicKey(const uInt512_t& checksum, const ByteArray32& pubKey)
         {
-            uint64_t check(checksum.convert_to<uint64_t>());
-            check &= 0xffffffffff;
+            //uint64_t check(checksum.convert_to<uint64_t>());
+            uint64_t check = static_cast<uint64_t>(checksum & static_cast<uint64_t>(0xffffffffff));
 
             return check == expectedChecksum(pubKey);
         }
@@ -134,7 +134,7 @@ namespace rail
 
             for (auto i(0); i < 60; ++i)
             {
-                auto r(binary.convert_to<uint8_t>() & 0x1f);
+                uint8_t r(binary & static_cast<uint8_t> (0x1f));
                 binary >>= 5;
                 accountId.push_back(Conversions::encodeByte(static_cast<uint8_t>(r)));
             }

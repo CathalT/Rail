@@ -26,7 +26,8 @@ namespace rail
 
             for (auto i(outputArray.rbegin()), n(outputArray.rend()); i != n; ++i)
             {
-                *i = static_cast<ByteArray::value_type>(((input) & 0xff).convert_to<uint8_t>());
+                auto byte = static_cast<uint8_t>((input) & static_cast<uint8_t> (0xff));
+                *i = static_cast<ByteArray::value_type>(byte);
                 input >>= 8;
             }
 
