@@ -18,8 +18,7 @@ namespace rail
         std::string                 toStdString(const utility::string_t & utilStr);
         std::string                 uint64ToHexStr(uint64_t input);
         std::optional<ByteArray32>  decodeHexFromString(const std::string& stdStr);
-        //TODO: Candidate for removal
-        //std::optional<ByteArray16>  decodeDecimalFromString(const std::string& stdStr);
+        std::optional<ByteArray16>  decodeDecimalFromString(const std::string& stdStr);
 
         template<typename Num, typename ByteArray>
         Num hexBytesToInt(const ByteArray& input);

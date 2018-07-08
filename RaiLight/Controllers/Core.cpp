@@ -6,9 +6,6 @@
 #include "Endpoints\IEndpoint.h"
 #include "Endpoints\HttpClient.h"
 
-#include "Model\IBlockStore.h"
-#include "Model\BlockStore.h"
-
 #include "Utilities\WorkLoop.h"
 #include "Utilities\Conversions.h"
 #include "Utilities\MemoryFan.h"
@@ -27,11 +24,11 @@ namespace rail
     {
         Core::~Core() = default;
 
-        Core::Core(const std::string& _nodeIp, const std::string& _seed) :
+        Core::Core(const std::string& _nodeIp, const std::string& _listenPort, const std::string& _seed) :
             workLoop(std::make_unique<WorkLoop>()),   
             bank(std::make_unique<Bank>(this)),
             marshaller(std::make_unique<Marshaller>(this)),
-            endpoint(std::make_unique<endpoint::RaiRCPClient>(_nodeIp, this)),
+            endpoint(std::make_unique<endpoint::RaiRCPClient>(_nodeIp, _listenPort, this)),
             database(std::make_unique<RailDb>())
         {
             extern ByteArray32 secret_key;

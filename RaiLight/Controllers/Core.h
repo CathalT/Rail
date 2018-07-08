@@ -24,7 +24,7 @@ namespace rail
         class Core : public ICore
         {
         public:
-            Core(const std::string& _nodeIp, const std::string& seed);
+            Core(const std::string& _nodeIp, const std::string& _listenPort, const std::string& seed);
             virtual ~Core();
 
             virtual IBank* getBank() override;

@@ -13,7 +13,8 @@
 
 #define U(x) _XPLATSTR(x)
 
-static constexpr auto SERVER_PATH = U("http://127.0.0.1:8080");
+static constexpr auto LOCAL_ADDRESS = U("http://127.0.0.1:");
+static constexpr auto DEFAULT_LISTEN_PORT = U("8080");
 
 using namespace web;
 using namespace http;
@@ -22,9 +23,19 @@ namespace rail
 {
     namespace endpoint
     {
-        Webserver::Webserver(control::ICore* coreController) : coreController(coreController), started(false)
+        Webserver::Webserver(control::ICore* _coreController, const std::string& _listenPort) : coreController(_coreController), started(false)
         {
-            webserver = std::make_unique<web::http::experimental::listener::http_listener>(SERVER_PATH);
+            utility::string_t listenAddress;
+            if (_listenPort.empty())
+            {
+                listenAddress = LOCAL_ADDRESS + utility::string_t(DEFAULT_LISTEN_PORT);
+            }
+            else
+            {
+                listenAddress = LOCAL_ADDRESS + Conversions::toUtilString(_listenPort);
+            }
+
+            webserver = std::make_unique<web::http::experimental::listener::http_listener>(listenAddress);
             webserver->support(methods::POST, std::bind(&Webserver::handlePost, this, std::placeholders::_1));
         }
 

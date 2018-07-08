@@ -4,6 +4,7 @@
 
 #include <string>
 #include <vector>
+#include <optional>
 
 namespace rail
 {
@@ -15,7 +16,7 @@ namespace rail
         ByteArray32 generateKeyFromSeedAndIndex(const ByteArray32& seed, const uint32_t index);
         ByteArray32 generatePublicKeyFromPrivateKey(const ByteArray32& privateKey);
         ByteArray32 blockHash(const std::vector<ByteArray32>& vStr);
-        bool decodeAccountIdToPublicKey(const std::string & accoundId, ByteArray32& publicKey);
+        std::optional<ByteArray32> decodeAccountIdToPublicKey(const std::string & accoundId);
         std::string encodePublicKeyToAddress(const ByteArray32& publicKey);
         ByteArray32 AESDecryptByteArray32(const std::vector<std::byte> & encryptedData, MemoryFan* obfuscatedKey, const ByteArray16& iv);
     }

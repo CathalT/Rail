@@ -12,9 +12,11 @@ namespace rail
 
         QString getSeed();
         QString getNodeAddress();
+        QString getListenPort();
 
     private:
         QString seed;
         QString nodeAddress;
+        QString listenPort;
     };
 }

@@ -74,6 +74,35 @@ namespace rail
         return outArray;
     }
 
+
+    std::optional<ByteArray16> Conversions::decodeDecimalFromString(const std::string& stdStr)
+    {
+        std::optional<ByteArray16> outArray;
+        auto error(stdStr.size() > 39 || (stdStr.size() > 1 && stdStr[0] == '0') || (stdStr.size() > 0 && stdStr[0] == '-'));
+
+        if (!error)
+        {
+            std::stringstream stream(stdStr);
+            stream << std::dec << std::noshowbase;
+            uInt128_t number;
+            try
+            {
+                stream >> number;
+                outArray = Conversions::intToByteArray<ByteArray16>(number);
+                if (!stream.eof())
+                {
+                    outArray = {};
+                }
+            }
+            catch (std::runtime_error &)
+            {
+                outArray = {};
+            }
+        }
+
+        return outArray;
+    }
+
     std::string Conversions::toStdString(const utility::string_t& utilStr)
     {
 #ifdef _WIN32

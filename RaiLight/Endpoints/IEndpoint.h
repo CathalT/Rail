@@ -8,7 +8,7 @@ namespace rail
 {
     namespace blocks
     {
-        class Send;
+        class StateBlock;
         class Receive;
         class Open;
         class Change;
@@ -34,10 +34,7 @@ namespace rail
             virtual void            getAccountBalance(const std::string& account) = 0;
             virtual void            startWebServer() = 0;
 
-            virtual std::string send(blocks::Send& sendBlock) = 0;
-            virtual std::string receive(blocks::Receive& recieveBlock) = 0;
-            virtual std::string open(blocks::Open& openBlock) = 0;
-            virtual std::string change(blocks::Change& changeBlock) = 0;
+            virtual std::string sendStateBlock(blocks::StateBlock& sendBlock) = 0;
         };
     }
 }

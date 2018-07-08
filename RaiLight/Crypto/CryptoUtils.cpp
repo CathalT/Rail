@@ -90,9 +90,9 @@ namespace rail
             return outputBytes;
         }
 
-        bool decodeAccountIdToPublicKey(const std::string & accountId, ByteArray32& publicKey)
+        std::optional<ByteArray32> decodeAccountIdToPublicKey(const std::string & accountId)
         {
-            return decodeAccountIdToPublicKeyImpl(accountId , publicKey);
+            return decodeAccountIdToPublicKeyImpl(accountId);
         }
 
         ByteArray32 blockHash(const std::vector<ByteArray32>& vStr)

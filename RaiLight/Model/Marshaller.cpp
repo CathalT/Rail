@@ -4,6 +4,7 @@
 #include "Controllers\IBank.h"
 #include "Model\BasicTypes.h"
 #include "Model\Account.h"
+#include "Model\PendingBlock.h"
 #include "Utilities\Conversions.h"
 
 #pragma warning( push )
@@ -66,14 +67,22 @@ namespace rail
         }
     }
 
-    void Marshaller::parsePendingBlocks(const std::string& address, const web::json::array & pendingBlocks)
+    void Marshaller::parsePendingBlocks(const std::string& address, const web::json::object & pendingBlocks)
     {
-        std::vector<std::string> blocks;
+        std::vector<rail::blocks::PendingBlock> blocks;
         blocks.reserve(pendingBlocks.size());
 
         for(const auto block : pendingBlocks)
         {
-            blocks.push_back(Conversions::toStdString(block.as_string()));
+            const auto blockHash = Conversions::toStdString(block.first);
+
+            if (block.second.has_field(U("amount")))
+            {
+                auto amount = block.second.at(U("amount")).to_string();
+                amount.erase(amount.begin());
+                amount.erase(amount.end()-1);
+                blocks.emplace_back(blockHash, Conversions::toStdString(amount));
+            }
         }
 
         coreController->getBank()->updatePendingBlocks(address, blocks);

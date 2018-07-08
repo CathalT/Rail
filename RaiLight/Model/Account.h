@@ -2,6 +2,7 @@
 
 #include "Model\BasicTypes.h"
 #include "Crypto\SecureTypes.h"
+#include "Model\PendingBlock.h"
 
 #include <stack>
 
@@ -33,11 +34,13 @@ namespace rail
         ByteArray32                                 publicKey;
         uint32_t                                    index{ 0 };
         std::string                                 accountId;
-        uint32_t                                    balance{ 0 };
-        uint32_t                                    pendingBalance{ 0 };
+        ByteArray32                                 representative;
+        uint64_t                                    balance{ 0 };
+        uint64_t                                    pendingBalance{ 0 };
         std::stack<ByteArray32>                     latestBlocks;
-        std::vector<ByteArray32>                    pendingBlocks;
+        std::vector<blocks::PendingBlock>           pendingBlocks;
         std::vector<Transaction>                    previousTransactions;
         bool                                        accountOpen{ false };
+        uint64_t                                    cachedWork{ 0 };
     };
 }

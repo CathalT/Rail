@@ -30,7 +30,7 @@ namespace rail
         class Webserver
         {
         public:
-            explicit Webserver(control::ICore* coreController);
+            explicit Webserver(control::ICore* _coreController, const std::string& _listenPort);
             void start();
             virtual ~Webserver();
 

@@ -2,11 +2,13 @@
 
 #include "Model\BasicTypes.h"
 
+#include <optional>
+
 namespace rail
 {
     namespace CryptoUtils
     {
-        bool decodeAccountIdToPublicKeyImpl(const std::string & accoundId, ByteArray32& publicKey);
+        std::optional<ByteArray32> decodeAccountIdToPublicKeyImpl(const std::string & accoundId);
         std::string encodePublicKeyToAccountIdImpl(const ByteArray32& publicKey);
     }
 }

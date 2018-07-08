@@ -42,23 +42,26 @@ namespace rail
             virtual bool sendToAccount(const std::string& fromAddress, const std::string& toAddress, const std::string& amount) override;
             virtual bool changeRepresentative(const std::string& currentAccount, const std::string& representativeId) override;
             virtual void updateAccountBalances(const std::string& address, const std::string& balance, const std::string& pending) override;
-            virtual void updatePendingBlocks(const std::string& address, const std::vector<std::string>& pendingBlocks) override;
+            virtual void updatePendingBlocks(const std::string& address, const std::vector<blocks::PendingBlock>& pendingBlocks) override;
             virtual void updateTransactionHistory(const std::string& address, const std::vector<Transaction>& transactions) override;
             virtual std::vector<Transaction> getTransactionHistory(const std::string & address) override;
 
 
-            virtual uint32_t getAccountBalance(const std::string& address) override;
-            virtual uint32_t getAccountPendingBalance(const std::string& address) override;
+            virtual uint64_t getAccountBalance(const std::string& address) override;
+            virtual uint64_t getAccountPendingBalance(const std::string& address) override;
+            virtual uint64_t getCachedWorkForAddress(const std::string& address) override;
+
             virtual bool isRetrievingAccounts() override;
 
             virtual void proccessCallbackBlocks(const std::string & address, const std::string & incomingHash) override;
 
         private:
             void finishRetrievingAccounts();
-            bool addPendingBlocksToAccount(const std::string& address, const std::vector<std::string>& pendingBlocks);
+            bool addPendingBlocksToAccount(const std::string& address, const std::vector<blocks::PendingBlock>& pendingBlocks);
             void processPendingBlocks(const std::string& address);
             void storeLatestBlock(const std::string & address, const std::string & latestBlockHash);
-
+            
+            bool verifyAccount(Account* account);
             void syncAccountsFromSeed();
             void syncCurrentAccounts();
 
@@ -70,7 +73,6 @@ namespace rail
             std::atomic<uint32_t>                            nextSeedIndex;
             std::atomic<bool>                                retrievingAccounts;
             std::atomic<bool>                                processingPendingTransactions;
-            std::unique_ptr<blocks::IBlockStore>             blockStore;
 
             std::shared_mutex                                accountsMutex;
             std::map<std::string, std::unique_ptr<Account> > accounts;

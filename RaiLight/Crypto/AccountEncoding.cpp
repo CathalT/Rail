@@ -96,9 +96,9 @@ namespace rail
             return accountCopy;
         }
 
-        bool decodeAccountIdToPublicKeyImpl(const std::string & accountId, ByteArray32& publicKey)
+        std::optional<ByteArray32> decodeAccountIdToPublicKeyImpl(const std::string & accountId)
         {
-            bool succeeded{ false };
+            std::optional<ByteArray32> pubKey;
 
             if (accountId.size() == ACCOUNT_SIZE)
             {
@@ -108,13 +108,16 @@ namespace rail
                     uInt512_t accountNum(0);   
                     if (decodeStrToBytes(accountCopy, accountNum))
                     {
-                        publicKey = Conversions::intToByteArray<ByteArray32>(getPublicKeyFromNum(accountNum));
-                        succeeded = validatePublicKey(accountNum, publicKey);
+                        auto pk = Conversions::intToByteArray<ByteArray32>(getPublicKeyFromNum(accountNum));
+                        if (validatePublicKey(accountNum, pk))
+                        {
+                            pubKey = pk;
+                        }
                     }
                 }
             }
 
-            return succeeded;
+            return pubKey;
         }
 
         std::string encodePublicKeyToAccountIdImpl(const ByteArray32 & publicKey)

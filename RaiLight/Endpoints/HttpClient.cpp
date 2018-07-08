@@ -4,10 +4,7 @@
 
 #include "Model\EndpointTypes.h"
 
-#include "Model\OpenBlock.h"
-#include "Model\SendBlock.h"
-#include "Model\ReceiveBlock.h"
-#include "Model\ChangeBlock.h"
+#include "Model\StateBlock.h"
 
 #include "Controllers\ICore.h"
 
@@ -39,79 +36,31 @@ namespace rail
     {
         RaiRCPClient::~RaiRCPClient() = default;
 
-        RaiRCPClient::RaiRCPClient(const std::string & _endpoint, rail::control::ICore* _coreController) :
+        RaiRCPClient::RaiRCPClient(const std::string & _endpoint, const std::string & _listenPort, rail::control::ICore* _coreController) :
             httpClient(std::make_unique<http_client>(_endpoint.empty() ? U("http://127.0.0.1") : Conversions::toUtilString(_endpoint))),
-            webserver(std::make_unique<Webserver>(_coreController)),
+            webserver(std::make_unique<Webserver>(_coreController, _listenPort)),
             coreController(_coreController)
         {
         }
 
-        std::string RaiRCPClient::send(blocks::Send& sendBlock)
+        std::string RaiRCPClient::sendStateBlock(blocks::StateBlock& stateBlock)
         {
-            const auto previous = Conversions::toUtilString(sendBlock.getPreviousBlock());
-            const auto destination = Conversions::toUtilString(sendBlock.getDestinationAddress());
-            const auto amountToSend = Conversions::toUtilString(sendBlock.getAmountToSend());
-            const auto signature = Conversions::toUtilString(sendBlock.getSignature());
-            const auto work = Conversions::toUtilString(Conversions::uint64ToHexStr(Pow::generateWork(sendBlock.getPreviousBlockBytes())));
+            const auto previous = Conversions::toUtilString(stateBlock.getPreviousBlock());
+            const auto accountId = Conversions::toUtilString(stateBlock.getAddress());
+            const auto destinationPublickey = Conversions::toUtilString(stateBlock.getDestinationPublicKey());
+            const auto destinationAddress = Conversions::toUtilString(stateBlock.getDestinationAddress());
+            const auto representative = Conversions::toUtilString(stateBlock.getRepresentative());
+            const auto balance = Conversions::toUtilString(stateBlock.getBalance());
+            const auto signature = Conversions::toUtilString(stateBlock.getSignature());
+            const auto work = Conversions::toUtilString(stateBlock.getWork());
 
             utility::stringstream_t ss;
-            ss << U("{ \"type\" : \"send\",");
+            ss << U("{ \"type\" : \"state\",");
+            ss << U("\"account\" : \"") << accountId << U("\",");
             ss << U("\"previous\" : \"") << previous << U("\",");
-            ss << U("\"destination\" : \"") << destination << U("\",");
-            ss << U("\"balance\" : \"") << amountToSend << U("\",");
-            ss << U("\"work\" : \"") << work << U("\",");
-            ss << U("\"signature\" : \"") << signature << U("\"}");
-
-            return Conversions::toStdString(processBlockSync(ss.str()));
-        }
-
-        std::string RaiRCPClient::receive(blocks::Receive& receiveBlock)
-        {
-            const auto previous = Conversions::toUtilString(receiveBlock.getPreviousBlock());
-            const auto source = Conversions::toUtilString(receiveBlock.getSourceBlock());
-            const auto signature = Conversions::toUtilString(receiveBlock.getSignature());
-            const auto work = Conversions::toUtilString(Conversions::uint64ToHexStr(Pow::generateWork(receiveBlock.getPreviousBlockBytes())));
-
-            utility::stringstream_t ss;
-            ss << U("{ \"type\" : \"receive\",");
-            ss << U("\"previous\" : \"") << previous << U("\",");
-            ss << U("\"source\" : \"") << source << U("\",");
-            ss << U("\"work\" : \"") << work << U("\",");
-            ss << U("\"signature\" : \"") << signature << U("\"}");
-
-            return Conversions::toStdString(processBlockSync(ss.str()));
-        }
-
-        std::string RaiRCPClient::open(blocks::Open& openBlock)
-        {
-            const auto address = Conversions::toUtilString(openBlock.getAddress());
-            const auto representative = Conversions::toUtilString(openBlock.getRepresentative());
-            const auto signature = Conversions::toUtilString(openBlock.getSignature());
-            const auto source = Conversions::toUtilString(openBlock.getSourceBlock());
-            const auto work = Conversions::toUtilString(Conversions::uint64ToHexStr(Pow::generateWork(openBlock.getPublicKeyBytes())));
-
-            utility::stringstream_t ss;
-            ss << U("{ \"type\" : \"open\",");
-            ss << U("\"account\" : \"") << address << U("\",");
             ss << U("\"representative\" : \"") << representative << U("\",");
-            ss << U("\"source\" : \"") << source << U("\",");
-            ss << U("\"work\" : \"") << work << U("\",");
-            ss << U("\"signature\" : \"") << signature << U("\"}");
-
-            return Conversions::toStdString(processBlockSync(ss.str()));
-        }
-           
-        std::string RaiRCPClient::change(blocks::Change& changeBlock)
-        {
-            const auto previousBlock = Conversions::toUtilString(changeBlock.getPreviousBlock());
-            const auto representative = Conversions::toUtilString(changeBlock.getRepresentativeAddress());
-            const auto work = Conversions::toUtilString(Conversions::uint64ToHexStr(Pow::generateWork(changeBlock.getPreviousBlockBytes())));
-            const auto signature = Conversions::toUtilString(changeBlock.getSignature());
-
-            utility::stringstream_t ss;
-            ss << U("{ \"type\" : \"change\",");
-            ss << U("\"previous\" : \"") << previousBlock << U("\",");
-            ss << U("\"representative\" : \"") << representative << U("\",");
+            ss << U("\"balance\" : \"") << balance << U("\",");
+            ss << U("\"link\" : \"") << destinationPublickey << U("\",");
             ss << U("\"work\" : \"") << work << U("\",");
             ss << U("\"signature\" : \"") << signature << U("\"}");
 
@@ -125,8 +74,11 @@ namespace rail
             http_request req(methods::POST);
             json::value postParameters(json::value::object());
 
-            postParameters[U("action")] = json::value::string(U("account_block_count"));
+            postParameters[U("action")] = json::value::string(U("account_info"));
             postParameters[U("account")] = json::value::string(rail::Conversions::toUtilString(account));
+            postParameters[U("representative")] = json::value::boolean(true);
+            postParameters[U("weight")] = json::value::boolean(true);
+            postParameters[U("pending")] = json::value::boolean(true);
 
             req.set_body(postParameters);
 
@@ -142,18 +94,62 @@ namespace rail
                             const auto jsonTask = response.extract_json();
                             const auto jsonVal = jsonTask.get();
 
-                            if (jsonVal.has_field(U("block_count")))
-                            {
-                                const auto blockStr = jsonVal.at(U("block_count")).as_string();
-                                accountStatus.blockCount = std::stoull(blockStr);
-                                accountStatus.isValid = true;
-                            }
-                            else if (jsonVal.has_field(U("error")))
+                            if (jsonVal.has_field(U("error")))
                             {
                                 const auto errorDesc = jsonVal.at(U("error")).as_string();
                                 if (errorDesc == U("Account not found"))
                                 {
                                     accountStatus.isValid = false;
+                                }
+                            }
+                            else
+                            {
+                                accountStatus.isValid = true;
+
+                                if (jsonVal.has_field(U("block_count")))
+                                {
+                                    const auto blockStr = jsonVal.at(U("block_count")).as_string();
+                                    accountStatus.blockCount = std::stoull(blockStr);
+                                }
+
+                                if (jsonVal.has_field(U("frontier")))
+                                {
+                                    accountStatus.frontier = Conversions::toStdString(jsonVal.at(U("frontier")).as_string());
+                                }
+
+                                if (jsonVal.has_field(U("open_block")))
+                                {
+                                    accountStatus.openBlock = Conversions::toStdString(jsonVal.at(U("open_block")).as_string());
+                                }
+
+                                if (jsonVal.has_field(U("representative_block")))
+                                {
+                                    accountStatus.representativeBlock = Conversions::toStdString(jsonVal.at(U("representative_block")).as_string());
+                                }
+
+                                if (jsonVal.has_field(U("balance")))
+                                {
+                                    accountStatus.balance = Conversions::toStdString(jsonVal.at(U("balance")).as_string());
+                                }
+
+                                if (jsonVal.has_field(U("modified_timestamp")))
+                                {
+                                    accountStatus.modifiedTimestamp = Conversions::toStdString(jsonVal.at(U("modified_timestamp")).as_string());
+                                }
+
+                                if (jsonVal.has_field(U("representative")))
+                                {
+                                    accountStatus.representative = Conversions::toStdString(jsonVal.at(U("representative")).as_string());
+                                }
+
+                                if (jsonVal.has_field(U("weight")))
+                                {
+                                    accountStatus.weight = Conversions::toStdString(jsonVal.at(U("weight")).as_string());
+                                }
+
+                                if (jsonVal.has_field(U("pending")))
+                                {
+                                    accountStatus.pending = Conversions::toStdString(jsonVal.at(U("pending")).as_string());
                                 }
                             }
                         }
@@ -168,7 +164,7 @@ namespace rail
                     }
                     catch (...)
                     {
-                        QMessageLogger().warning() << "Caught unkown exception.";
+                        QMessageLogger().warning() << "Caught unknown exception.";
                     }
                 }).get();
             }
@@ -305,6 +301,7 @@ namespace rail
             postParameters[U("action")] = json::value::string(U("pending"));
             postParameters[U("account")] = json::value::string(Conversions::toUtilString(address));
             postParameters[U("count")] = json::value::string(Conversions::numberToUtilString(count));
+            postParameters[U("source")] = json::value::boolean(true);
 
             http_request req(methods::POST);
             req.set_body(postParameters);
@@ -323,13 +320,11 @@ namespace rail
                             const auto jsonVal = jsonTask.get();
                             if (jsonVal.has_field(U("blocks")))
                             {
-                                if (jsonVal.has_array_field(U("blocks")))
+                                auto test = jsonVal.serialize(); test;
+                                const auto arrayBlocks = jsonVal.at(U("blocks")).as_object();
+                                if (arrayBlocks.size() > 0)
                                 {
-                                    const auto arrayBlocks = jsonVal.at(U("blocks")).as_array();
-                                    if (arrayBlocks.size() > 0)
-                                    {
-                                        coreController->getMarshaller()->parsePendingBlocks(address, arrayBlocks);
-                                    }
+                                    coreController->getMarshaller()->parsePendingBlocks(address, arrayBlocks);
                                 }
                             }
                         }

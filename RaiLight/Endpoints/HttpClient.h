@@ -18,7 +18,7 @@ namespace rail
 
     namespace blocks
     {
-        class Send;
+        class StateBlock;
         class Receive;
         class Open;
         class Change;
@@ -35,7 +35,7 @@ namespace rail
         class RaiRCPClient : public endpoint::IEndpoint
         {
         public:
-            explicit RaiRCPClient(const std::string & _endpoint, rail::control::ICore* _coreController);
+            explicit RaiRCPClient(const std::string & _endpoint, const std::string & _listenPort, rail::control::ICore* _coreController);
             virtual ~RaiRCPClient();
 
             virtual BlockCounts getLedgerBlockCountSync() override;
@@ -48,10 +48,7 @@ namespace rail
             virtual void getAccountBalance(const std::string & address) override;
             virtual void startWebServer() override;
 
-            virtual std::string send(rail::blocks::Send& sendBlock) override;
-            virtual std::string receive(rail::blocks::Receive& receiveBlock) override;
-            virtual std::string open(rail::blocks::Open& openBlock) override;
-            virtual std::string change(rail::blocks::Change& changeBlock) override;
+            virtual std::string sendStateBlock(rail::blocks::StateBlock& stateBlock) override;
 
         private:
             utility::string_t processBlockSync(const utility::string_t& block);

@@ -175,9 +175,6 @@
     <ClCompile Include="Platform\WinUtils.cpp">
       <Filter>Source Files\rail\Platform</Filter>
     </ClCompile>
-    <ClCompile Include="Model\BlockStore.cpp">
-      <Filter>Source Files\rail\Model</Filter>
-    </ClCompile>
     <ClCompile Include="Controllers\Bank.cpp">
       <Filter>Source Files\rail\Controllers</Filter>
     </ClCompile>
@@ -187,21 +184,6 @@
     <ClCompile Include="Crypto\AccountEncoding.cpp">
       <Filter>Source Files\rail\Crypto\Impl</Filter>
     </ClCompile>
-    <ClCompile Include="Model\OpenBlock.cpp">
-      <Filter>Source Files\rail\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="Model\ReceiveBlock.cpp">
-      <Filter>Source Files\rail\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="Model\SendBlock.cpp">
-      <Filter>Source Files\rail\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="Model\ChangeBlock.cpp">
-      <Filter>Source Files\rail\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="Model\BaseBlock.cpp">
-      <Filter>Source Files\rail\Model</Filter>
-    </ClCompile>
     <ClCompile Include="Utilities\WorkLoop.cpp">
       <Filter>Source Files\rail\Utilities</Filter>
     </ClCompile>
@@ -210,12 +192,6 @@
     </ClCompile>
     <ClCompile Include="Endpoints\Webserver.cpp">
       <Filter>Source Files\rail\Endpoints</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_RaiLight.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_RaiLight.cpp">
-      <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_Marshaller.cpp">
       <Filter>Generated Files\Debug</Filter>
@@ -238,18 +214,6 @@
     <ClCompile Include="Ui\FreshStartup.cpp">
       <Filter>Source Files\rail\Ui</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_FreshStartup.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_FreshStartup.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_MainWindow.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_MainWindow.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
     <ClCompile Include="Ui\MainWindow.cpp">
       <Filter>Source Files\rail\Ui</Filter>
     </ClCompile>
@@ -259,14 +223,8 @@
     <ClCompile Include="Ui\NewPasswordScreen.cpp">
       <Filter>Source Files\rail\Ui</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_NewPasswordScreen.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
     <ClCompile Include="Ui\LockScreen.cpp">
       <Filter>Source Files\rail\Ui</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_LockScreen.cpp">
-      <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="Crypto\PasswordHasher.cpp">
       <Filter>Source Files\rail\Crypto</Filter>
@@ -282,6 +240,39 @@
     </ClCompile>
     <ClCompile Include="Crypto\SecretsStore.cpp">
       <Filter>Source Files\rail\Crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_RaiLight.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_RaiLight.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_NewPasswordScreen.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_NewPasswordScreen.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_MainWindow.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_MainWindow.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_LockScreen.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_LockScreen.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_FreshStartup.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_FreshStartup.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Model\PendingBlock.cpp">
+      <Filter>Source Files\rail\Model</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -377,9 +368,6 @@
     <ClInclude Include="Model\EndpointTypes.h">
       <Filter>Header Files\rail\Model</Filter>
     </ClInclude>
-    <ClInclude Include="Model\BlockStore.h">
-      <Filter>Header Files\rail\Model</Filter>
-    </ClInclude>
     <ClInclude Include="Model\BasicTypes.h">
       <Filter>Header Files\rail\Model</Filter>
     </ClInclude>
@@ -397,24 +385,6 @@
     </ClInclude>
     <ClInclude Include="Crypto\AccountEncoding.h">
       <Filter>Header Files\rail\Crypto\Impl</Filter>
-    </ClInclude>
-    <ClInclude Include="Model\OpenBlock.h">
-      <Filter>Header Files\rail\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="Model\ReceiveBlock.h">
-      <Filter>Header Files\rail\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="Model\SendBlock.h">
-      <Filter>Header Files\rail\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="Model\ChangeBlock.h">
-      <Filter>Header Files\rail\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="Model\BaseBlock.h">
-      <Filter>Header Files\rail\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="Model\IBlockStore.h">
-      <Filter>Header Files\rail\Model</Filter>
     </ClInclude>
     <ClInclude Include="Utilities\WorkLoop.h">
       <Filter>Header Files\rail\Utilities</Filter>
@@ -478,6 +448,9 @@
     </ClInclude>
     <ClInclude Include="Crypto\SecureTypes.h">
       <Filter>Header Files\rail\Crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\PendingBlock.h">
+      <Filter>Header Files\rail\Model</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

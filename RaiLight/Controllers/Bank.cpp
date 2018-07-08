@@ -9,11 +9,8 @@
 
 #include "Model\EndpointTypes.h"
 #include "Model\BasicTypes.h"
-#include "Model\BlockStore.h"
-#include "Model\OpenBlock.h"
-#include "Model\ReceiveBlock.h"
-#include "Model\SendBlock.h"
-#include "Model\ChangeBlock.h"
+#include "Model\StateBlock.h"
+#include "Model\PendingBlock.h"
 #include "Model\Account.h"
 #include "Model\Marshaller.h"
 
@@ -63,7 +60,7 @@ namespace rail
 
             try
             {
-                amountToSend = std::stoul(amount);
+                amountToSend = std::stoull(amount);
             }
             catch (std::exception e)
             {
@@ -78,12 +75,20 @@ namespace rail
                     ByteArray32 previousBlock;
                     bool foundPreviousBlock = false;
 
+                    ByteArray32 representative;
+                    ByteArray32 fromAddressPublicKey;
+                    uint64_t cachedWork{ 0 };
+
                     std::string lastHash;
                     {
                         std::shared_lock<std::shared_mutex> lock(accountsMutex);
                         const auto itr = accounts.find(fromAddress);
                         if (itr != accounts.end())
                         {
+                            representative = itr->second->representative;
+                            fromAddressPublicKey = itr->second->publicKey;
+                            cachedWork = itr->second->cachedWork;
+
                             if (!itr->second->latestBlocks.empty())
                             {
                                 previousBlock = itr->second->latestBlocks.top();
@@ -94,15 +99,16 @@ namespace rail
 
                     if (foundPreviousBlock)
                     {
-                        ByteArray32 publicKey;
-                        if (CryptoUtils::decodeAccountIdToPublicKey(toAddress, publicKey))
+                        if (auto destinationPublicKey = CryptoUtils::decodeAccountIdToPublicKey(toAddress))
                         {
                             const auto newBalanceBytes = Conversions::uIntToByteArray<ByteArray16>(newBalance);
 
-                            blocks::Send sendBlock(previousBlock, publicKey, newBalanceBytes, getPrivateKeyForAddress(fromAddress), getPublicKeyForAddress(fromAddress));
-                            const auto nextBlock = coreController->getEndpoint()->send(sendBlock);
-                            storeLatestBlock(fromAddress, nextBlock);
-
+                            blocks::StateBlock sendBlock(previousBlock, destinationPublicKey.value(), representative,newBalanceBytes, getPrivateKeyForAddress(fromAddress), fromAddressPublicKey, cachedWork);
+                            const auto nextBlock = coreController->getEndpoint()->sendStateBlock(sendBlock);
+                            if (!nextBlock.empty())
+                            {
+                                storeLatestBlock(fromAddress, nextBlock);
+                            }  
                         }
                         else
                         {
@@ -114,14 +120,16 @@ namespace rail
                         lastHash = coreController->getEndpoint()->getFrontiersSync(fromAddress);
                         if (auto prvBlock = Conversions::decodeHexFromString(lastHash))
                         {
-                            ByteArray32 publicKey;
-                            if (CryptoUtils::decodeAccountIdToPublicKey(toAddress, publicKey))
+                            if (auto destinationPublicKey = CryptoUtils::decodeAccountIdToPublicKey(toAddress))
                             {
                                 const auto newBalanceBytes = Conversions::uIntToByteArray<ByteArray16>(newBalance);
 
-                                blocks::Send sendBlock(prvBlock.value(), publicKey, newBalanceBytes, getPrivateKeyForAddress(fromAddress), getPublicKeyForAddress(fromAddress));
-                                const auto nextBlock = coreController->getEndpoint()->send(sendBlock);
-                                storeLatestBlock(fromAddress, nextBlock);
+                                blocks::StateBlock sendBlock(prvBlock.value(), destinationPublicKey.value(), representative, newBalanceBytes, getPrivateKeyForAddress(fromAddress), fromAddressPublicKey, 0);
+                                const auto nextBlock = coreController->getEndpoint()->sendStateBlock(sendBlock);
+                                if (!nextBlock.empty())
+                                {
+                                    storeLatestBlock(fromAddress, nextBlock);
+                                }
                             }
                             else
                             {
@@ -147,11 +155,12 @@ namespace rail
             const auto lasthash = coreController->getEndpoint()->getFrontiersSync(currentAccount);
             if (auto previousBlock = Conversions::decodeHexFromString(lasthash))
             {
-                ByteArray32 publicKey;
-                if (CryptoUtils::decodeAccountIdToPublicKey(representativeId, publicKey))
+                if (auto publicKey = CryptoUtils::decodeAccountIdToPublicKey(representativeId))
                 {
-                    blocks::Change changeBlock(previousBlock.value(), publicKey, getPrivateKeyForAddress(currentAccount), getPublicKeyForAddress(currentAccount));
-                    coreController->getEndpoint()->change(changeBlock);
+                    const auto currentBalance = Conversions::uIntToByteArray<ByteArray16>(getAccountBalance(currentAccount));
+                    blocks::StateBlock changeBlock(previousBlock.value(), { std::byte(0) }, publicKey.value(), currentBalance, getPrivateKeyForAddress(currentAccount), getPublicKeyForAddress(currentAccount), getCachedWorkForAddress(currentAccount));
+
+                    coreController->getEndpoint()->sendStateBlock(changeBlock);
                     succeeded = true;
                 }
             }
@@ -177,9 +186,9 @@ namespace rail
             }
         }
 
-        uint32_t Bank::getAccountBalance(const std::string& address)
+        uint64_t Bank::getAccountBalance(const std::string& address)
         {
-            uint32_t balance(0);
+            uint64_t balance{ 0 };
 
             const auto itr = accounts.find(address);
             if (itr != accounts.end())
@@ -190,9 +199,9 @@ namespace rail
             return balance;
         }
 
-        uint32_t Bank::getAccountPendingBalance(const std::string& address)
+        uint64_t Bank::getAccountPendingBalance(const std::string& address)
         {
-            uint32_t pendingBalance(0);
+            uint64_t pendingBalance{ 0 };
 
             const auto itr = accounts.find(address);
             if (itr != accounts.end())
@@ -203,53 +212,69 @@ namespace rail
             return pendingBalance;
         }
 
+        uint64_t Bank::getCachedWorkForAddress(const std::string& address)
+        {
+            uint64_t cachedWork{ 0 };
+
+            const auto itr = accounts.find(address);
+            if (itr != accounts.end())
+            {
+                cachedWork = itr->second->cachedWork;
+            }
+
+            return cachedWork;
+        }
+
         void Bank::init()
         {
-            auto isSeedSet = coreController->getSecretsStore()->isSeedSet();
-            if (!isSeedSet)
+            coreController->getWorkLoop()->queue([this]()
             {
-                if (auto dbSeed = coreController->getDatabase()->getDynamicValue<std::vector<std::byte>>(key::bytes::SEED))
+                auto isSeedSet = coreController->getSecretsStore()->isSeedSet();
+                if (!isSeedSet)
                 {
-                    auto seedIv = coreController->getDatabase()->getValue<ByteArray16>(key::bytes::SEED_IV);
-                    auto decryptedSeed = CryptoUtils::AESDecryptByteArray32(*dbSeed, coreController->getSecretsStore()->getPasswordKey(), *seedIv);
-
-                    if (const auto accIdx = coreController->getDatabase()->getValue<uint32_t>(key::uint::ACCOUNT_INDEX))
+                    if (auto dbSeed = coreController->getDatabase()->getDynamicValue<std::vector<std::byte>>(key::bytes::SEED))
                     {
-                        for (uint32_t i = 0; i < accIdx; ++i)
+                        auto seedIv = coreController->getDatabase()->getValue<ByteArray16>(key::bytes::SEED_IV);
+                        auto decryptedSeed = CryptoUtils::AESDecryptByteArray32(*dbSeed, coreController->getSecretsStore()->getPasswordKey(), *seedIv);
+
+                        if (const auto accIdx = coreController->getDatabase()->getValue<uint32_t>(key::uint::ACCOUNT_INDEX))
+                        {
+                            for (uint32_t i = 0; i < accIdx; ++i)
+                            {
+                                addAccount(generateNewAccountFromSeed(decryptedSeed));
+                            }
+                        }
+                        else
                         {
                             addAccount(generateNewAccountFromSeed(decryptedSeed));
                         }
+
+                        coreController->getSecretsStore()->setSeed(decryptedSeed);
+
+                        syncCurrentAccounts();
                     }
                     else
                     {
-                        addAccount(generateNewAccountFromSeed(decryptedSeed));
+                        auto generatedSeed = CryptoUtils::getRandom32ByteBlock();
+
+                        auto seedCopy = generatedSeed;
+                        SecureContainer<ByteArray32> secureSeed(seedCopy, coreController->getSecretsStore()->getPasswordKey());
+
+                        coreController->getSecretsStore()->setSeed(generatedSeed);
+
+                        coreController->getDatabase()->storeValue(key::bytes::SEED, secureSeed.getEncryptedData(), true);
+                        coreController->getDatabase()->storeValue(key::bytes::SEED_IV, secureSeed.getIv(), true);
+
+                        addAccount(generateNewAccountFromSeed(generatedSeed));
+
+                        finishRetrievingAccounts();
                     }
-
-                    coreController->getSecretsStore()->setSeed(decryptedSeed);
-
-                    syncCurrentAccounts();
                 }
                 else
                 {
-                    auto generatedSeed = CryptoUtils::getRandom32ByteBlock();
-
-                    auto seedCopy = generatedSeed;
-                    SecureContainer<ByteArray32> secureSeed(seedCopy, coreController->getSecretsStore()->getPasswordKey());
-
-                    coreController->getSecretsStore()->setSeed(generatedSeed);
-
-                    coreController->getDatabase()->storeValue(key::bytes::SEED, secureSeed.getEncryptedData(), true);
-                    coreController->getDatabase()->storeValue(key::bytes::SEED_IV, secureSeed.getIv(), true);
-
-                    addAccount(generateNewAccountFromSeed(generatedSeed));
-
-                    finishRetrievingAccounts();
+                    syncAccountsFromSeed();
                 }
-            }
-            else
-            {
-                syncAccountsFromSeed();
-            }
+            });
         }
 
         std::vector<std::string> Bank::getAllAddresses()
@@ -334,7 +359,7 @@ namespace rail
             coreController->getEndpoint()->startWebServer();
         }
 
-        bool Bank::addPendingBlocksToAccount(const std::string & address, const std::vector<std::string>& pendingBlocks)
+        bool Bank::addPendingBlocksToAccount(const std::string & address, const std::vector<blocks::PendingBlock>& pendingBlocks)
         {
             bool succeeded{ false };
             std::lock_guard<std::shared_mutex> lock(accountsMutex);
@@ -343,17 +368,9 @@ namespace rail
             {
                 for (const auto b : pendingBlocks)
                 {
-                    if (const auto pendingBlock = Conversions::decodeHexFromString(b))
-                    {
-                        if (!itr->second->latestBlocks.empty() && pendingBlock == itr->second->latestBlocks.top()) continue;
-                        itr->second->pendingBlocks.push_back(pendingBlock.value());
-                        succeeded = true;
-                    }
-                    else
-                    {
-                        succeeded = false;
-                        break;
-                    }
+                    if (!itr->second->latestBlocks.empty() && b.getBlockHash() == itr->second->latestBlocks.top()) continue;
+                    itr->second->pendingBlocks.push_back(b);
+                    succeeded = true;
                 }
             }
             else
@@ -404,7 +421,7 @@ namespace rail
             }
         }
 
-        void Bank::updatePendingBlocks(const std::string& address, const std::vector<std::string>& pendingBlocks)
+        void Bank::updatePendingBlocks(const std::string& address, const std::vector<blocks::PendingBlock>& pendingBlocks)
         {
             if (addPendingBlocksToAccount(address, pendingBlocks))
             {
@@ -435,57 +452,65 @@ namespace rail
             return transactionHistory;
         }
 
-        void Bank::proccessCallbackBlocks(const std::string& address, const std::string& incomingHash )
+        void Bank::proccessCallbackBlocks(const std::string& address, const std::string& /*incomingHash*/ )
         {
-            updatePendingBlocks(address, { incomingHash });
+            //TODO
+            updatePendingBlocks(address, { /*incomingHash*/ });
         }
 
         //TODO: Move out/refactor
         void Bank::syncAccountsFromSeed()
         {
-            coreController->getWorkLoop()->queue([this]()
+            auto seed = coreController->getSecretsStore()->getSeed();
+
+            if (!seed) return;
+
+            while (retrievingAccounts)
             {
-                auto seed = coreController->getSecretsStore()->getSeed();
+                auto nextAccount = generateNewAccountFromSeed(*seed);
 
-                if (!seed) return;
-
-                while (retrievingAccounts)
+                if (verifyAccount(nextAccount.get()))
                 {
-                    auto nextAccount = generateNewAccountFromSeed(*seed);
-                    const auto areBlocksPending = coreController->getEndpoint()->arePendingBlocksSync(nextAccount->accountId);
-                    const auto status = coreController->getEndpoint()->getAccountStatusSync(nextAccount->accountId);
-                    if (status.isValid || areBlocksPending)
-                    {
-                        if (status.isValid)
-                        {
-                            const auto lastBlock = coreController->getEndpoint()->getFrontiersSync(nextAccount->accountId);
-                            if (const auto block = Conversions::decodeHexFromString(lastBlock))
-                            {
-                                nextAccount->latestBlocks.push(block.value());
-                                coreController->getDatabase()->storeValue(key::bytes::LATEST_BLOCK, nextAccount->index, block.value());
-                            }
-                        }
+                    auto accountId = nextAccount->accountId;
+                    addAccount(std::move(nextAccount));
+                    coreController->getEndpoint()->getAccountBalance(accountId);
+                    coreController->getEndpoint()->getAccountHistory(accountId, 100);
+                    coreController->getEndpoint()->getPendingBlocks(accountId, 100);
+                }
+                else
+                {
+                    //last account doesn't exist
+                    --nextSeedIndex;
 
-                        nextAccount->accountOpen = status.isValid;
-                        coreController->getDatabase()->storeValue(key::bools::ACCOUNT_OPEN, nextAccount->index, status.isValid, true);
+                    finishRetrievingAccounts();
+                }
+            }
 
-                        auto accountId = nextAccount->accountId;
-                        addAccount(std::move(nextAccount));
-                        coreController->getEndpoint()->getAccountBalance(accountId);
-                        coreController->getEndpoint()->getAccountHistory(accountId, 100);
-                        coreController->getEndpoint()->getPendingBlocks(accountId, 100);
-                    }
-                    else
-                    {
-                        //last account doesn't exist
-                        --nextSeedIndex;
+            CryptoPP::SecureWipeArray(seed->data(), seed->size());
+        }
 
-                        finishRetrievingAccounts();
-                    }
+        bool Bank::verifyAccount(Account* account)
+        {
+            const auto status = coreController->getEndpoint()->getAccountStatusSync(account->accountId);
+
+            if (status.isValid)
+            {
+                if (const auto block = Conversions::decodeHexFromString(status.frontier))
+                {
+                    account->latestBlocks.push(block.value());
+                    coreController->getDatabase()->storeValue(key::bytes::LATEST_BLOCK, account->index, block.value());
                 }
 
-                CryptoPP::SecureWipeArray(seed->data(), seed->size());
-            });
+                if (auto repPubKey = CryptoUtils::decodeAccountIdToPublicKey(status.representative))
+                {
+                    account->representative = repPubKey.value();
+                }
+                
+                account->accountOpen = status.isValid;
+                coreController->getDatabase()->storeValue(key::bools::ACCOUNT_OPEN, account->index, status.isValid, true);
+            }
+
+            return account->accountOpen;
         }
 
         void Bank::syncCurrentAccounts()
@@ -493,13 +518,21 @@ namespace rail
             std::shared_lock<std::shared_mutex> lock(accountsMutex);
             for (const auto& a : accounts)
             {
-                coreController->getEndpoint()->getAccountBalance(a.second->accountId);
-                coreController->getEndpoint()->getAccountHistory(a.second->accountId, 100);
-                coreController->getEndpoint()->getPendingBlocks(a.second->accountId, 100);
+                const auto& accountPtr = a.second.get();
+                const auto& accountId = accountPtr->accountId;
+
                 if (const auto isOpen = coreController->getDatabase()->getValue<bool>(key::bools::ACCOUNT_OPEN, a.second->index))
                 {
                     a.second->accountOpen = isOpen.value();
                 }
+                else
+                {
+                    verifyAccount(accountPtr);
+                }
+
+                coreController->getEndpoint()->getAccountBalance(accountId);
+                coreController->getEndpoint()->getAccountHistory(accountId, 100);
+                coreController->getEndpoint()->getPendingBlocks(accountId, 100);
             }
 
             finishRetrievingAccounts();
@@ -524,8 +557,11 @@ namespace rail
                         if (account->latestBlocks.size() > 0)
                         {
                             const auto lastBlock = account->latestBlocks.top();
-                            blocks::Receive receiveBlock(lastBlock, pending, account->privateKey, account->publicKey);
-                            nextBlockHash = coreController->getEndpoint()->receive(receiveBlock);
+                            const auto newBalance = account->balance + pending.getBalance();
+                            const auto newBalanceBytes = Conversions::uIntToByteArray<ByteArray16>(newBalance);
+
+                            blocks::StateBlock receiveBlock(lastBlock, pending.getBlockHash(), account->representative, newBalanceBytes, account->privateKey, account->publicKey, account->cachedWork);
+                            nextBlockHash = coreController->getEndpoint()->sendStateBlock(receiveBlock);
                             if (!nextBlockHash.empty())
                             {
                                 account->pendingBlocks.pop_back();
@@ -539,8 +575,11 @@ namespace rail
                             {
                                 if (const auto lastBlock = Conversions::decodeHexFromString(lastHash))
                                 {
-                                    blocks::Receive receiveBlock(lastBlock.value(), pending, account->privateKey, account->publicKey);
-                                    nextBlockHash = coreController->getEndpoint()->receive(receiveBlock);
+                                    const auto newBalance = account->balance + pending.getBalance();
+                                    const auto newBalanceBytes = Conversions::uIntToByteArray<ByteArray16>(newBalance);
+
+                                    blocks::StateBlock receiveBlock(lastBlock.value(), pending.getBlockHash(), account->representative, newBalanceBytes, account->privateKey, account->publicKey, account->cachedWork);
+                                    nextBlockHash = coreController->getEndpoint()->sendStateBlock(receiveBlock);
                                     if (!nextBlockHash.empty())
                                     {
                                         account->pendingBlocks.pop_back();
@@ -555,8 +594,10 @@ namespace rail
                     }
                     else
                     {
-                        blocks::Open openBlock(account->privateKey, account->publicKey, pending, account->publicKey);
-                        nextBlockHash = coreController->getEndpoint()->open(openBlock);
+                        const auto balanceBytes = Conversions::uIntToByteArray<ByteArray16>(pending.getBalance());
+
+                        blocks::StateBlock openBlock({ std::byte(0) }, pending.getBlockHash(), account->representative, balanceBytes, account->privateKey, account->publicKey, account->cachedWork);
+                        nextBlockHash = coreController->getEndpoint()->sendStateBlock(openBlock);
                         if (!nextBlockHash.empty())
                         {
                             account->accountOpen = true;
@@ -564,7 +605,7 @@ namespace rail
                         }
                         else
                         {
-                            QMessageLogger().warning() << "Failed to open account->";
+                            QMessageLogger().warning() << "Failed to open account.";
                         }
                     }
                 }

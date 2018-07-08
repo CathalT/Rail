@@ -7,6 +7,7 @@ namespace web::json
 {
     class value;
     class array;
+    class object;
 }
 
 namespace rail
@@ -26,7 +27,7 @@ namespace rail
 
         void parseBalances(const web::json::value& jsonBlob, const std::string& address);
         void parseCallbackResponse(const web::json::value & jsonBlob);
-        void parsePendingBlocks(const std::string& address, const web::json::array& pendingBlocks);
+        void parsePendingBlocks(const std::string& address, const web::json::object& pendingBlocks);
         void parseAccountHistory(const std::string& address, const web::json::array& history);
         void updateUIBalances(const std::string & address, const std::string & balance, const std::string & pendingBalance);
         void notifyAccountsFinishedSyncing();

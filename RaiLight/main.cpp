@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
         CryptoPP::SecureWipeArray(argv[i], strlen(argv[i]));
     }
 
-    const auto coreController = std::make_unique<Core>(options.getNodeAddress().toStdString(), options.getSeed().toStdString());
+    const auto coreController = std::make_unique<Core>(options.getNodeAddress().toStdString(), options.getListenPort().toStdString(), options.getSeed().toStdString());
 
     QCoreApplication::setApplicationName("Rail");
     QCoreApplication::setApplicationVersion("0.0.0.0");
