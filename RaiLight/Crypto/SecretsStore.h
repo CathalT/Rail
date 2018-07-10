@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Crypto\SecureTypes.h"
+#include "RaiLight\Crypto\SecureTypes.h"
 
-#include "Model\BasicTypes.h"
+#include "RaiLight\Model\BasicTypes.h"
 
 #include <memory>
 #include <optional>

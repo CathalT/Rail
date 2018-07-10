@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Model\BasicTypes.h"
+#include "RaiLight\Model\BasicTypes.h"
 #include <cpprest\details\basic_types.h>
 
 #include <memory>

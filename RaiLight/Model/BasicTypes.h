@@ -3,6 +3,7 @@
 #include <boost\multiprecision\cpp_int.hpp>
 
 #include <stdint.h>
+#include <cstddef>
 
 namespace rail
 {

@@ -13,6 +13,13 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GenerateSeed", "GenerateSee
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Argon2RefDll", "RaiLight\phc-winner-argon2-master\vs2015\Argon2RefDll\Argon2RefDll.vcxproj", "{19D911A1-533C-4475-B313-F372481A35D4}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RailUnitTests", "RailUnitTests\RailUnitTests.vcxproj", "{E91928C5-8A04-4631-9CD0-73BD76A8E7E8}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RailExecutable", "RailExecutable\RailExecutable.vcxproj", "{AA04ADC6-D58E-4C4F-8942-9D76F886B445}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B12702AD-ABFB-343A-A199-8E24837244A3} = {B12702AD-ABFB-343A-A199-8E24837244A3}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -59,6 +66,28 @@ Global
 		{19D911A1-533C-4475-B313-F372481A35D4}.ReleaseStatic|x64.Build.0 = ReleaseStatic|x64
 		{19D911A1-533C-4475-B313-F372481A35D4}.ReleaseStatic|x86.ActiveCfg = ReleaseStatic|Win32
 		{19D911A1-533C-4475-B313-F372481A35D4}.ReleaseStatic|x86.Build.0 = ReleaseStatic|Win32
+		{E91928C5-8A04-4631-9CD0-73BD76A8E7E8}.Debug|x64.ActiveCfg = Debug|x64
+		{E91928C5-8A04-4631-9CD0-73BD76A8E7E8}.Debug|x64.Build.0 = Debug|x64
+		{E91928C5-8A04-4631-9CD0-73BD76A8E7E8}.Debug|x86.ActiveCfg = Debug|Win32
+		{E91928C5-8A04-4631-9CD0-73BD76A8E7E8}.Debug|x86.Build.0 = Debug|Win32
+		{E91928C5-8A04-4631-9CD0-73BD76A8E7E8}.Release|x64.ActiveCfg = Release|x64
+		{E91928C5-8A04-4631-9CD0-73BD76A8E7E8}.Release|x64.Build.0 = Release|x64
+		{E91928C5-8A04-4631-9CD0-73BD76A8E7E8}.Release|x86.ActiveCfg = Release|Win32
+		{E91928C5-8A04-4631-9CD0-73BD76A8E7E8}.Release|x86.Build.0 = Release|Win32
+		{E91928C5-8A04-4631-9CD0-73BD76A8E7E8}.ReleaseStatic|x64.ActiveCfg = Release|x64
+		{E91928C5-8A04-4631-9CD0-73BD76A8E7E8}.ReleaseStatic|x64.Build.0 = Release|x64
+		{E91928C5-8A04-4631-9CD0-73BD76A8E7E8}.ReleaseStatic|x86.ActiveCfg = Release|Win32
+		{E91928C5-8A04-4631-9CD0-73BD76A8E7E8}.ReleaseStatic|x86.Build.0 = Release|Win32
+		{AA04ADC6-D58E-4C4F-8942-9D76F886B445}.Debug|x64.ActiveCfg = Debug|Win32
+		{AA04ADC6-D58E-4C4F-8942-9D76F886B445}.Debug|x86.ActiveCfg = Debug|Win32
+		{AA04ADC6-D58E-4C4F-8942-9D76F886B445}.Debug|x86.Build.0 = Debug|Win32
+		{AA04ADC6-D58E-4C4F-8942-9D76F886B445}.Release|x64.ActiveCfg = Release|Win32
+		{AA04ADC6-D58E-4C4F-8942-9D76F886B445}.Release|x86.ActiveCfg = Release|Win32
+		{AA04ADC6-D58E-4C4F-8942-9D76F886B445}.Release|x86.Build.0 = Release|Win32
+		{AA04ADC6-D58E-4C4F-8942-9D76F886B445}.ReleaseStatic|x64.ActiveCfg = Release|Win32
+		{AA04ADC6-D58E-4C4F-8942-9D76F886B445}.ReleaseStatic|x64.Build.0 = Release|Win32
+		{AA04ADC6-D58E-4C4F-8942-9D76F886B445}.ReleaseStatic|x86.ActiveCfg = Release|Win32
+		{AA04ADC6-D58E-4C4F-8942-9D76F886B445}.ReleaseStatic|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

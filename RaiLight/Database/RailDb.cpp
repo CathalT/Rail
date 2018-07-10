@@ -1,7 +1,7 @@
-#include "Database\RailDb.h"
-#include "Database\DatabaseKeys.h"
+#include "RaiLight\Database\RailDb.h"
+#include "RaiLight\Database\DatabaseKeys.h"
 
-#include "Utilities\Conversions.h"
+#include "RaiLight\Utilities\Conversions.h"
 
 #include <QDebug>
 #include <QMessageLogger>

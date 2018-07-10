@@ -1,19 +1,19 @@
-#include "Crypto\PasswordVerifier.h"
+#include "RaiLight\Crypto\PasswordVerifier.h"
 
-#include "Crypto\PasswordHasher.h"
+#include "RaiLight\Crypto\PasswordHasher.h"
 
-#include "Controllers\ICore.h"
+#include "RaiLight\Controllers\ICore.h"
 
-#include "Database\RailDb.h"
-#include "Database\DatabaseKeys.h"
+#include "RaiLight\Database\IDbWrapper.h"
+#include "RaiLight\Database\DatabaseKeys.h"
 
 #include <cryptopp\misc.h>
 
 rail::PasswordVerifier::PasswordVerifier(rail::control::ICore * _coreController, const std::string & password)
 {
     const auto db = _coreController->getDatabase();
-    const auto salt = db->getValue<ByteArray32>(key::bytes::PASS_SALT);
-    const auto hash = db->getValue<ByteArray32>(key::bytes::PASS_HASH);
+    const auto salt = db->getByteArray32(key::bytes::PASS_SALT);
+    const auto hash = db->getByteArray32(key::bytes::PASS_HASH);
 
     if (salt && hash)
     {

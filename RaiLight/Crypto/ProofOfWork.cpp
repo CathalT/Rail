@@ -1,4 +1,4 @@
-#include "Crypto\ProofOfWork.h"
+#include "RaiLight\Crypto\ProofOfWork.h"
 
 #include <cryptopp\osrng.h>
 #include <blake2\blake2.h>

@@ -1,19 +1,21 @@
-#include "Controllers\Core.h"
+#include "RaiLight\Controllers\Core.h"
 
-#include "Controllers\IBank.h"
-#include "Controllers\Bank.h"
+#include "RaiLight\Controllers\IBank.h"
+#include "RaiLight\Controllers\Bank.h"
 
-#include "Endpoints\IEndpoint.h"
-#include "Endpoints\HttpClient.h"
+#include "RaiLight\Endpoints\IEndpoint.h"
+#include "RaiLight\Endpoints\HttpClient.h"
 
-#include "Utilities\WorkLoop.h"
-#include "Utilities\Conversions.h"
-#include "Utilities\MemoryFan.h"
+#include "RaiLight\Utilities\IWorkLoop.h"
+#include "RaiLight\Utilities\WorkLoop.h"
+#include "RaiLight\Utilities\Conversions.h"
+#include "RaiLight\Utilities\MemoryFan.h"
 
-#include "Database\RailDb.h"
+#include "RaiLight\Database\IDbWrapper.h"
+#include "RaiLight\Database\DbWrapper.h"
 
-#include "Model\Marshaller.h"
-#include "Crypto\SecretsStore.h"
+#include "RaiLight\Model\Marshaller.h"
+#include "RaiLight\Crypto\SecretsStore.h"
 
 #include <QMessageLogger>
 #include <QDebug>
@@ -29,7 +31,7 @@ namespace rail
             bank(std::make_unique<Bank>(this)),
             marshaller(std::make_unique<Marshaller>(this)),
             endpoint(std::make_unique<endpoint::RaiRCPClient>(_nodeIp, _listenPort, this)),
-            database(std::make_unique<RailDb>())
+            database(std::make_unique<DbWrapper>())
         {
             extern ByteArray32 secret_key;
             secretsStore = std::make_unique<SecretsStore>(this, secret_key, _seed);
@@ -45,7 +47,7 @@ namespace rail
             return endpoint.get();
         }
 
-        WorkLoop* Core::getWorkLoop()
+        IWorkLoop* Core::getWorkLoop()
         {
             return workLoop.get();
         }
@@ -55,7 +57,7 @@ namespace rail
             return marshaller.get();
         }
 
-        RailDb * Core::getDatabase()
+        IDbWrapper * Core::getDatabase()
         {
             return database.get();
         }

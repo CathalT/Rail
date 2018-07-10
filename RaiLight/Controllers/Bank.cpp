@@ -1,24 +1,24 @@
-#include "Controllers\Bank.h"
+#include "RaiLight\Controllers\Bank.h"
 
-#include "Controllers\ICore.h"
+#include "RaiLight\Controllers\ICore.h"
 
-#include "Database\RailDb.h"
-#include "Database\DatabaseKeys.h"
+#include "RaiLight\Database\IDbWrapper.h"
+#include "RaiLight\Database\DatabaseKeys.h"
 
-#include "Endpoints\IEndpoint.h"
+#include "RaiLight\Endpoints\IEndpoint.h"
 
-#include "Model\EndpointTypes.h"
-#include "Model\BasicTypes.h"
-#include "Model\StateBlock.h"
-#include "Model\PendingBlock.h"
-#include "Model\Account.h"
-#include "Model\Marshaller.h"
+#include "RaiLight\Model\EndpointTypes.h"
+#include "RaiLight\Model\BasicTypes.h"
+#include "RaiLight\Model\StateBlock.h"
+#include "RaiLight\Model\PendingBlock.h"
+#include "RaiLight\Model\Account.h"
+#include "RaiLight\Model\Marshaller.h"
 
-#include "Utilities\Conversions.h"
-#include "Utilities\WorkLoop.h"
+#include "RaiLight\Utilities\Conversions.h"
+#include "RaiLight\Utilities\WorkLoop.h"
 
-#include "Crypto\CryptoUtils.h"
-#include "Crypto\SecretsStore.h"
+#include "RaiLight\Crypto\CryptoUtils.h"
+#include "RaiLight\Crypto\SecretsStore.h"
 
 #include <QMessageLogger>
 #include <QDebug>
@@ -232,12 +232,12 @@ namespace rail
                 auto isSeedSet = coreController->getSecretsStore()->isSeedSet();
                 if (!isSeedSet)
                 {
-                    if (auto dbSeed = coreController->getDatabase()->getDynamicValue<std::vector<std::byte>>(key::bytes::SEED))
+                    if (auto dbSeed = coreController->getDatabase()->getVectorOfBytes(key::bytes::SEED))
                     {
-                        auto seedIv = coreController->getDatabase()->getValue<ByteArray16>(key::bytes::SEED_IV);
+                        auto seedIv = coreController->getDatabase()->getByteArray16(key::bytes::SEED_IV);
                         auto decryptedSeed = CryptoUtils::AESDecryptByteArray32(*dbSeed, coreController->getSecretsStore()->getPasswordKey(), *seedIv);
 
-                        if (const auto accIdx = coreController->getDatabase()->getValue<uint32_t>(key::uint::ACCOUNT_INDEX))
+                        if (const auto accIdx = coreController->getDatabase()->get32UInt(key::uint::ACCOUNT_INDEX))
                         {
                             for (uint32_t i = 0; i < accIdx; ++i)
                             {
@@ -262,8 +262,8 @@ namespace rail
 
                         coreController->getSecretsStore()->setSeed(generatedSeed);
 
-                        coreController->getDatabase()->storeValue(key::bytes::SEED, secureSeed.getEncryptedData(), true);
-                        coreController->getDatabase()->storeValue(key::bytes::SEED_IV, secureSeed.getIv(), true);
+                        coreController->getDatabase()->storeVectorOfBytes(key::bytes::SEED, secureSeed.getEncryptedData(), true);
+                        coreController->getDatabase()->storeByteArray16(key::bytes::SEED_IV, secureSeed.getIv(), true);
 
                         addAccount(generateNewAccountFromSeed(generatedSeed));
 
@@ -334,7 +334,7 @@ namespace rail
 
             if (index > 0)
             {
-                coreController->getDatabase()->storeValue(key::uint::ACCOUNT_INDEX, index);
+                coreController->getDatabase()->store32UInt(key::uint::ACCOUNT_INDEX, index);
             }
 
             ++nextSeedIndex;
@@ -405,10 +405,10 @@ namespace rail
                     if (lastestBlocks.size() > 0)
                     {
                         itr->second->latestBlocks.pop();
-                        coreController->getDatabase()->deleteValue(key::bytes::LATEST_BLOCK, itr->second->index);
+                        coreController->getDatabase()->deleteValue(key::bytes::LATEST_BLOCK, itr->second->index, false);
                     }
                     itr->second->latestBlocks.push(nextBlock.value());
-                    coreController->getDatabase()->storeValue(key::bytes::LATEST_BLOCK, itr->second->index, nextBlock.value());
+                    coreController->getDatabase()->storeByteArray32(key::bytes::LATEST_BLOCK, itr->second->index, nextBlock.value(), false);
                 }
                 else
                 {
@@ -498,7 +498,7 @@ namespace rail
                 if (const auto block = Conversions::decodeHexFromString(status.frontier))
                 {
                     account->latestBlocks.push(block.value());
-                    coreController->getDatabase()->storeValue(key::bytes::LATEST_BLOCK, account->index, block.value());
+                    coreController->getDatabase()->storeByteArray32(key::bytes::LATEST_BLOCK, account->index, block.value(), false);
                 }
 
                 if (auto repPubKey = CryptoUtils::decodeAccountIdToPublicKey(status.representative))
@@ -507,7 +507,7 @@ namespace rail
                 }
                 
                 account->accountOpen = status.isValid;
-                coreController->getDatabase()->storeValue(key::bools::ACCOUNT_OPEN, account->index, status.isValid, true);
+                coreController->getDatabase()->storeBool(key::bools::ACCOUNT_OPEN, account->index, status.isValid, true);
             }
 
             return account->accountOpen;
@@ -521,7 +521,7 @@ namespace rail
                 const auto& accountPtr = a.second.get();
                 const auto& accountId = accountPtr->accountId;
 
-                if (const auto isOpen = coreController->getDatabase()->getValue<bool>(key::bools::ACCOUNT_OPEN, a.second->index))
+                if (const auto isOpen = coreController->getDatabase()->getBool(key::bools::ACCOUNT_OPEN, a.second->index))
                 {
                     a.second->accountOpen = isOpen.value();
                 }

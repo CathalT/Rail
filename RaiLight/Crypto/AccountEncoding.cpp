@@ -1,7 +1,7 @@
-#include "Crypto\AccountEncoding.h"
+#include "RaiLight\Crypto\AccountEncoding.h"
 
-#include "Utilities\Conversions.h"
-#include "Model\BasicTypes.h"
+#include "RaiLight\Utilities\Conversions.h"
+#include "RaiLight\Model\BasicTypes.h"
 
 #include <blake2\blake2.h>
 

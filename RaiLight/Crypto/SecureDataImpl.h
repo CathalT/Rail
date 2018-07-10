@@ -1,14 +1,14 @@
 #pragma once
 
-#include "Utilities\MemoryFan.h"
-#include "Crypto\RandomData.h"
+#include "RaiLight\Utilities\MemoryFan.h"
+#include "RaiLight\Crypto\RandomData.h"
 
 #include <cryptopp\cryptlib.h>
 #include <cryptopp\filters.h>
 #include <cryptopp\files.h>
 #include <cryptopp\modes.h>
 #include <cryptopp\hex.h>
-#include "SecureData.h"
+#include "RaiLight\Crypto\SecureData.h"
 
 
 namespace rail

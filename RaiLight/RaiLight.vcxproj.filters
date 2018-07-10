@@ -139,9 +139,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ed25519-donna\ed25519.c">
       <Filter>Source Files\thirdparty\Ed25519</Filter>
     </ClCompile>
@@ -273,6 +270,9 @@
     </ClCompile>
     <ClCompile Include="Model\PendingBlock.cpp">
       <Filter>Source Files\rail\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Database\DbWrapper.cpp">
+      <Filter>Source Files\rail\Database</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -451,6 +451,18 @@
     </ClInclude>
     <ClInclude Include="Model\PendingBlock.h">
       <Filter>Header Files\rail\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\IWorkLoop.h">
+      <Filter>Header Files\rail\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Database\DbWrapper.h">
+      <Filter>Header Files\rail\Database</Filter>
+    </ClInclude>
+    <ClInclude Include="Database\IDbWrapper.h">
+      <Filter>Header Files\rail\Database</Filter>
+    </ClInclude>
+    <ClInclude Include="Rail.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

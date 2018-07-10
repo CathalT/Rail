@@ -1,7 +1,7 @@
-#include "Ui\FreshStartup.h"
+#include "RaiLight\Ui\FreshStartup.h"
 
-#include "Controllers\ICore.h"
-#include "Crypto\SecretsStore.h"
+#include "RaiLight\Controllers\ICore.h"
+#include "RaiLight\Crypto\SecretsStore.h"
 
 using namespace rail::control;
 

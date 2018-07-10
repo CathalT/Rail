@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Controllers\IBank.h"
+#include "RaiLight\Controllers\IBank.h"
 
-#include "Crypto\SecureTypes.h"
-#include "Model\BasicTypes.h"
+#include "RaiLight\Crypto\SecureTypes.h"
+#include "RaiLight\Model\BasicTypes.h"
 
 #include <string>
 #include <memory>

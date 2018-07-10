@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Crypto/SecureData.h"
-#include "Utilities/MemoryFan.h"
+#include "RaiLight\Crypto\SecureData.h"
+#include "RaiLight\Utilities\MemoryFan.h"
 
-#include <cryptopp/misc.h>
+#include <cryptopp\misc.h>
 
 namespace rail
 {

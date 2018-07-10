@@ -1,8 +1,8 @@
-#include "Model\StateBlock.h"
+#include "RaiLight\Model\StateBlock.h"
 
-#include "Utilities\Conversions.h"
-#include "Crypto\CryptoUtils.h"
-#include "Crypto\ProofOfWork.h"
+#include "RaiLight\Utilities\Conversions.h"
+#include "RaiLight\Crypto\CryptoUtils.h"
+#include "RaiLight\Crypto\ProofOfWork.h"
 
 #include <blake2\blake2.h>
 

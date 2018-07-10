@@ -1,8 +1,8 @@
-#include "Ui\NewPasswordScreen.h"
+#include "RaiLight\Ui\NewPasswordScreen.h"
 
-#include "Crypto\SecretsStore.h"
+#include "RaiLight\Crypto\SecretsStore.h"
 
-#include "Controllers\ICore.h"
+#include "RaiLight\Controllers\ICore.h"
 
 NewPasswordScreen::NewPasswordScreen(rail::control::ICore* _coreController) : coreController(_coreController)
 {
@@ -18,9 +18,8 @@ void NewPasswordScreen::onConfirmClicked()
 {
     if (ui.firstPasswordTextBox->text() == ui.secondPasswordTextbox->text())
     {
-        //Wipe old seed etc. when new seed created.
+        //TODO: Wipe old seed etc. when new seed created.
         coreController->getSecretsStore()->setPassword(ui.firstPasswordTextBox->text().toStdString());
-        //coreController->getDatabase()->deleteValue(key::bytes::SEED);
         emit onPasswordMatch();
     }
 }

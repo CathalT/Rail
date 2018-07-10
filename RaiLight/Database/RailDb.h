@@ -1,12 +1,13 @@
 #pragma once
 
-#include "Model\BasicTypes.h"
+#include "RaiLight\Model\BasicTypes.h"
 #include <optional>
 
 namespace leveldb
 {
     class DB;
 }
+
 namespace rail
 {
     class RailDb
@@ -15,17 +16,17 @@ namespace rail
         RailDb();
         ~RailDb();
 
-        bool deleteValue(const char* key, const bool safeWrite = false);
-        bool deleteValue(const char* key, const uint32_t index, const bool safeWrite = false);
+        bool deleteValue(const char* key, const bool safeWrite);
+        bool deleteValue(const char* key, const uint32_t index, const bool safeWrite);
 
         template<typename T>
-        bool storeValue(const char* key, const T& val, const bool safeWrite = false);
+        bool storeValue(const char* key, const T& val, const bool safeWrite);
 
         template<typename T>
-        bool storeValue(const char* key, const uint32_t index, const T& val, const bool safeWrite = false);
+        bool storeValue(const char* key, const uint32_t index, const T& val, const bool safe);
 
         template<typename T>
-        bool storeDynamicValue(const char* key, const T& val, const size_t size, const bool safeWrite = false);
+        bool storeDynamicValue(const char* key, const T& val, const size_t size, const bool safeWrite);
 
         template<typename T>
         std::optional<T> getValue(const char* key);
@@ -43,4 +44,4 @@ namespace rail
     };
 }
 
-#include "Database\DatabaseImpl.h"
+#include "RaiLight\Database\DatabaseImpl.h"

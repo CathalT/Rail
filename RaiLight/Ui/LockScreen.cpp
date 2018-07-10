@@ -1,8 +1,8 @@
-#include "Ui\LockScreen.h"
+#include "RaiLight\Ui\LockScreen.h"
 
-#include "Controllers\ICore.h"
-#include "Crypto\PasswordVerifier.h"
-#include "Crypto\SecretsStore.h"
+#include "RaiLight\Controllers\ICore.h"
+#include "RaiLight\Crypto\PasswordVerifier.h"
+#include "RaiLight\Crypto\SecretsStore.h"
 
 #include <QMessageBox>
 

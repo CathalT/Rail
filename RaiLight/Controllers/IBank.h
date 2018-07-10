@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Crypto\SecureTypes.h"
-#include "Model\BasicTypes.h"
+#include "RaiLight\Crypto\SecureTypes.h"
+#include "RaiLight\Model\BasicTypes.h"
 
 #include <vector>
 #include <string>

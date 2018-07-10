@@ -1,20 +1,20 @@
-#include "Endpoints\HttpClient.h"
+#include "RaiLight\Endpoints\HttpClient.h"
 
-#include "Endpoints\Webserver.h"
+#include "RaiLight\Endpoints\Webserver.h"
 
-#include "Model\EndpointTypes.h"
+#include "RaiLight\Model\EndpointTypes.h"
 
-#include "Model\StateBlock.h"
+#include "RaiLight\Model\StateBlock.h"
 
-#include "Controllers\ICore.h"
+#include "RaiLight\Controllers\ICore.h"
 
-#include "Model\BasicTypes.h"
-#include "Model\Marshaller.h"
+#include "RaiLight\Model\BasicTypes.h"
+#include "RaiLight\Model\Marshaller.h"
 
-#include "Utilities\Conversions.h"
+#include "RaiLight\Utilities\Conversions.h"
 
-#include "Crypto\CryptoUtils.h"
-#include "Crypto\ProofOfWork.h"
+#include "RaiLight\Crypto\CryptoUtils.h"
+#include "RaiLight\Crypto\ProofOfWork.h"
 
 #pragma warning( push )
 #pragma warning( disable: 4266 )

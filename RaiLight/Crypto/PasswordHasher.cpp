@@ -1,30 +1,30 @@
-#include "Crypto\PasswordHasher.h"
+#include "RaiLight\Crypto\PasswordHasher.h"
 
-#include "Crypto\RandomData.h"
+#include "RaiLight\Crypto\RandomData.h"
 
-#include "Database\RailDb.h"
-#include "Database\DatabaseKeys.h"
+#include "RaiLight\Database\IDbWrapper.h"
+#include "RaiLight\Database\DatabaseKeys.h"
 
 #include <cryptopp\misc.h>
 #include <argon2.h>
 
 namespace rail::CryptoUtils
 {
-    void hashPasswordAndStore(rail::RailDb * database, const std::string & password)
+    void hashPasswordAndStore(rail::IDbWrapper * database, const std::string & password)
     {
         ByteArray32 salt;
         CryptoUtils::getRandomData(salt.data(), salt.size());
 
         ByteArray32 hash = hashPassword(password, salt);
 
-        database->storeValue(key::bytes::PASS_SALT, salt, true);
-        database->storeValue(key::bytes::PASS_HASH, hash, true);
+        database->storeByteArray32(key::bytes::PASS_SALT, salt, true);
+        database->storeByteArray32(key::bytes::PASS_HASH, hash, true);
     }
 
-    ByteArray32 generateKeyFromPassword(rail::RailDb * database, const std::string & password)
+    ByteArray32 generateKeyFromPassword(rail::IDbWrapper * database, const std::string & password)
     {
         ByteArray32 salt;
-        if (auto prevSalt = database->getValue<ByteArray32>(key::bytes::KEY_SALT))
+        if (auto prevSalt = database->getByteArray32(key::bytes::KEY_SALT))
         {
             salt = *prevSalt;
             CryptoPP::SecureWipeArray((*prevSalt).data(), (*prevSalt).size());
@@ -32,7 +32,7 @@ namespace rail::CryptoUtils
         else
         {
             CryptoUtils::getRandomData(salt.data(), salt.size());
-            database->storeValue(key::bytes::KEY_SALT, salt, true);
+            database->storeByteArray32(key::bytes::KEY_SALT, salt, true);
         }
 
         return hashPassword(password, salt);

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Model\BasicTypes.h"
-#include "Crypto\SecureTypes.h"
+#include "RaiLight\Model\BasicTypes.h"
+#include "RaiLight\Crypto\SecureTypes.h"
 
 namespace rail
 {

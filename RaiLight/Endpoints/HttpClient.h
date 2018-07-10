@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Endpoints\IEndpoint.h"
+#include "RaiLight\Endpoints\IEndpoint.h"
 
-#include "Model\BasicTypes.h"
+#include "RaiLight\Model\BasicTypes.h"
 #include <cpprest\details\basic_types.h>
 
 #include <memory>

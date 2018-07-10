@@ -1,18 +1,18 @@
-#include "Ui\RaiLight.h"
+#include "RaiLight\Ui\RaiLight.h"
 
-#include "Ui\MainWindow.h"
-#include "Ui\LockScreen.h"
-#include "Ui\NewPasswordScreen.h"
-#include "Ui\FreshStartup.h"
+#include "RaiLight\Ui\MainWindow.h"
+#include "RaiLight\Ui\LockScreen.h"
+#include "RaiLight\Ui\NewPasswordScreen.h"
+#include "RaiLight\Ui\FreshStartup.h"
 
 
-#include "Controllers\ICore.h"
-#include "Controllers\IBank.h"
+#include "RaiLight\Controllers\ICore.h"
+#include "RaiLight\Controllers\IBank.h"
 
-#include "Crypto\SecretsStore.h"
+#include "RaiLight\Crypto\SecretsStore.h"
 
-#include "Database\RailDb.h"
-#include "Database\DatabaseKeys.h"
+#include "RaiLight\Database\IDbWrapper.h"
+#include "RaiLight\Database\DatabaseKeys.h"
 
 #include <QMessageLogger>
 #include <QDebug>
@@ -29,7 +29,8 @@ RaiLight::RaiLight(ICore* _coreController) :
     auto isSeedSet = _coreController->getSecretsStore()->isSeedSet();
     if (!isSeedSet)
     {
-        const auto seedBytes = _coreController->getDatabase()->getValue<ByteArray32>(key::bytes::SEED);
+        const auto seedBytes = _coreController->getDatabase()->getByteArray32(key::bytes::SEED);
+
         if (seedBytes)
         {
             goToLockScreen();

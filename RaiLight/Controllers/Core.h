@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Controllers\ICore.h"
+#include "RaiLight\Controllers\ICore.h"
 
 #include <string>
 #include <memory>
@@ -8,8 +8,8 @@
 
 namespace rail
 {
-    class RailDb;
-    class WorkLoop;
+    class IDbWrapper;
+    class IWorkLoop;
     class Marshaller;
     class SecretsStore;
 
@@ -29,18 +29,18 @@ namespace rail
 
             virtual IBank* getBank() override;
             virtual endpoint::IEndpoint* getEndpoint() override;
-            virtual WorkLoop* getWorkLoop() override;
+            virtual IWorkLoop* getWorkLoop() override;
             virtual Marshaller* getMarshaller() override;
-            virtual RailDb * getDatabase() override;
+            virtual IDbWrapper* getDatabase() override;
             virtual SecretsStore * getSecretsStore() override;
 
 
         private:
-            std::unique_ptr<WorkLoop>             workLoop;
+            std::unique_ptr<IWorkLoop>            workLoop;
             std::unique_ptr<IBank>                bank;
             std::unique_ptr<Marshaller>           marshaller;
             std::unique_ptr<endpoint::IEndpoint>  endpoint;
-            std::unique_ptr<RailDb>               database;
+            std::unique_ptr<IDbWrapper>           database;
             std::unique_ptr<SecretsStore>         secretsStore;
         };
     }

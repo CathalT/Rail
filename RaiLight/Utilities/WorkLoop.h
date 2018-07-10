@@ -1,5 +1,7 @@
 #pragma once
 
+#include "RaiLight\Utilities\IWorkLoop.h"
+
 #include <queue>
 #include <thread>
 #include <mutex>
@@ -9,13 +11,13 @@
 
 namespace rail
 {
-    class WorkLoop
+    class WorkLoop : public IWorkLoop
     {
     public:
         WorkLoop();
         ~WorkLoop();
-        void queue(std::function<void()> func);
-        void stop();
+        void queue(std::function<void()> func) override;
+        void stop() override;
   
     private:
         void loop();

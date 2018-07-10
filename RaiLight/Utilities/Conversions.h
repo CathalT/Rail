@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Model\BasicTypes.h"
+#include "RaiLight\Model\BasicTypes.h"
 
 #include <cpprest\details\basic_types.h>
 #include <QString>
@@ -39,4 +39,4 @@ namespace rail
         ByteArray toByteArray(const V& v);
     };
 }
-#include "Utilities\ConversionsImpl.h"
+#include "RaiLight\Utilities\ConversionsImpl.h"

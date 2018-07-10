@@ -1,13 +1,13 @@
-#include "Crypto\SecretsStore.h"
+#include "RaiLight\Crypto\SecretsStore.h"
 
-#include "Controllers\ICore.h"
-#include "Crypto\PasswordHasher.h"
+#include "RaiLight\Controllers\ICore.h"
+#include "RaiLight\Crypto\PasswordHasher.h"
 
-#include "Database\RailDb.h"
-#include "Database\DatabaseKeys.h"
+#include "RaiLight\Database\IDbWrapper.h"
+#include "RaiLight\Database\DatabaseKeys.h"
 
-#include "Utilities\MemoryFan.h"
-#include "Utilities\Conversions.h"
+#include "RaiLight\Utilities\MemoryFan.h"
+#include "RaiLight\Utilities\Conversions.h"
 
 #include <cryptopp\misc.h>
 
@@ -84,8 +84,8 @@ namespace rail
 
                 auto encryptedSeed = secureSeed->getEncryptedData();
 
-                coreController->getDatabase()->storeDynamicValue(key::bytes::SEED, encryptedSeed.data(), encryptedSeed.size(), true);
-                coreController->getDatabase()->storeValue(key::bytes::SEED_IV, secureSeed->getIv(), true);
+                coreController->getDatabase()->storeVectorOfBytes(key::bytes::SEED, encryptedSeed, true);
+                coreController->getDatabase()->storeByteArray16(key::bytes::SEED_IV, secureSeed->getIv(), true);
             }
         }
 

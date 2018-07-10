@@ -1,18 +1,18 @@
-#include "Ui\MainWindow.h"
+#include "RaiLight\Ui\MainWindow.h"
 
 //#include "Ui\TransactionsViewModel.h"
 
-#include "Endpoints\IEndpoint.h"
+#include "RaiLight\Endpoints\IEndpoint.h"
 
-#include "Model\EndpointTypes.h"
-#include "Model\Account.h"
+#include "RaiLight\Model\EndpointTypes.h"
+#include "RaiLight\Model\Account.h"
 
-#include "Controllers\ICore.h"
-#include "Controllers\IBank.h"
+#include "RaiLight\Controllers\ICore.h"
+#include "RaiLight\Controllers\IBank.h"
 
-#include "Model\Marshaller.h"
+#include "RaiLight\Model\Marshaller.h"
 
-#include "Crypto\CryptoUtils.h"
+#include "RaiLight\Crypto\CryptoUtils.h"
 
 #include <QMessageLogger>
 #include <QDebug>

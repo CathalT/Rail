@@ -1,10 +1,10 @@
-#include "Crypto\CryptoUtils.h"
+#include "RaiLight\Crypto\CryptoUtils.h"
 
-#include "Crypto\AccountEncoding.h"
-#include "Crypto\RandomData.h"
+#include "RaiLight\Crypto\AccountEncoding.h"
+#include "RaiLight\Crypto\RandomData.h"
 
-#include "Utilities\Conversions.h"
-#include "Utilities\MemoryFan.h"
+#include "RaiLight\Utilities\Conversions.h"
+#include "RaiLight\Utilities\MemoryFan.h"
 
 #include <ed25519-donna\ed25519.h>
 #include <blake2\blake2.h>

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Crypto\SecureData.h"
+#include "RaiLight\Crypto\SecureData.h"
 
 namespace rail
 {
@@ -21,4 +21,4 @@ namespace rail
     };
 }
 
-#include "Crypto\SecureContainerImpl.h"
+#include "RaiLight\Crypto\SecureContainerImpl.h"

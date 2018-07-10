@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Model\BasicTypes.h"
+#include "RaiLight\Model\BasicTypes.h"
 
 static uint64_t const TEST_THRESHOLD = 0xff00000000000000;
 static uint64_t const FULL_THRESHOLD = 0xffffffc000000000;
