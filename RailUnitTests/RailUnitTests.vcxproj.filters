@@ -22,6 +22,9 @@
     <Filter Include="Header Files\fakes">
       <UniqueIdentifier>{59da4735-63c2-445a-b42d-cce8a17d0aed}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\utils">
+      <UniqueIdentifier>{f0e593db-9a2b-4ce5-9686-24b36577e88d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -55,6 +58,9 @@
     </ClInclude>
     <ClInclude Include="fakes\FakeWorkLoop.h">
       <Filter>Header Files\fakes</Filter>
+    </ClInclude>
+    <ClInclude Include="TestUtils.h">
+      <Filter>Header Files\utils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -4,11 +4,14 @@
 #include "RaiLight\Model\BasicTypes.h"
 
 #include <optional>
+#include <map>
 
 class FakeDb : public rail::IDbWrapper
 {
-    FakeDb();
 public:
+
+    FakeDb();
+
     std::optional<std::vector<std::byte>> getVectorOfBytes(const char* key) override;
     std::optional<rail::ByteArray16> getByteArray16(const char* key) override;
     std::optional<rail::ByteArray32> getByteArray32(const char* key) override;
@@ -23,4 +26,11 @@ public:
     bool store32UInt(const char* key, const uint32_t num) override;
 
     bool deleteValue(const char* key, const uint32_t index, const bool safeWrite) override;
+
+public:
+    std::map<std::string, bool> boolMap;
+    std::map<std::string, uint32_t> uint32Map;
+    std::map<std::string, rail::ByteArray16> byte16Map;
+    std::map<std::string, rail::ByteArray32> byte32Map;
+    std::map<std::string, std::vector<std::byte>> vectorByteMap;
 };

@@ -22,10 +22,14 @@ namespace rail
     class SecretsStore;
 }
 
+class FakeWorkLoop;
+
 class FakeCoreController : public rail::control::ICore
 {
 public:
     FakeCoreController();
+    FakeCoreController(bool setSeedInMemory);
+
     ~FakeCoreController();
 
     rail::endpoint::IEndpoint* getEndpoint() override;
@@ -36,10 +40,13 @@ public:
     rail::SecretsStore * getSecretsStore() override;
 
 public:
-    std::unique_ptr<rail::IWorkLoop>             workLoop;
+    std::unique_ptr<FakeWorkLoop>               workLoop;
     std::unique_ptr<rail::control::IBank>       bank;
     std::unique_ptr<rail::Marshaller>           marshaller;
     std::unique_ptr<rail::endpoint::IEndpoint>  endpoint;
-    std::unique_ptr<rail::IDbWrapper>               database;
+    std::unique_ptr<rail::IDbWrapper>           database;
     std::unique_ptr<rail::SecretsStore>         secretsStore;
+
+private:
+    void setupMembers();
 };

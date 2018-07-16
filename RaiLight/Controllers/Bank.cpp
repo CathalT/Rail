@@ -330,7 +330,13 @@ namespace rail
             const auto publicKey = CryptoUtils::generatePublicKeyFromPrivateKey(newPrivateKey);
             const auto address = CryptoUtils::encodePublicKeyToAddress(publicKey);
 
-            const auto securePrivateKey = SecureContainer<ByteArray32>(newPrivateKey, coreController->getSecretsStore()->getPasswordKey());
+            auto encryptionKey = coreController->getSecretsStore()->getPasswordKey();
+            if (!encryptionKey)
+            {
+                encryptionKey = coreController->getSecretsStore()->getGeneratedKey();
+            }
+
+            const auto securePrivateKey = SecureContainer<ByteArray32>(newPrivateKey, encryptionKey);
 
             if (index > 0)
             {
@@ -479,8 +485,17 @@ namespace rail
                 }
                 else
                 {
-                    //last account doesn't exist
-                    --nextSeedIndex;
+                    if (nextSeedIndex == 1)
+                    {
+                        //Add first account even if not verified.
+                        auto accountId = nextAccount->accountId;
+                        addAccount(std::move(nextAccount));
+                    }
+                    else
+                    {
+                        //last account doesn't exist
+                        --nextSeedIndex;
+                    }
 
                     finishRetrievingAccounts();
                 }

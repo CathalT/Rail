@@ -6,9 +6,9 @@
 
 class FakeEndpoint : public rail::endpoint::IEndpoint
 {
+public:
     FakeEndpoint();
     ~FakeEndpoint();
-public:
     rail::endpoint::BlockCounts getLedgerBlockCountSync() override;
     rail::endpoint::AccountStatus getAccountStatusSync(const std::string& account) override;
     std::string getFrontiersSync(const std::string& account) override;

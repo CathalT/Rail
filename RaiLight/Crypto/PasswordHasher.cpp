@@ -8,6 +8,17 @@
 #include <cryptopp\misc.h>
 #include <argon2.h>
 
+#ifdef TEST_MODE
+constexpr uint32_t T_COST = 1;            // 1-pass computation
+constexpr uint32_t M_COST = (1 << 8);    // 32 mebibytes memory usage
+constexpr uint32_t PARALLELISM = 1;       // number of threads and lanes
+#else
+constexpr uint32_t T_COST = 4;            // 4-pass computation
+constexpr uint32_t M_COST = (1 << 16);    // 64 mebibytes memory usage
+constexpr uint32_t PARALLELISM = 1;       // number of threads and lanes
+#endif
+
+
 namespace rail::CryptoUtils
 {
     void hashPasswordAndStore(rail::IDbWrapper * database, const std::string & password)
@@ -42,11 +53,7 @@ namespace rail::CryptoUtils
     {
         ByteArray32 hash;
 
-        uint32_t t_cost = 4;            // 4-pass computation
-        uint32_t m_cost = (1 << 16);    // 64 mebibytes memory usage
-        uint32_t parallelism = 1;       // number of threads and lanes
-
-        argon2i_hash_raw(t_cost, m_cost, parallelism, password.data(), password.size(), salt.data(), salt.size(), hash.data(), hash.size());
+        argon2i_hash_raw(T_COST, M_COST, PARALLELISM, password.data(), password.size(), salt.data(), salt.size(), hash.data(), hash.size());
 
         return hash;
     }

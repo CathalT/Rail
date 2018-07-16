@@ -27,7 +27,7 @@ namespace rail
             for (auto i(outputArray.rbegin()), n(outputArray.rend()); i != n; ++i)
             {
                 auto byte = static_cast<uint8_t>((input) & static_cast<uint8_t> (0xff));
-                *i = static_cast<ByteArray::value_type>(byte);
+                *i = static_cast<typename ByteArray::value_type>(byte);
                 input >>= 8;
             }
 
@@ -41,7 +41,7 @@ namespace rail
             auto copy = uInt;
             for (auto i(outputArray.rbegin()), n(outputArray.rend()); i != n; ++i)
             {
-                *i = static_cast<ByteArray::value_type>((copy) & 0xff);
+                *i = static_cast<typename ByteArray::value_type>((copy) & 0xff);
                 copy >>= 8;
             }
             return outputArray;
