@@ -14,6 +14,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Argon2RefDll", "RaiLight\phc-winner-argon2-master\vs2015\Argon2RefDll\Argon2RefDll.vcxproj", "{19D911A1-533C-4475-B313-F372481A35D4}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RailUnitTests", "RailUnitTests\RailUnitTests.vcxproj", "{E91928C5-8A04-4631-9CD0-73BD76A8E7E8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B12702AD-ABFB-343A-A199-8E24837244A3} = {B12702AD-ABFB-343A-A199-8E24837244A3}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RailExecutable", "RailExecutable\RailExecutable.vcxproj", "{AA04ADC6-D58E-4C4F-8942-9D76F886B445}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -93,7 +96,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {FEF97011-4272-4C43-92C5-AE1FC8952FF7}
 		Qt5Version = msvc2015
+		SolutionGuid = {FEF97011-4272-4C43-92C5-AE1FC8952FF7}
 	EndGlobalSection
 EndGlobal
