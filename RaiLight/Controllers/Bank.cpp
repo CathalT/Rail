@@ -137,7 +137,7 @@ namespace rail
                             }
                         }
                     }
-                    coreController->getEndpoint()->getAccountBalance(fromAddress);
+                    coreController->getEndpoint()->getAccountBalanceSync(fromAddress);
                 });
 
                 succeeded = true;
@@ -230,6 +230,7 @@ namespace rail
             coreController->getWorkLoop()->queue([this]()
             {
                 auto isSeedSet = coreController->getSecretsStore()->isSeedSet();
+
                 if (!isSeedSet)
                 {
                     if (auto dbSeed = coreController->getDatabase()->getVectorOfBytes(key::bytes::SEED))
@@ -396,7 +397,7 @@ namespace rail
                 if (nextBlockHash.empty()) break;
                 storeLatestBlock(address, nextBlockHash);   
             }
-            coreController->getEndpoint()->getAccountBalance(address);
+            coreController->getEndpoint()->getAccountBalanceSync(address);
         }
 
         void Bank::storeLatestBlock(const std::string& address, const std::string& latestBlockHash)
@@ -429,7 +430,7 @@ namespace rail
 
         void Bank::updatePendingBlocks(const std::string& address, const std::vector<blocks::PendingBlock>& pendingBlocks)
         {
-            if (addPendingBlocksToAccount(address, pendingBlocks))
+            if (addPendingBlocksToAccount(address, pendingBlocks) && coreController->getEndpoint()->getAccountBalanceSync(address))
             {
                 processPendingBlocks(address);
             }
@@ -458,10 +459,10 @@ namespace rail
             return transactionHistory;
         }
 
-        void Bank::proccessCallbackBlocks(const std::string& address, const std::string& /*incomingHash*/ )
+        void Bank::proccessCallbackBlocks(const std::string& address, const blocks::PendingBlock& pendingBlock )
         {
             //TODO
-            updatePendingBlocks(address, { /*incomingHash*/ });
+            updatePendingBlocks(address, { pendingBlock });
         }
 
         //TODO: Move out/refactor
@@ -479,9 +480,12 @@ namespace rail
                 {
                     auto accountId = nextAccount->accountId;
                     addAccount(std::move(nextAccount));
-                    coreController->getEndpoint()->getAccountBalance(accountId);
-                    coreController->getEndpoint()->getAccountHistory(accountId, 100);
-                    coreController->getEndpoint()->getPendingBlocks(accountId, 100);
+
+                    if (coreController->getEndpoint()->getAccountBalanceSync(accountId))
+                    {
+                        coreController->getEndpoint()->getAccountHistory(accountId, 100);
+                        coreController->getEndpoint()->getPendingBlocks(accountId, 100);
+                    }
                 }
                 else
                 {
@@ -545,9 +549,11 @@ namespace rail
                     verifyAccount(accountPtr);
                 }
 
-                coreController->getEndpoint()->getAccountBalance(accountId);
-                coreController->getEndpoint()->getAccountHistory(accountId, 100);
-                coreController->getEndpoint()->getPendingBlocks(accountId, 100);
+                if (coreController->getEndpoint()->getAccountBalanceSync(accountId))
+                {
+                    coreController->getEndpoint()->getAccountHistory(accountId, 100);
+                    coreController->getEndpoint()->getPendingBlocks(accountId, 100);
+                }
             }
 
             finishRetrievingAccounts();

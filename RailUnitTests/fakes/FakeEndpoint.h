@@ -15,7 +15,7 @@ public:
     bool arePendingBlocksSync(const std::string& address) override;
     void getPendingBlocks(const std::string& account, const uint32_t count) override;
     void getAccountHistory(const std::string& account, const uint32_t count) override;
-    void getAccountBalance(const std::string& account) override;
+    bool getAccountBalanceSync(const std::string& account) override;
     void startWebServer() override;
     std::string sendStateBlock(rail::blocks::StateBlock& sendBlock) override;
 };

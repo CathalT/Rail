@@ -1,1 +1,3 @@
 *.user
+/RailExecutable/*.user
+/GenerateSeed/*.user

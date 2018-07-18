@@ -33,7 +33,7 @@ void FakeEndpoint::getAccountHistory(const std::string& /*account*/, const uint3
 
 }
 
-void FakeEndpoint::getAccountBalance(const std::string& /*account*/)
+bool FakeEndpoint::getAccountBalanceSync(const std::string& /*account*/)
 {
 
 }

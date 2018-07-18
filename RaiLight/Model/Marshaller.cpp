@@ -44,22 +44,26 @@ namespace rail
 
     void Marshaller::parseCallbackResponse(const web::json::value& jsonBlob)
     {
-        if (jsonBlob.has_field(U("block")))
+        if (jsonBlob.has_field(U("is_send")))
         {
-            auto block = jsonBlob.at(U("block")).as_string();
-            const auto parsedBlock = web::json::value::parse(block);
-            if (parsedBlock.has_field(U("type")))
+            if (jsonBlob.has_field(U("block")))
             {
-                if (parsedBlock.at(U("type")).as_string() == U("send"))
+                auto block = jsonBlob.at(U("block")).as_string();
+                const auto parsedBlock = web::json::value::parse(block);
+                if (parsedBlock.has_field(U("type")))
                 {
-                    if(parsedBlock.has_field(U("destination")))
-                    { 
-                        utility::string_t blockHash;
-                        const auto destinationAccount = parsedBlock.at(U("destination")).as_string();
-                        if (jsonBlob.has_field(U("hash")))
+                    if (parsedBlock.at(U("type")).as_string() == U("state"))
+                    {
+                        if (parsedBlock.has_field(U("link_as_account")))
                         {
-                            blockHash = jsonBlob.at(U("hash")).as_string();
-                            coreController->getBank()->proccessCallbackBlocks(Conversions::toStdString(destinationAccount), Conversions::toStdString(blockHash));
+                            const auto destinationAccount = parsedBlock.at(U("link_as_account")).as_string();
+                            if (jsonBlob.has_field(U("hash")) && jsonBlob.has_field(U("amount")))
+                            {
+                                auto blockHash = jsonBlob.at(U("hash")).as_string();
+                                auto amount = jsonBlob.at(U("amount")).as_string();
+                                blocks::PendingBlock pending(Conversions::toStdString(blockHash), Conversions::toStdString(amount));
+                                coreController->getBank()->proccessCallbackBlocks(Conversions::toStdString(destinationAccount), pending);
+                            }
                         }
                     }
                 }
@@ -69,7 +73,7 @@ namespace rail
 
     void Marshaller::parsePendingBlocks(const std::string& address, const web::json::object & pendingBlocks)
     {
-        std::vector<rail::blocks::PendingBlock> blocks;
+        std::vector<blocks::PendingBlock> blocks;
         blocks.reserve(pendingBlocks.size());
 
         for(const auto block : pendingBlocks)

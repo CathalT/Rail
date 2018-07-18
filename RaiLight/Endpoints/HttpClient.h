@@ -43,9 +43,9 @@ namespace rail
             virtual AccountStatus getAccountStatusSync(const std::string & address) override;
             virtual std::string getFrontiersSync(const std::string& address) override;
             virtual bool arePendingBlocksSync(const std::string& address) override;
+            virtual bool getAccountBalanceSync(const std::string & address) override;
             virtual void getPendingBlocks(const std::string& address, const uint32_t count) override;
             virtual void getAccountHistory(const std::string& address, const uint32_t count) override;
-            virtual void getAccountBalance(const std::string & address) override;
             virtual void startWebServer() override;
 
             virtual std::string sendStateBlock(rail::blocks::StateBlock& stateBlock) override;

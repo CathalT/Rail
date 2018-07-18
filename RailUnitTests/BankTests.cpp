@@ -10,6 +10,7 @@
 
 #include "RaiLight\Controllers\Bank.h"
 #include "RaiLight\Crypto\SecretsStore.h"
+#include "RaiLight\Model\Marshaller.h"
 #include "RaiLight\Crypto\CryptoUtils.h"
 #include "RaiLight\Crypto\PasswordHasher.h"
 #include "RaiLight\Utilities\Conversions.h"
@@ -18,7 +19,19 @@
 using namespace rail;
 using namespace rail::control;
 
-TEST_CASE("NoSeedSet", "[BankTests]")
+class TransactionTestFixture
+{
+public:
+    TransactionTestFixture() : testBank(&fCore)
+    {
+
+    }
+
+    FakeCoreController fCore;
+    Bank testBank;
+};
+
+TEST_CASE("NoSeedSet", "[BankInitTests]")
 {
     FakeCoreController fCoreController;
 
@@ -38,7 +51,7 @@ TEST_CASE("NoSeedSet", "[BankTests]")
     REQUIRE(vAddresses.size() == 1);
 }
 
-TEST_CASE("SeedSetInMemory", "[BankTests]")
+TEST_CASE("SeedSetInMemory", "[BankInitTests]")
 {
     FakeCoreController fCoreController(true);
 
@@ -60,14 +73,11 @@ TEST_CASE("SeedSetInMemory", "[BankTests]")
     REQUIRE(vAddresses.size() == 1);
 }
 
-TEST_CASE("SeedEncryptedInDatabase", "[BankTests]")
+TEST_CASE("SendNano", "[BankTransactionTests]")
 {
-    FakeCoreController fCoreController(false);
-
+    FakeCoreController fCoreController;
     Bank testBank(&fCoreController);
-
     testBank.init();
-
     fCoreController.workLoop->runAllTasks();
 
     REQUIRE(fCoreController.getSecretsStore()->isSeedSet());
@@ -80,4 +90,10 @@ TEST_CASE("SeedEncryptedInDatabase", "[BankTests]")
 
     auto vAddresses = testBank.getAllAddresses();
     REQUIRE(vAddresses.size() == 1);
+}
+
+TEST_CASE_METHOD(TransactionTestFixture, "ReceiveNano", "[BankTransactionTests]")
+{
+   // auto clientAddress = testBank.getAllAddresses().at(0);
+    //fCore.marshaller->transactionsUpdated
 }

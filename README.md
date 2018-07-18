@@ -6,9 +6,9 @@ This means you can run a node locally or point it at a remote endpoint (e.g. htt
 For now only a local node is supported.
 
 ## NB
-This is still very much a personal project, it has a grand total of 0 tests. (They will be added in time, project is currently a prototype.)
+This is still very much a personal project, has very few tests. (Writing more is the current priority.)
 Do not run it against a nano node on the live network. Test network only.
-Once I've the client sufficiently tested it should be easier to contribute. (Couple of things on my to do list first.)
+Once I've the client sufficiently tested it should be easier to contribute.
 
 ## Getting Started
 

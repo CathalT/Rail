@@ -53,7 +53,7 @@ namespace rail
 
             virtual bool isRetrievingAccounts() override;
 
-            virtual void proccessCallbackBlocks(const std::string & address, const std::string & incomingHash) override;
+            virtual void proccessCallbackBlocks(const std::string & address, const blocks::PendingBlock & pendingBlock) override;
 
         private:
             void finishRetrievingAccounts();

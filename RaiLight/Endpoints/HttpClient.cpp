@@ -217,7 +217,7 @@ namespace rail
                     }
                     catch (...)
                     {
-                        QMessageLogger().warning() << "Caught unkown exception.";
+                        QMessageLogger().warning() << "Caught unknown exception.";
                     }
                 }).get();
             }
@@ -231,14 +231,15 @@ namespace rail
             }
             catch (...)
             {
-                QMessageLogger().warning() << "Caught unkown exception.";
+                QMessageLogger().warning() << "Caught unknown exception.";
             }
 
             return{ Conversions::toStdString(blockCount), Conversions::toStdString(uncheckedCount) };
         }
 
-        void RaiRCPClient::getAccountBalance(const std::string& address)
+        bool RaiRCPClient::getAccountBalanceSync(const std::string& address)
         {
+            bool success{ false };
             json::value postParameters = json::value::object();
             postParameters[U("action")] = json::value::string(U("account_balance"));
             postParameters[U("account")] = json::value::string(rail::Conversions::toUtilString(address));
@@ -248,7 +249,7 @@ namespace rail
 
             try
             {
-                httpClient->request(req).then([this, address](Concurrency::task<http_response> responseTask)
+                httpClient->request(req).then([this, address, &success](Concurrency::task<http_response> responseTask)
                 {
 
                         try
@@ -257,6 +258,7 @@ namespace rail
                             auto statusCode = response.status_code();
                             if (statusCode == status_codes::OK)
                             {
+                                success = true;
                                 const auto jsonTask = response.extract_json();
                                 const auto jsonVal = jsonTask.get();
                                 coreController->getMarshaller()->parseBalances(jsonVal, address);
@@ -274,7 +276,7 @@ namespace rail
                         {
                             QMessageLogger().warning() << "Caught unknown exception.";
                         }
-                });
+                }).get();
             }
             catch (const http_exception& e)
             {
@@ -288,6 +290,8 @@ namespace rail
             {
                 QMessageLogger().warning() << "Caught unknown exception.";
             }
+
+            return success;
         }
 
         void RaiRCPClient::startWebServer()

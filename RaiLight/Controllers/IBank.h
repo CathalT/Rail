@@ -36,7 +36,7 @@ namespace rail
             virtual uint64_t getCachedWorkForAddress(const std::string& address) = 0;
 
             virtual bool isRetrievingAccounts() = 0;
-            virtual void proccessCallbackBlocks(const std::string & address, const std::string & incomingHash) = 0;
+            virtual void proccessCallbackBlocks(const std::string& address, const blocks::PendingBlock& pending) = 0;
 
             virtual ~IBank() = default;
         };
