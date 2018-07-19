@@ -15,6 +15,10 @@
 #include "RaiLight\Crypto\PasswordHasher.h"
 #include "RaiLight\Utilities\Conversions.h"
 
+#pragma warning( push )
+#pragma warning( disable: 4266 )
+#include <cpprest\json.h>
+#pragma warning( pop )
 
 using namespace rail;
 using namespace rail::control;
@@ -73,23 +77,26 @@ TEST_CASE("SeedSetInMemory", "[BankInitTests]")
     REQUIRE(vAddresses.size() == 1);
 }
 
-TEST_CASE("SendNano", "[BankTransactionTests]")
+TEST_CASE("CheckAccountBalance", "[BankTransactionTests]")
 {
     FakeCoreController fCoreController;
-    Bank testBank(&fCoreController);
-    testBank.init();
+    fCoreController.bank = std::make_unique<Bank>(&fCoreController);
+
+    fCoreController.bank->init();
     fCoreController.workLoop->runAllTasks();
+    auto firstAddress = fCoreController.bank->getAllAddresses().back();
 
-    REQUIRE(fCoreController.getSecretsStore()->isSeedSet());
-    auto seed = fCoreController.getSecretsStore()->getSeed();
+    web::json::value obj;
+    obj[U("balance")] = web::json::value::string(U("10000"));
+    obj[U("pending")] = web::json::value::string(U("10000"));
 
-    REQUIRE(seed);
-    REQUIRE(!(*seed).empty());
+    fCoreController.marshaller->parseBalances(obj, firstAddress);
 
-    REQUIRE(*seed == TestUtils::TEST_SEED_ONE_BYTES);
+    auto balance = fCoreController.bank->getAccountBalance(firstAddress);
+    REQUIRE(balance == 10000);
 
-    auto vAddresses = testBank.getAllAddresses();
-    REQUIRE(vAddresses.size() == 1);
+    auto pending = fCoreController.bank->getAccountPendingBalance(firstAddress);
+    REQUIRE(pending == 10000);
 }
 
 TEST_CASE_METHOD(TransactionTestFixture, "ReceiveNano", "[BankTransactionTests]")

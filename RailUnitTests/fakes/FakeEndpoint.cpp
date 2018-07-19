@@ -35,7 +35,7 @@ void FakeEndpoint::getAccountHistory(const std::string& /*account*/, const uint3
 
 bool FakeEndpoint::getAccountBalanceSync(const std::string& /*account*/)
 {
-
+    return false;
 }
 
 void FakeEndpoint::startWebServer()
